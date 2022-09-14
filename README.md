@@ -1,2 +1,2 @@
-# alcohol_note
-Alcohol note app using React Native
+# alcoholic
+Alcoholic app using React Native
