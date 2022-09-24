@@ -1,18 +1,37 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Gallery from './components/gallery/Gallery';
 import User from './components/user/User';
 
 const Tab = createMaterialBottomTabNavigator();
+const GalleryStack = createNativeStackNavigator();
+const UserStack = createNativeStackNavigator();
+
+function GalleryScreen() {
+  return (
+    <GalleryStack.Navigator initialRouteName="gallery" screenOptions={{ headerShown: false }}>
+      <GalleryStack.Screen name="gallery" component={Gallery} />
+    </GalleryStack.Navigator>
+  );
+}
+
+function UserScreen() {
+  return (
+    <UserStack.Navigator initialRouteName="user" screenOptions={{ headerShown: false }}>
+      <UserStack.Screen name="user" component={User} />
+    </UserStack.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <Tab.Navigator initialRouteName="Gallery" activeColor="#fdfffd" inactiveColor="#a3c2ff" shifting>
-          <Tab.Screen name="Gallery" component={Gallery} />
-          <Tab.Screen name="User" component={User} />
+          <Tab.Screen name="Gallery" component={GalleryScreen} />
+          <Tab.Screen name="User" component={UserScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
