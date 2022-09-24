@@ -1,20 +1,56 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Gallery from './components/gallery/Gallery';
+import User from './components/user/User';
+import { Entypo, FontAwesome } from '@expo/vector-icons';
 
-export default function App() {
+const Tab = createMaterialBottomTabNavigator();
+const GalleryStack = createNativeStackNavigator();
+const UserStack = createNativeStackNavigator();
+
+function GalleryScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <GalleryStack.Navigator initialRouteName="gallery" screenOptions={{ headerShown: false }}>
+      <GalleryStack.Screen name="gallery" component={Gallery} />
+    </GalleryStack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function UserScreen() {
+  return (
+    <UserStack.Navigator initialRouteName="user" screenOptions={{ headerShown: false }}>
+      <UserStack.Screen name="user" component={User} />
+    </UserStack.Navigator>
+  );
+}
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Tab.Navigator initialRouteName="Gallery" activeColor="#fdfffd" inactiveColor="#a3c2ff" shifting>
+          <Tab.Screen
+            name="Gallery"
+            component={GalleryScreen}
+            options={{
+              tabBarLabel: 'Gallery',
+              tabBarIcon: ({ color }) => <Entypo name="drink" size={24} color={color} />,
+              tabBarColor: '#eeb7b4',
+            }}
+          />
+          <Tab.Screen
+            name="User"
+            component={UserScreen}
+            options={{
+              tabBarLabel: 'User',
+              tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
+              tabBarColor: '#f2cfa5',
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
+}
