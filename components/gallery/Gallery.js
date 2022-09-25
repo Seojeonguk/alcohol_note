@@ -6,7 +6,7 @@ import GalleryList from './GalleryList';
 
 export default function Gallery() {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.galleryHeader}>
         <Text style={styles.galleryTitle}>Gallery</Text>
       </View>
@@ -16,7 +16,7 @@ export default function Gallery() {
         data={data}
         renderItem={({ item }) => <GalleryList item={item} />}
         ListEmptyComponent={() => <Text>Empty</Text>}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item) => item.no}
         numColumns={2}
       />
     </SafeAreaView>
