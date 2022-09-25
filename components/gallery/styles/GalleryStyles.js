@@ -14,4 +14,7 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
   },
+  galleryContent: {
+    padding: 5,
+  },
 });
