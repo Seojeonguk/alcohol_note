@@ -15,7 +15,13 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
   },
-  uploadBtn: {},
+  uploadBtn: {
+    position: 'absolute',
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 4,
+  },
   galleryContent: {
     paddingHorizontal: 12,
     alignSelf: 'stretch',
