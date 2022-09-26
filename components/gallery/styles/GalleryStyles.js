@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: 'grey',
     paddingVertical: 5,
+    marginBottom: 5
   },
   galleryTitle: {
     textAlign: 'center',
@@ -15,6 +16,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   galleryContent: {
-    padding: 5,
+    paddingHorizontal: 12,
+    alignSelf: 'stretch'
   },
 });
