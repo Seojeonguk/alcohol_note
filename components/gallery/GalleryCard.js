@@ -2,7 +2,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './styles/GalleryListStyles';
 import { useMemo } from 'react';
 
-export default function GalleryList({ item }) {
+export default function GalleryCard({ item }) {
   const height = useMemo(()=>Math.floor(Math.random()*100+200));
 
   return (
