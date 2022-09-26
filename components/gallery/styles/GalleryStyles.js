@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
   },
+  uploadBtn: {},
   galleryContent: {
     paddingHorizontal: 12,
     alignSelf: 'stretch',
