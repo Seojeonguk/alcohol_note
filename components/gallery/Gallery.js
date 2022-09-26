@@ -2,7 +2,7 @@ import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles/GalleryStyles';
 import { data } from './dummyData';
-import GalleryList from './GalleryList';
+import GalleryCard from './GalleryCard';
 import MasonryList from '@react-native-seoul/masonry-list';
 
 export default function Gallery() {
@@ -15,7 +15,7 @@ export default function Gallery() {
       <MasonryList 
       numColumns={3}
       data={data} 
-      renderItem={({ item }) => <GalleryList item={item} />} 
+      renderItem={({ item }) => <GalleryCard item={item} />} 
       contentContainerStyle={styles.galleryContent}
       />
     </SafeAreaView>
