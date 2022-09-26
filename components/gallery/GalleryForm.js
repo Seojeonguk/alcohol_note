@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-export default function GalleryForm() {
+import { Ionicons } from '@expo/vector-icons';
+export default function GalleryForm({ navigation }) {
   const [gallery, setGallery] = useState({
     title: '',
     date: '',
@@ -12,7 +13,12 @@ export default function GalleryForm() {
   });
   return (
     <SafeAreaView>
-      <Text>Gallery Form</Text>
+      <View>
+        <Text>추가 폼</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
