@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: 'grey',
     paddingVertical: 5,
-    marginBottom: 5
+    marginBottom: 5,
   },
   galleryTitle: {
     textAlign: 'center',
@@ -17,6 +17,6 @@ export const styles = StyleSheet.create({
   },
   galleryContent: {
     paddingHorizontal: 12,
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
 });

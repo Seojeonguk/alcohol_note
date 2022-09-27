@@ -12,11 +12,11 @@ export default function Gallery() {
         <Text style={styles.galleryTitle}>Gallery</Text>
       </View>
 
-      <MasonryList 
-      numColumns={3}
-      data={data} 
-      renderItem={({ item }) => <GalleryCard item={item} />} 
-      contentContainerStyle={styles.galleryContent}
+      <MasonryList
+        numColumns={3}
+        data={data}
+        renderItem={({ item }) => <GalleryCard item={item} />}
+        contentContainerStyle={styles.galleryContent}
       />
     </SafeAreaView>
   );
