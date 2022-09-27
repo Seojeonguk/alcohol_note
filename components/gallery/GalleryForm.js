@@ -4,8 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { styles } from './styles/GalleryFormStyles';
+import TagModal from './TagModal';
 
 export default function GalleryForm({ navigation }) {
+  const [tagModalVisible, setTagModalVisible] = useState(false);
   const [gallery, setGallery] = useState({
     title: '',
     date: '',
@@ -59,8 +61,19 @@ export default function GalleryForm({ navigation }) {
         </View>
 
         <View>
-          <Text>태그</Text>
-          {/* 태그 모달에서 태그 작성 */}
+          <TouchableOpacity onPress={() => setTagModalVisible(true)}>
+            <Text>태그 추가</Text>
+          </TouchableOpacity>
+          {tagModalVisible && (
+            <TagModal
+              closeModal={() => setTagModalVisible(false)}
+              currentTags={gallery.tags}
+              updateTags={(key, value) => updateGallery(key, value)}
+            />
+          )}
+          {gallery.tags.map((tag) => (
+            <Text>{tag}</Text>
+          ))}
         </View>
 
         <View>
