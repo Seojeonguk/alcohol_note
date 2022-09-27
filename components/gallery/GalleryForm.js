@@ -35,6 +35,38 @@ export default function GalleryForm({ navigation }) {
           <Entypo name="check" size={24} color="black" />
         </TouchableOpacity>
       </View>
+
+      <View>
+        <View>
+          <Text>제목</Text>
+          {/* 제목 입력칸 */}
+        </View>
+
+        <View>
+          <Text>사진</Text>
+          {/* 다중선택 */}
+        </View>
+
+        <View>
+          <Text>날짜</Text>
+          {/* 달력 열어서 선택 */}
+        </View>
+
+        <View>
+          <Text>태그</Text>
+          {/* 태그 모달에서 태그 작성 */}
+        </View>
+
+        <View>
+          <Text>장소</Text>
+          {/* 장소 설정하기 */}
+        </View>
+
+        <View>
+          <Text>내용</Text>
+          {/* 내용 입력 창 */}
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
