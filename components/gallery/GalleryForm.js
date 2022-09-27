@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
@@ -39,7 +39,13 @@ export default function GalleryForm({ navigation }) {
       <View>
         <View>
           <Text>제목</Text>
-          {/* 제목 입력칸 */}
+          <TextInput
+            placeholder="제목"
+            value={gallery.title}
+            onChangeText={(value) => {
+              updateGallery('title', value);
+            }}
+          />
         </View>
 
         <View>
