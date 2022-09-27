@@ -30,7 +30,12 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Tab.Navigator initialRouteName="Gallery" activeColor="#fdfffd" inactiveColor="#a3c2ff" shifting>
+        <Tab.Navigator
+          initialRouteName="Gallery"
+          activeColor="#fdfffd"
+          inactiveColor="#a3c2ff"
+          shifting
+        >
           <Tab.Screen
             name="Gallery"
             component={GalleryScreen}
