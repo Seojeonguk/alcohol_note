@@ -22,4 +22,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 4,
   },
+  saveBtn: {
+    position: 'absolute',
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 4,
+  },
 });
