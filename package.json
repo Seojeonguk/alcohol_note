@@ -25,7 +25,8 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "eslint-config-prettier": "^8.5.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "eslint": "^8.24.0"
   },
   "private": true
 }
