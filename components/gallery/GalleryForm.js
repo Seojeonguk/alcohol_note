@@ -15,6 +15,13 @@ export default function GalleryForm({ navigation }) {
     tags: [],
   });
 
+  const updateGallery = (key, value) => {
+    setGallery({
+      ...gallery,
+      [key]: value,
+    });
+  };
+
   const save = () => {};
 
   return (
