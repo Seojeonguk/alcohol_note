@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   Alert,
+  FlatList,
 } from 'react-native';
 import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
@@ -50,41 +51,96 @@ export default function TagModal({ closeModal, currentTags, updateTags }) {
     // 변경하면 update하고
     // 취소하면 경고창 없애기
   };
+
   return (
-    <Modal visible>
-      <View>
-        <TouchableOpacity onPress={backBtn}>
+    <Modal visible style={styles.modalContainer}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={backBtn} style={styles.backBtn}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text>태그 추가</Text>
-        <TouchableOpacity onPress={saveTags}>
+        <Text style={styles.headerTitle}>태그 추가</Text>
+        <TouchableOpacity onPress={saveTags} style={styles.saveBtn}>
           <Entypo name="check" size={24} color="black" />
         </TouchableOpacity>
       </View>
 
       <View>
         <TextInput
-          placeholder="태그"
+          placeholder="엔터로 해시태그를 등록해주세요"
           value={tagText}
           onChangeText={(text) => setTagText(text)}
           onSubmitEditing={addtag}
           blurOnSubmit={false}
+          style={styles.tagInput}
         />
-        <Text style={{ fontSize: 30 }}>tags</Text>
-        <View>
-          {addTagList.length !== 0 ? (
-            addTagList.map((tag, idx) => (
-              <TouchableOpacity onPress={() => deleteTag(idx)}>
-                <Text>{tag}</Text>
-                <AntDesign name="close" size={24} color="black" />
-              </TouchableOpacity>
-            ))
-          ) : (
-            <Text>Empty Tag!</Text>
+        <Text style={{ fontSize: 30 }}>태그 목록</Text>
+        <FlatList
+          data={addTagList}
+          ListEmptyComponent={<Text>Empty Tag</Text>}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity style={styles.tags} key={index} onPress={() => deleteTag(index)}>
+              <Text style={{ color: 'white' }}>{item}</Text>
+              <AntDesign name="close" size={20} color="white" />
+            </TouchableOpacity>
           )}
-        </View>
+          numColumns={4}
+          keyExtractor={(key, index) => {
+            return index;
+          }}
+        />
         <Button title="addList 값 출력" onPress={() => console.log(addTagList)} />
       </View>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+  },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'grey',
+    paddingVertical: 5,
+    marginBottom: 5,
+  },
+  backBtn: {
+    position: 'absolute',
+    left: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 4,
+  },
+  headerTitle: {
+    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  saveBtn: {
+    position: 'absolute',
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 4,
+  },
+  tagInput: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: '#f5f5f5',
+    marginHorizontal: 10,
+  },
+  tags: {
+    backgroundColor: '#9ea9d8',
+    flexDirection: 'row',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 5,
+    overflow: 'scroll',
+  },
+});
