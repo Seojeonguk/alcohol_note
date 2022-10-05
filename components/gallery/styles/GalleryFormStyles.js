@@ -29,4 +29,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 4,
   },
+  inputBox: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    marginHorizontal: 20,
+    marginVertical: 5,
+    borderColor: 'grey',
+  },
+  input: {
+    flex: 1,
+    paddingLeft: 10,
+  },
 });

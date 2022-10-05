@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from './styles/GalleryFormStyles';
 import TagModal from './TagModal';
 
@@ -39,14 +41,14 @@ export default function GalleryForm({ navigation }) {
       </View>
 
       <View>
-        <View>
-          <Text>제목</Text>
+        <View style={styles.inputBox}>
           <TextInput
             placeholder="제목"
             value={gallery.title}
             onChangeText={(value) => {
               updateGallery('title', value);
             }}
+            multiline
           />
         </View>
 
@@ -60,7 +62,7 @@ export default function GalleryForm({ navigation }) {
           {/* 달력 열어서 선택 */}
         </View>
 
-        <View>
+        <View style={styles.inputBox}>
           <TouchableOpacity onPress={() => setTagModalVisible(true)}>
             <Text>태그 추가</Text>
           </TouchableOpacity>
@@ -76,13 +78,24 @@ export default function GalleryForm({ navigation }) {
           ))}
         </View>
 
-        <View>
-          <Text>장소</Text>
+        <View style={styles.inputBox}>
+          <MaterialIcons name="place" size={27} color="black" />
+          <TextInput
+            placeholder="장소"
+            value={gallery.location}
+            onChangeText={(value) => {
+              updateGallery('location', value);
+            }}
+            multiline
+            style={styles.input}
+          />
+
           {/* 장소 설정하기 */}
         </View>
 
-        <View>
-          <Text>내용</Text>
+        <View style={styles.inputBox}>
+          <MaterialCommunityIcons name="text-box-outline" size={24} color="black" />
+          <TextInput placeholder="내용" multiline style={styles.input} />
           {/* 내용 입력 창 */}
         </View>
       </View>
