@@ -73,8 +73,8 @@ export default function GalleryForm({ navigation }) {
               updateTags={(key, value) => updateGallery(key, value)}
             />
           )}
-          {gallery.tags.map((tag) => (
-            <Text>{tag}</Text>
+          {gallery.tags.map((tag, idx) => (
+            <Text key={idx}>{tag}</Text>
           ))}
         </View>
 
