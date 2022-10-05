@@ -73,10 +73,10 @@ export default function TagModal({ closeModal, currentTags, updateTags }) {
           blurOnSubmit={false}
           style={styles.tagInput}
         />
-        <Text style={{ fontSize: 30 }}>태그 목록</Text>
+        <Text style={styles.tagheader}>태그 목록</Text>
         <FlatList
           data={addTagList}
-          ListEmptyComponent={<Text>Empty Tag</Text>}
+          ListEmptyComponent={<Text style={styles.emptytag}>설정된 태그가 존재하지 않습니다.</Text>}
           renderItem={({ item, index }) => (
             <TouchableOpacity style={styles.tags} key={index} onPress={() => deleteTag(index)}>
               <Text style={{ color: 'white' }}>{item}</Text>
@@ -88,7 +88,6 @@ export default function TagModal({ closeModal, currentTags, updateTags }) {
             return index;
           }}
         />
-        <Button title="addList 값 출력" onPress={() => console.log(addTagList)} />
       </View>
     </Modal>
   );
@@ -132,6 +131,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     marginHorizontal: 10,
   },
+  tagheader: {
+    fontSize: 30,
+    padding: 10,
+  },
   tags: {
     backgroundColor: '#9ea9d8',
     flexDirection: 'row',
@@ -142,5 +145,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 5,
     overflow: 'scroll',
+  },
+  emptytag: {
+    color: 'grey',
+    paddingHorizontal: 10,
   },
 });
