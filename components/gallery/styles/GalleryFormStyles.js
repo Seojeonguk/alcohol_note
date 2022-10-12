@@ -40,4 +40,26 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 10,
   },
+  tagBox: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    marginHorizontal: 20,
+    marginVertical: 5,
+    borderColor: 'grey',
+    flexWrap: 'wrap',
+  },
+  tags: {
+    backgroundColor: '#c9d1d9',
+    flexDirection: 'row',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 5,
+  },
+  inputTag: {
+    margin: 5,
+    borderBottomWidth: 0,
+  },
 });

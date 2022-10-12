@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Button, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from './styles/GalleryFormStyles';
-import TagModal from './TagModal';
 
 export default function GalleryForm({ navigation }) {
-  const [tagModalVisible, setTagModalVisible] = useState(false);
   const [gallery, setGallery] = useState({
     title: '',
     date: '',
@@ -18,12 +16,24 @@ export default function GalleryForm({ navigation }) {
     location: '',
     tags: [],
   });
+  const [inputTag, setInputTag] = useState('');
+  const { tags } = gallery;
 
   const updateGallery = (key, value) => {
     setGallery({
       ...gallery,
       [key]: value,
     });
+  };
+
+  const updateListGallery = (key, value) => {
+    updateGallery(key, value);
+    setInputTag('');
+  };
+
+  const deleteTag = (idx) => {
+    const newTags = tags.filter((tag, index) => index !== idx);
+    updateGallery('tags', newTags);
   };
 
   const save = () => {};
@@ -40,7 +50,7 @@ export default function GalleryForm({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View>
+      <ScrollView>
         <View style={styles.inputBox}>
           <TextInput
             placeholder="제목"
@@ -62,20 +72,21 @@ export default function GalleryForm({ navigation }) {
           {/* 달력 열어서 선택 */}
         </View>
 
-        <View style={styles.inputBox}>
-          <TouchableOpacity onPress={() => setTagModalVisible(true)}>
-            <Text>태그 추가</Text>
-          </TouchableOpacity>
-          {tagModalVisible && (
-            <TagModal
-              closeModal={() => setTagModalVisible(false)}
-              currentTags={gallery.tags}
-              updateTags={(key, value) => updateGallery(key, value)}
-            />
-          )}
+        <View style={styles.tagBox}>
           {gallery.tags.map((tag, idx) => (
-            <Text key={idx}>{tag}</Text>
+            <TouchableOpacity style={styles.tags} key={idx} onPress={() => deleteTag(idx)}>
+              <Text>#{tag}</Text>
+            </TouchableOpacity>
           ))}
+
+          <TextInput
+            placeholder="태그 입력"
+            onChangeText={(tag) => setInputTag(tag)}
+            value={inputTag}
+            onSubmitEditing={() => updateListGallery('tags', [...gallery.tags, inputTag])}
+            blurOnSubmit={false}
+            style={styles.inputTag}
+          />
         </View>
 
         <View style={styles.inputBox}>
@@ -83,22 +94,17 @@ export default function GalleryForm({ navigation }) {
           <TextInput
             placeholder="장소"
             value={gallery.location}
-            onChangeText={(value) => {
-              updateGallery('location', value);
-            }}
+            onChangeText={(value) => updateGallery('location', value)}
             multiline
             style={styles.input}
           />
-
-          {/* 장소 설정하기 */}
         </View>
 
         <View style={styles.inputBox}>
           <MaterialCommunityIcons name="text-box-outline" size={24} color="black" />
           <TextInput placeholder="내용" multiline style={styles.input} />
-          {/* 내용 입력 창 */}
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
