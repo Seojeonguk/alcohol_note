@@ -5,7 +5,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { styles } from './styles/GalleryFormStyles';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function GalleryForm({ navigation }) {
   const [gallery, setGallery] = useState({
@@ -17,7 +19,8 @@ export default function GalleryForm({ navigation }) {
     tags: [],
   });
   const [inputTag, setInputTag] = useState('');
-  const { tags } = gallery;
+  const { tags, date } = gallery;
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const updateGallery = (key, value) => {
     setGallery({
@@ -27,8 +30,8 @@ export default function GalleryForm({ navigation }) {
   };
 
   const updateListGallery = (key, value) => {
-    updateGallery(key, value);
     setInputTag('');
+    updateGallery(key, value);
   };
 
   const deleteTag = (idx) => {
@@ -67,9 +70,17 @@ export default function GalleryForm({ navigation }) {
           {/* 다중선택 */}
         </View>
 
-        <View>
-          <Text>날짜</Text>
-          {/* 달력 열어서 선택 */}
+        <View style={styles.inputBox}>
+          <AntDesign name="calendar" size={24} color="black" />
+          <TextInput
+            multiline
+            placeholder="날짜"
+            style={styles.input}
+            value={date}
+            onChangeText={(value) => updateGallery('date', value)}
+          />
+
+          {/* to do more.. */}
         </View>
 
         <View style={styles.tagBox}>
@@ -90,7 +101,7 @@ export default function GalleryForm({ navigation }) {
         </View>
 
         <View style={styles.inputBox}>
-          <MaterialIcons name="place" size={27} color="black" />
+          <MaterialIcons name="place" size={24} color="black" />
           <TextInput
             placeholder="장소"
             value={gallery.location}
