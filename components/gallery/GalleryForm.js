@@ -12,7 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 export default function GalleryForm({ navigation }) {
   const [gallery, setGallery] = useState({
     title: '',
-    date: '',
+    date: new Date(),
     photos: [],
     content: '',
     location: '',
@@ -32,6 +32,11 @@ export default function GalleryForm({ navigation }) {
   const updateListGallery = (key, value) => {
     setInputTag('');
     updateGallery(key, value);
+  };
+
+  const updateDate = (key, value) => {
+    setShowDatePicker(false);
+    updateGallery(key, value.toJSON().substring(0, 10));
   };
 
   const deleteTag = (idx) => {
@@ -70,18 +75,27 @@ export default function GalleryForm({ navigation }) {
           {/* 다중선택 */}
         </View>
 
-        <View style={styles.inputBox}>
-          <AntDesign name="calendar" size={24} color="black" />
-          <TextInput
-            multiline
-            placeholder="날짜"
-            style={styles.input}
-            value={date}
-            onChangeText={(value) => updateGallery('date', value)}
-          />
+        <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+          <View style={styles.inputBox}>
+            <AntDesign name="calendar" size={24} color="black" />
 
-          {/* to do more.. */}
-        </View>
+            <TextInput
+              placeholder="날짜"
+              style={styles.input}
+              value={gallery.date}
+              onChangeText={(value) => updateGallery('date', value)}
+              onPressIn={() => setShowDatePicker(true)}
+            />
+
+            {showDatePicker && (
+              <DateTimePicker
+                value={new Date(gallery.date)}
+                mode="date"
+                onChange={(e, value) => updateDate('date', value)}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
 
         <View style={styles.tagBox}>
           {gallery.tags.map((tag, idx) => (
