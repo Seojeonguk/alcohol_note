@@ -75,27 +75,25 @@ export default function GalleryForm({ navigation }) {
           {/* 다중선택 */}
         </View>
 
-        <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-          <View style={styles.inputBox}>
-            <AntDesign name="calendar" size={24} color="black" />
+        <View style={styles.inputBox}>
+          <AntDesign name="calendar" size={24} color="black" />
 
-            <TextInput
-              placeholder="날짜"
-              style={styles.input}
-              value={gallery.date}
-              onChangeText={(value) => updateGallery('date', value)}
-              onPressIn={() => setShowDatePicker(true)}
+          <TextInput
+            placeholder="날짜"
+            style={styles.input}
+            value={gallery.date}
+            onChangeText={(value) => updateGallery('date', value)}
+            onPressIn={() => setShowDatePicker(true)}
+          />
+
+          {showDatePicker && (
+            <DateTimePicker
+              value={new Date(gallery.date)}
+              mode="date"
+              onChange={(e, value) => updateDate('date', value)}
             />
-
-            {showDatePicker && (
-              <DateTimePicker
-                value={new Date(gallery.date)}
-                mode="date"
-                onChange={(e, value) => updateDate('date', value)}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
+          )}
+        </View>
 
         <View style={styles.tagBox}>
           {gallery.tags.map((tag, idx) => (
