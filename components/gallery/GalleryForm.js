@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Button, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  Button,
+  ScrollView,
+  FlatList,
+  Image,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
@@ -8,6 +17,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { styles } from './styles/GalleryFormStyles';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as MediaLibrary from 'expo-media-library';
 
 export default function GalleryForm({ navigation }) {
   const [gallery, setGallery] = useState({
@@ -44,6 +54,16 @@ export default function GalleryForm({ navigation }) {
     updateGallery('tags', newTags);
   };
 
+  const showMediaLibrary = async () => {
+    let { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status !== 'granted') return;
+    let media = await MediaLibrary.getAssetsAsync({
+      mediaType: ['photo'],
+    });
+    let photos_tmp = media.assets.flatMap((value) => [value.uri]);
+    updateGallery('photos', photos_tmp);
+  };
+
   const save = () => {};
 
   return (
@@ -72,7 +92,15 @@ export default function GalleryForm({ navigation }) {
 
         <View>
           <Text>사진</Text>
-          {/* 다중선택 */}
+          <TouchableOpacity onPress={showMediaLibrary}>
+            <View style={{ height: 100, width: 100, backgroundColor: 'green' }}></View>
+          </TouchableOpacity>
+          <FlatList
+            data={gallery.photos}
+            renderItem={({ item }) => (
+              <Image source={{ uri: item }} style={{ height: 80, width: 80 }} />
+            )}
+          />
         </View>
 
         <View style={styles.inputBox}>
