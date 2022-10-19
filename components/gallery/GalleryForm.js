@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   ScrollView,
   FlatList,
   Image,
+  Modal,
+  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -31,6 +33,13 @@ export default function GalleryForm({ navigation }) {
   const [inputTag, setInputTag] = useState('');
   const { tags, date } = gallery;
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [assetsOptions, setAssetsOptions] = useState({
+    after: '0',
+    hasNextPage: true,
+  });
+  const [mediaList, setMediaList] = useState([]);
+  const [screenSize, setScreenSize] = useState(Dimensions.get('window').width / 4 - 5);
 
   const updateGallery = (key, value) => {
     setGallery({
@@ -55,13 +64,31 @@ export default function GalleryForm({ navigation }) {
   };
 
   const showMediaLibrary = async () => {
+    console.log('show Media Library!');
     let { status } = await MediaLibrary.requestPermissionsAsync();
     if (status !== 'granted') return;
+    if (!assetsOptions.hasNextPage) return;
     let media = await MediaLibrary.getAssetsAsync({
       mediaType: ['photo'],
+      after: assetsOptions.after,
     });
-    let photos_tmp = media.assets.flatMap((value) => [value.uri]);
-    updateGallery('photos', photos_tmp);
+    if (media.hasNextPage) {
+      setAssetsOptions({
+        ...assetsOptions,
+        after: assetsOptions.after + 20,
+      });
+    } else {
+      setAssetsOptions({
+        ...assetsOptions,
+        hasNextPage: false,
+      });
+    }
+    setMediaList(mediaList.concat(media.assets.flatMap((value) => [value.uri])));
+  };
+
+  const openModal = () => {
+    showMediaLibrary();
+    setShowModal(true);
   };
 
   const save = () => {};
@@ -92,15 +119,62 @@ export default function GalleryForm({ navigation }) {
 
         <View>
           <Text>사진</Text>
-          <TouchableOpacity onPress={showMediaLibrary}>
-            <View style={{ height: 100, width: 100, backgroundColor: 'green' }}></View>
-          </TouchableOpacity>
-          <FlatList
-            data={gallery.photos}
-            renderItem={({ item }) => (
-              <Image source={{ uri: item }} style={{ height: 80, width: 80 }} />
-            )}
-          />
+
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+            {gallery.photos.map((photo, index) => (
+              <Image
+                key={index}
+                source={{ uri: photo }}
+                style={{ height: 80, width: 80, padding: 50 }}
+              />
+            ))}
+            <TouchableOpacity
+              onPress={openModal}
+              style={{
+                height: 80,
+                width: 80,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+                borderWidth: 1,
+                borderColor: 'grey',
+              }}
+            >
+              <AntDesign name="pluscircleo" size={24} color="grey" />
+            </TouchableOpacity>
+          </View>
+
+          <Modal visible={showModal} onRequestClose={() => setShowModal(false)}>
+            <FlatList
+              ListEmptyComponent={<Text>Empty</Text>}
+              data={mediaList}
+              renderItem={({ item }) => (
+                <Image
+                  source={{ uri: item }}
+                  style={{
+                    height: screenSize,
+                    width: screenSize,
+                    margin: 1,
+                  }}
+                />
+              )}
+              onEndReached={() => {
+                showMediaLibrary();
+              }}
+              columnWrapperStyle={{
+                justifyContent: 'center',
+              }}
+              numColumns={4}
+            />
+            <View>
+              <TouchableOpacity
+                style={{ width: 80, height: 80, backgroundColor: 'green' }}
+                onPress={() => setShowModal(false)}
+              >
+                <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
         </View>
 
         <View style={styles.inputBox}>
