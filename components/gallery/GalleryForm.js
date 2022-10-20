@@ -54,8 +54,16 @@ export default function GalleryForm({ navigation }) {
     updateGallery(key, value);
   };
 
-  const updateDate = (key, value) => {
+  const openDatePicker = () => {
+    setShowDatePicker(true);
+  };
+
+  const closeDatePicker = () => {
     setShowDatePicker(false);
+  };
+
+  const updateDate = (key, value) => {
+    closeDatePicker();
     updateGallery(key, value.toJSON().substring(0, 10));
   };
 
@@ -72,22 +80,25 @@ export default function GalleryForm({ navigation }) {
       mediaType: ['photo'],
       after: assetsOptions.after,
     });
-    if (media.hasNextPage) {
-      setAssetsOptions({
-        ...assetsOptions,
-        after: assetsOptions.after + 20,
-      });
-    } else {
-      setAssetsOptions({
-        ...assetsOptions,
-        hasNextPage: false,
-      });
-    }
+
+    updateAssetsOptions(String(parseInt(assetsOptions.after) + 20), media.hasNextPage);
+
     setMediaList(mediaList.concat(media.assets.flatMap((value) => [value.uri])));
   };
 
-  const openModal = () => {
+  const updateAssetsOptions = (after, hasNextPage) => {
+    setAssetsOptions({
+      after: after,
+      hasNextPage: hasNextPage,
+    });
+  };
+
+  const addImageBtn = () => {
     showMediaLibrary();
+    openModal();
+  };
+
+  const openModal = () => {
     setShowModal(true);
   };
 
@@ -131,19 +142,25 @@ export default function GalleryForm({ navigation }) {
         </View>
 
         <View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
             {gallery.photos.map((photo, index) => (
               <Image
                 key={index}
                 source={{ uri: photo }}
-                style={{ height: 80, width: 80, margin: 5 }}
+                style={{ height: screenSize, width: screenSize, margin: 1 }}
               />
             ))}
             <TouchableOpacity
-              onPress={openModal}
+              onPress={addImageBtn}
               style={{
-                height: 80,
-                width: 80,
+                height: screenSize,
+                width: screenSize,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
@@ -155,7 +172,7 @@ export default function GalleryForm({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <Modal visible={showModal} onRequestClose={() => setShowModal(false)}>
+          <Modal visible={showModal} onRequestClose={closeModal}>
             <FlatList
               ListEmptyComponent={<Text>Empty</Text>}
               data={mediaList}
@@ -171,9 +188,7 @@ export default function GalleryForm({ navigation }) {
                   />
                 </TouchableOpacity>
               )}
-              onEndReached={() => {
-                showMediaLibrary();
-              }}
+              onEndReached={showMediaLibrary}
               columnWrapperStyle={{
                 justifyContent: 'center',
               }}
@@ -182,13 +197,13 @@ export default function GalleryForm({ navigation }) {
             <View style={{ flexDirection: 'row', height: 50 }}>
               <TouchableOpacity
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => setShowModal(false)}
+                onPress={closeModal}
               >
                 <Text>Close</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-                onPress={() => applySelectedMedia()}
+                onPress={applySelectedMedia}
               >
                 <Text>Apply</Text>
               </TouchableOpacity>
@@ -204,7 +219,7 @@ export default function GalleryForm({ navigation }) {
             style={styles.input}
             value={gallery.date}
             onChangeText={(value) => updateGallery('date', value)}
-            onPressIn={() => setShowDatePicker(true)}
+            onPressIn={openDatePicker}
           />
 
           {showDatePicker && (
