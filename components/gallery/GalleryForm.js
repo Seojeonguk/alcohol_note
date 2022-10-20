@@ -39,6 +39,7 @@ export default function GalleryForm({ navigation }) {
     hasNextPage: true,
   });
   const [mediaList, setMediaList] = useState([]);
+  const [selectedMedia, setSelectedMedia] = useState([]);
   const [screenSize, setScreenSize] = useState(Dimensions.get('window').width / 4 - 5);
 
   const updateGallery = (key, value) => {
@@ -64,7 +65,6 @@ export default function GalleryForm({ navigation }) {
   };
 
   const showMediaLibrary = async () => {
-    console.log('show Media Library!');
     let { status } = await MediaLibrary.requestPermissionsAsync();
     if (status !== 'granted') return;
     if (!assetsOptions.hasNextPage) return;
@@ -89,6 +89,19 @@ export default function GalleryForm({ navigation }) {
   const openModal = () => {
     showMediaLibrary();
     setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const selectMedia = (item) => {
+    setSelectedMedia(selectedMedia.concat(item));
+  };
+
+  const applySelectedMedia = () => {
+    updateGallery('photos', selectedMedia);
+    closeModal();
   };
 
   const save = () => {};
@@ -118,14 +131,12 @@ export default function GalleryForm({ navigation }) {
         </View>
 
         <View>
-          <Text>사진</Text>
-
           <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             {gallery.photos.map((photo, index) => (
               <Image
                 key={index}
                 source={{ uri: photo }}
-                style={{ height: 80, width: 80, padding: 50 }}
+                style={{ height: 80, width: 80, margin: 5 }}
               />
             ))}
             <TouchableOpacity
@@ -149,14 +160,16 @@ export default function GalleryForm({ navigation }) {
               ListEmptyComponent={<Text>Empty</Text>}
               data={mediaList}
               renderItem={({ item }) => (
-                <Image
-                  source={{ uri: item }}
-                  style={{
-                    height: screenSize,
-                    width: screenSize,
-                    margin: 1,
-                  }}
-                />
+                <TouchableOpacity style={{ zIndex: 9 }} onPress={() => selectMedia(item)}>
+                  <Image
+                    source={{ uri: item }}
+                    style={{
+                      height: screenSize,
+                      width: screenSize,
+                      margin: 1,
+                    }}
+                  />
+                </TouchableOpacity>
               )}
               onEndReached={() => {
                 showMediaLibrary();
@@ -166,12 +179,18 @@ export default function GalleryForm({ navigation }) {
               }}
               numColumns={4}
             />
-            <View>
+            <View style={{ flexDirection: 'row', height: 50 }}>
               <TouchableOpacity
-                style={{ width: 80, height: 80, backgroundColor: 'green' }}
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
                 onPress={() => setShowModal(false)}
               >
                 <Text>Close</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+                onPress={() => applySelectedMedia()}
+              >
+                <Text>Apply</Text>
               </TouchableOpacity>
             </View>
           </Modal>
