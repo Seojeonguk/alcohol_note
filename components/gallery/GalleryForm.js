@@ -24,7 +24,7 @@ import * as MediaLibrary from 'expo-media-library';
 export default function GalleryForm({ navigation }) {
   const [gallery, setGallery] = useState({
     title: '',
-    date: new Date(),
+    date: new Date().toJSON().substring(0, 10),
     photos: [],
     content: '',
     location: '',
