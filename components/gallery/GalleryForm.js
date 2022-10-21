@@ -93,8 +93,8 @@ export default function GalleryForm({ navigation }) {
     });
   };
 
-  const addImageBtn = () => {
-    showMediaLibrary();
+  const addImageBtn = async () => {
+    await showMediaLibrary();
     openModal();
   };
 
@@ -146,30 +146,42 @@ export default function GalleryForm({ navigation }) {
             style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              justifyContent: 'center',
+              // justifyContent: 'center',
+              justifyContent: 'space-between',
+              padding: 5,
             }}
           >
             {gallery.photos.map((photo, index) => (
-              <Image
+              <View
+                style={{
+                  height: screenSize,
+                  width: screenSize,
+                  padding: 5,
+                }}
                 key={index}
-                source={{ uri: photo }}
-                style={{ height: screenSize, width: screenSize, margin: 1 }}
-              />
+              >
+                <Image
+                  source={{ uri: photo }}
+                  style={{ height: screenSize - 10, width: screenSize - 10 }}
+                />
+              </View>
             ))}
-            <TouchableOpacity
-              onPress={addImageBtn}
-              style={{
-                height: screenSize,
-                width: screenSize,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 5,
-                borderWidth: 1,
-                borderColor: 'grey',
-              }}
-            >
-              <AntDesign name="pluscircleo" size={24} color="grey" />
-            </TouchableOpacity>
+            <View style={{ height: screenSize, width: screenSize, padding: 5 }}>
+              <TouchableOpacity
+                onPress={addImageBtn}
+                style={{
+                  height: screenSize - 10,
+                  width: screenSize - 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                  borderWidth: 1,
+                  borderColor: 'grey',
+                }}
+              >
+                <AntDesign name="pluscircleo" size={24} color="grey" />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <Modal visible={showModal} onRequestClose={closeModal}>
@@ -177,20 +189,24 @@ export default function GalleryForm({ navigation }) {
               ListEmptyComponent={<Text>Empty</Text>}
               data={mediaList}
               renderItem={({ item }) => (
-                <TouchableOpacity style={{ zIndex: 9 }} onPress={() => selectMedia(item)}>
+                <TouchableOpacity
+                  style={{ zIndex: 9, height: screenSize, width: screenSize, padding: 5 }}
+                  onPress={() => selectMedia(item)}
+                >
                   <Image
                     source={{ uri: item }}
                     style={{
-                      height: screenSize,
-                      width: screenSize,
-                      margin: 1,
+                      height: screenSize - 10,
+                      width: screenSize - 10,
+                      // margin: 1,
                     }}
                   />
                 </TouchableOpacity>
               )}
               onEndReached={showMediaLibrary}
               columnWrapperStyle={{
-                justifyContent: 'center',
+                // justifyContent: 'center',
+                justifyContent: 'space-between',
               }}
               numColumns={4}
             />
