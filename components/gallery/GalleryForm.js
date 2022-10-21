@@ -205,12 +205,6 @@ export default function GalleryForm({ navigation }) {
                 </TouchableOpacity>
               )}
               onEndReached={showMediaLibrary}
-              columnWrapperStyle={
-                {
-                  // justifyContent: 'center',
-                  // justifyContent: 'space-between',
-                }
-              }
               numColumns={4}
             />
             <View style={{ flexDirection: 'row', height: 50 }}>
