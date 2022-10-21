@@ -274,7 +274,13 @@ export default function GalleryForm({ navigation }) {
 
         <View style={styles.inputBox}>
           <MaterialCommunityIcons name="text-box-outline" size={24} color="black" />
-          <TextInput placeholder="내용" multiline style={styles.input} />
+          <TextInput
+            placeholder="내용"
+            multiline
+            style={styles.input}
+            value={gallery.content}
+            onChangeText={(value) => updateGallery('content', value)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
