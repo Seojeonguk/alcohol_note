@@ -40,7 +40,7 @@ export default function GalleryForm({ navigation }) {
   });
   const [mediaList, setMediaList] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState([]);
-  const [screenSize, setScreenSize] = useState(Dimensions.get('window').width / 4 - 5);
+  const [screenWidthSize, setScreenWidthSize] = useState(Dimensions.get('window').width);
 
   const updateGallery = (key, value) => {
     setGallery({
@@ -146,32 +146,29 @@ export default function GalleryForm({ navigation }) {
             style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              // justifyContent: 'center',
-              justifyContent: 'space-between',
-              padding: 5,
             }}
           >
             {gallery.photos.map((photo, index) => (
               <View
                 style={{
-                  height: screenSize,
-                  width: screenSize,
+                  height: screenWidthSize / 4,
+                  width: screenWidthSize / 4,
                   padding: 5,
                 }}
                 key={index}
               >
                 <Image
                   source={{ uri: photo }}
-                  style={{ height: screenSize - 10, width: screenSize - 10 }}
+                  style={{ height: screenWidthSize / 4 - 10, width: screenWidthSize / 4 - 10 }}
                 />
               </View>
             ))}
-            <View style={{ height: screenSize, width: screenSize, padding: 5 }}>
+            <View style={{ height: screenWidthSize / 4, width: screenWidthSize / 4, padding: 5 }}>
               <TouchableOpacity
                 onPress={addImageBtn}
                 style={{
-                  height: screenSize - 10,
-                  width: screenSize - 10,
+                  height: screenWidthSize / 4 - 10,
+                  width: screenWidthSize / 4 - 10,
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderRadius: 5,
@@ -190,24 +187,30 @@ export default function GalleryForm({ navigation }) {
               data={mediaList}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  style={{ zIndex: 9, height: screenSize, width: screenSize, padding: 5 }}
+                  style={{
+                    zIndex: 9,
+                    height: screenWidthSize / 4,
+                    width: screenWidthSize / 4,
+                    padding: 5,
+                  }}
                   onPress={() => selectMedia(item)}
                 >
                   <Image
                     source={{ uri: item }}
                     style={{
-                      height: screenSize - 10,
-                      width: screenSize - 10,
-                      // margin: 1,
+                      height: screenWidthSize / 4 - 10,
+                      width: screenWidthSize / 4 - 10,
                     }}
                   />
                 </TouchableOpacity>
               )}
               onEndReached={showMediaLibrary}
-              columnWrapperStyle={{
-                // justifyContent: 'center',
-                justifyContent: 'space-between',
-              }}
+              columnWrapperStyle={
+                {
+                  // justifyContent: 'center',
+                  // justifyContent: 'space-between',
+                }
+              }
               numColumns={4}
             />
             <View style={{ flexDirection: 'row', height: 50 }}>
