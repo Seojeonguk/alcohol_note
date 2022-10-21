@@ -118,7 +118,7 @@ export default function GalleryForm({ navigation }) {
   const save = () => {};
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.galleryHeader}>
         <Text style={styles.galleryTitle}>새 게시물</Text>
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
