@@ -40,7 +40,7 @@ export default function GalleryForm({ navigation }) {
   });
   const [mediaList, setMediaList] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState([]);
-  const [screenWidthSize, setScreenWidthSize] = useState(Dimensions.get('window').width);
+  const screenWidthSize = Dimensions.get('window').width;
 
   const updateGallery = (key, value) => {
     setGallery({
