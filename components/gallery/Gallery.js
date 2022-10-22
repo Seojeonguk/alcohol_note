@@ -10,7 +10,7 @@ export default function Gallery({ navigation }) {
     navigation.navigate('galleryForm');
   };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.galleryHeader}>
         <Text style={styles.galleryTitle}>Gallery</Text>
         <TouchableOpacity style={styles.uploadBtn} onPress={moveGalleryForm}>
@@ -29,6 +29,9 @@ export default function Gallery({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   galleryHeader: {
     justifyContent: 'center',
     alignItems: 'center',
