@@ -1,6 +1,9 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, Dimensions } from 'react-native';
+const screenWidthSize = Dimensions.get('window').width;
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   galleryHeader: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -35,6 +38,47 @@ export const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 5,
     borderColor: 'grey',
+  },
+  photosContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  photosWrapper: {
+    height: screenWidthSize / 4,
+    width: screenWidthSize / 4,
+    padding: 5,
+  },
+  photo: {
+    height: screenWidthSize / 4 - 10,
+    width: screenWidthSize / 4 - 10,
+  },
+  addBtn: {
+    height: screenWidthSize / 4 - 10,
+    width: screenWidthSize / 4 - 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'grey',
+  },
+  modalPhotosWrapper: {
+    zIndex: 9,
+    height: screenWidthSize / 4,
+    width: screenWidthSize / 4,
+    padding: 5,
+  },
+  modalPhoto: {
+    height: screenWidthSize / 4 - 10,
+    width: screenWidthSize / 4 - 10,
+  },
+  modalBottomMenu: {
+    flexDirection: 'row',
+    height: 50,
+  },
+  modalBottomMenuBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input: {
     flex: 1,

@@ -81,6 +81,8 @@ export default function GalleryForm({ navigation }) {
       after: assetsOptions.after,
     });
 
+    console.log(media);
+
     updateAssetsOptions(String(parseInt(assetsOptions.after) + 20), media.hasNextPage);
 
     setMediaList(mediaList.concat(media.assets.flatMap((value) => [value.uri])));
@@ -118,7 +120,7 @@ export default function GalleryForm({ navigation }) {
   const save = () => {};
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.galleryHeader}>
         <Text style={styles.galleryTitle}>새 게시물</Text>
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
@@ -141,44 +143,16 @@ export default function GalleryForm({ navigation }) {
           />
         </View>
 
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-            }}
-          >
-            {gallery.photos.map((photo, index) => (
-              <View
-                style={{
-                  height: screenWidthSize / 4,
-                  width: screenWidthSize / 4,
-                  padding: 5,
-                }}
-                key={index}
-              >
-                <Image
-                  source={{ uri: photo }}
-                  style={{ height: screenWidthSize / 4 - 10, width: screenWidthSize / 4 - 10 }}
-                />
-              </View>
-            ))}
-            <View style={{ height: screenWidthSize / 4, width: screenWidthSize / 4, padding: 5 }}>
-              <TouchableOpacity
-                onPress={addImageBtn}
-                style={{
-                  height: screenWidthSize / 4 - 10,
-                  width: screenWidthSize / 4 - 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                  borderWidth: 1,
-                  borderColor: 'grey',
-                }}
-              >
-                <AntDesign name="pluscircleo" size={24} color="grey" />
-              </TouchableOpacity>
+        <View style={styles.photosContainer}>
+          {gallery.photos.map((photo, index) => (
+            <View style={styles.photosWrapper} key={index}>
+              <Image source={{ uri: photo }} style={styles.photo} />
             </View>
+          ))}
+          <View style={styles.photosWrapper}>
+            <TouchableOpacity onPress={addImageBtn} style={styles.addBtn}>
+              <AntDesign name="pluscircleo" size={24} color="grey" />
+            </TouchableOpacity>
           </View>
 
           <Modal visible={showModal} onRequestClose={closeModal}>
@@ -187,37 +161,20 @@ export default function GalleryForm({ navigation }) {
               data={mediaList}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  style={{
-                    zIndex: 9,
-                    height: screenWidthSize / 4,
-                    width: screenWidthSize / 4,
-                    padding: 5,
-                  }}
+                  style={styles.modalPhotosWrapper}
                   onPress={() => selectMedia(item)}
                 >
-                  <Image
-                    source={{ uri: item }}
-                    style={{
-                      height: screenWidthSize / 4 - 10,
-                      width: screenWidthSize / 4 - 10,
-                    }}
-                  />
+                  <Image source={{ uri: item }} style={styles.modalPhoto} />
                 </TouchableOpacity>
               )}
               onEndReached={showMediaLibrary}
               numColumns={4}
             />
-            <View style={{ flexDirection: 'row', height: 50 }}>
-              <TouchableOpacity
-                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-                onPress={closeModal}
-              >
+            <View style={styles.modalBottomMenu}>
+              <TouchableOpacity style={styles.modalBottomMenuBtn} onPress={closeModal}>
                 <Text>Close</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-                onPress={applySelectedMedia}
-              >
+              <TouchableOpacity style={styles.modalBottomMenuBtn} onPress={applySelectedMedia}>
                 <Text>Apply</Text>
               </TouchableOpacity>
             </View>
