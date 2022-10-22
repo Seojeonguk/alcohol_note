@@ -1,24 +1,27 @@
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
+  Dimensions,
   FlatList,
   Image,
   Modal,
-  Dimensions,
+  ScrollView,
   StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+
+import {
+  AntDesign,
+  Entypo,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as MediaLibrary from 'expo-media-library';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const screenWidthSize = Dimensions.get('window').width;
 
