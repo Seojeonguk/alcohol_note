@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   TextInput,
-  Button,
   ScrollView,
   FlatList,
   Image,
@@ -31,7 +30,7 @@ export default function GalleryForm({ navigation }) {
     tags: [],
   });
   const [inputTag, setInputTag] = useState('');
-  const { tags, date } = gallery;
+  const { tags } = gallery;
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [assetsOptions, setAssetsOptions] = useState({
@@ -40,7 +39,6 @@ export default function GalleryForm({ navigation }) {
   });
   const [mediaList, setMediaList] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState([]);
-  const screenWidthSize = Dimensions.get('window').width;
 
   const updateGallery = (key, value) => {
     setGallery({
@@ -80,8 +78,6 @@ export default function GalleryForm({ navigation }) {
       mediaType: ['photo'],
       after: assetsOptions.after,
     });
-
-    console.log(media);
 
     updateAssetsOptions(String(parseInt(assetsOptions.after) + 20), media.hasNextPage);
 
