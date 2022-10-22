@@ -1,5 +1,6 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import User from '../user/User';
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const UserStack = createNativeStackNavigator();
 export default function UserNavigation() {
