@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Gallery from './components/gallery/Gallery';
 import User from './components/user/User';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
+import GalleryForm from './components/gallery/GalleryForm';
 
 const Tab = createMaterialBottomTabNavigator();
 const GalleryStack = createNativeStackNavigator();
@@ -14,6 +15,7 @@ function GalleryScreen() {
   return (
     <GalleryStack.Navigator initialRouteName="gallery" screenOptions={{ headerShown: false }}>
       <GalleryStack.Screen name="gallery" component={Gallery} />
+      <GalleryStack.Screen name="galleryForm" component={GalleryForm} />
     </GalleryStack.Navigator>
   );
 }
