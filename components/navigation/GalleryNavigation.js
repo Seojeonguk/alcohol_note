@@ -1,6 +1,8 @@
 import Gallery from '../gallery/Gallery';
 import GalleryForm from '../gallery/GalleryForm';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 const GalleryStack = createNativeStackNavigator();
 export default function GalleryNavigation() {
   return (

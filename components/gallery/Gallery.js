@@ -1,9 +1,11 @@
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
 import { data } from './dummyData';
 import GalleryCard from './GalleryCard';
-import MasonryList from '@react-native-seoul/masonry-list';
+
 import { AntDesign } from '@expo/vector-icons';
+import MasonryList from '@react-native-seoul/masonry-list';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Gallery({ navigation }) {
   const moveGalleryForm = () => {

@@ -1,8 +1,9 @@
 import GalleryNavigation from './GalleryNavigation';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import UserNavigation from './UserNavigation';
-import { Entypo, FontAwesome } from '@expo/vector-icons';
+
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { FontAwesome, Entypo } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createMaterialBottomTabNavigator();
 

@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useMemo } from 'react';
 
 export default function GalleryCard({ item }) {
