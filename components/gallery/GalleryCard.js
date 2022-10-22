@@ -1,5 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { styles } from './styles/GalleryCardStyles';
+import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useMemo } from 'react';
 
 export default function GalleryCard({ item }) {
@@ -22,3 +21,11 @@ export default function GalleryCard({ item }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  itemImage: {
+    resizeMode: 'stretch',
+    borderRadius: 5,
+    margin: 5,
+  },
+});
