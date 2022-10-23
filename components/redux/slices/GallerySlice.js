@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   title: '',
-  date: new Date().toJSON().substring(0, 10),
+  day: '',
   photos: [],
   content: '',
   location: '',
@@ -33,9 +33,12 @@ export const GallerySlice = createSlice({
     updateContent: (state, action) => {
       state.content = action.payload;
     },
+    updateDay: (state, action) => {
+      state.day = action.payload;
+    },
   },
 });
 
-export const { addTag, deleteTag, init, updateContent, updateLocation, updateTitle } =
+export const { addTag, deleteTag, init, updateContent, updateDay, updateLocation, updateTitle } =
   GallerySlice.actions;
 export default GallerySlice.reducer;

@@ -22,12 +22,13 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
+
 import * as MediaLibrary from 'expo-media-library';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import Location from './Location';
 import Content from './Content';
+import Day from './Day';
 
 const screenWidthSize = Dimensions.get('window').width;
 
@@ -161,26 +162,7 @@ export default function GalleryForm({ navigation }) {
           </Modal>
         </View>
 
-        <View style={styles.inputBox}>
-          <AntDesign name="calendar" size={24} color="black" />
-
-          <TextInput
-            placeholder="날짜"
-            style={styles.input}
-            value={gallery.date}
-            onChangeText={(value) => updateGallery('date', value)}
-            onPressIn={openDatePicker}
-          />
-
-          {showDatePicker && (
-            <DateTimePicker
-              value={new Date(gallery.date)}
-              mode="date"
-              onChange={(e, value) => updateDate('date', value)}
-            />
-          )}
-        </View>
-
+        <Day />
         <Tags />
         <Location />
         <Content />
@@ -220,13 +202,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 4,
-  },
-  inputBox: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderColor: 'grey',
   },
   photosContainer: {
     flexDirection: 'row',
@@ -268,9 +243,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  input: {
-    flex: 1,
-    paddingLeft: 10,
   },
 });
