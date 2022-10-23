@@ -193,12 +193,6 @@ export default function GalleryForm({ navigation }) {
             onChangeText={(value) => updateGallery('content', value)}
           />
         </View>
-
-        <View>
-          <TouchableOpacity onPress={() => console.log(gallery)}>
-            <Text>Gallery 값 출력</Text>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
