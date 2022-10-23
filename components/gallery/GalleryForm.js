@@ -12,6 +12,9 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 
+import Tags from './Tags';
+import Title from './Title';
+
 import {
   AntDesign,
   Entypo,
@@ -23,7 +26,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as MediaLibrary from 'expo-media-library';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import Tags from './Tags';
 
 const screenWidthSize = Dimensions.get('window').width;
 
@@ -117,16 +119,7 @@ export default function GalleryForm({ navigation }) {
       </View>
 
       <ScrollView>
-        <View style={styles.inputBox}>
-          <TextInput
-            placeholder="제목"
-            value={gallery.title}
-            onChangeText={(value) => {
-              updateGallery('title', value);
-            }}
-            multiline
-          />
-        </View>
+        <Title />
 
         <View style={styles.photosContainer}>
           {gallery.photos.map((photo, index) => (
