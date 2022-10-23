@@ -1,26 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  title: '',
+  date: new Date().toJSON().substring(0, 10),
+  photos: [],
+  content: '',
+  location: '',
+  tags: [],
+};
+
 export const GallerySlice = createSlice({
   name: 'gallery',
-  initialState: {
-    title: '',
-    date: new Date().toJSON().substring(0, 10),
-    photos: [],
-    content: '',
-    location: '',
-    tags: [],
-  },
+  initialState,
   reducers: {
     init: (state) => {
-      state.title = '';
-      state.date = new Date().toJSON().substring(0, 10);
-      state.photos = [];
-      state.content = '';
-      state.location = '';
-      state.tags = [];
+      state = initialState;
+    },
+    addTag: (state, action) => {
+      let newTags = state.tags.concat(action.payload);
+      state.tags = newTags;
+    },
+    deleteTag: (state, action) => {
+      let newTags = state.tags.filter((tag, idx) => idx !== action.payload);
+      state.tags = newTags;
     },
   },
 });
 
-export const { init } = GallerySlice.actions;
+export const { init, addTag, deleteTag } = GallerySlice.actions;
 export default GallerySlice.reducer;

@@ -22,19 +22,13 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as MediaLibrary from 'expo-media-library';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import Tags from './Tags';
 
 const screenWidthSize = Dimensions.get('window').width;
 
 export default function GalleryForm({ navigation }) {
-  const [gallery, setGallery] = useState({
-    title: '',
-    date: new Date().toJSON().substring(0, 10),
-    photos: [],
-    content: '',
-    location: '',
-    tags: [],
-  });
-  const [inputTag, setInputTag] = useState('');
+  const gallery = useSelector((state) => state.gallery);
   const { tags } = gallery;
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -52,11 +46,6 @@ export default function GalleryForm({ navigation }) {
     });
   };
 
-  const updateListGallery = (key, value) => {
-    setInputTag('');
-    updateGallery(key, value);
-  };
-
   const openDatePicker = () => {
     setShowDatePicker(true);
   };
@@ -68,11 +57,6 @@ export default function GalleryForm({ navigation }) {
   const updateDate = (key, value) => {
     closeDatePicker();
     updateGallery(key, value.toJSON().substring(0, 10));
-  };
-
-  const deleteTag = (idx) => {
-    const newTags = tags.filter((tag, index) => index !== idx);
-    updateGallery('tags', newTags);
   };
 
   const showMediaLibrary = async () => {
@@ -202,22 +186,7 @@ export default function GalleryForm({ navigation }) {
           )}
         </View>
 
-        <View style={styles.tagBox}>
-          {gallery.tags.map((tag, idx) => (
-            <TouchableOpacity style={styles.tags} key={idx} onPress={() => deleteTag(idx)}>
-              <Text>#{tag}</Text>
-            </TouchableOpacity>
-          ))}
-
-          <TextInput
-            placeholder="태그 입력"
-            onChangeText={(tag) => setInputTag(tag)}
-            value={inputTag}
-            onSubmitEditing={() => updateListGallery('tags', [...gallery.tags, inputTag])}
-            blurOnSubmit={false}
-            style={styles.inputTag}
-          />
-        </View>
+        <Tags />
 
         <View style={styles.inputBox}>
           <MaterialIcons name="place" size={24} color="black" />
@@ -328,27 +297,5 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     paddingLeft: 10,
-  },
-  tagBox: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderColor: 'grey',
-    flexWrap: 'wrap',
-  },
-  tags: {
-    backgroundColor: '#c9d1d9',
-    flexDirection: 'row',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 5,
-  },
-  inputTag: {
-    margin: 5,
-    borderBottomWidth: 0,
   },
 });
