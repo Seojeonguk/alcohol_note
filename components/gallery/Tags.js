@@ -31,18 +31,18 @@ export default function Tags() {
   return (
     <View style={styles.tagBox}>
       {tags.map((tag, idx) => (
-        <TouchableOpacity style={styles.tags} key={idx} onPress={() => handleDeleteTag(idx)}>
+        <TouchableOpacity key={idx} onPress={() => handleDeleteTag(idx)} style={styles.tags}>
           <Text>#{tag}</Text>
         </TouchableOpacity>
       ))}
 
       <TextInput
-        placeholder="태그 입력"
-        onChangeText={(tag) => handleChangedTag(tag)}
-        value={newTag}
-        onSubmitEditing={handleSubmit}
         blurOnSubmit={false}
+        onChangeText={(tag) => handleChangedTag(tag)}
+        onSubmitEditing={handleSubmit}
+        placeholder="태그 입력"
         style={styles.inputTag}
+        value={newTag}
       />
     </View>
   );
@@ -50,25 +50,24 @@ export default function Tags() {
 
 const styles = StyleSheet.create({
   tagBox: {
-    flexDirection: 'row',
     borderBottomWidth: 1,
+    borderColor: 'grey',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     marginHorizontal: 20,
     marginVertical: 5,
-    borderColor: 'grey',
-    flexWrap: 'wrap',
   },
   tags: {
-    backgroundColor: '#c9d1d9',
-    flexDirection: 'row',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
     alignItems: 'center',
+    backgroundColor: '#c9d1d9',
+    borderRadius: 5,
+    flexDirection: 'row',
     justifyContent: 'center',
     margin: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   inputTag: {
     margin: 5,
-    borderBottomWidth: 0,
   },
 });
