@@ -26,6 +26,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as MediaLibrary from 'expo-media-library';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+import Location from './Location';
 
 const screenWidthSize = Dimensions.get('window').width;
 
@@ -180,17 +181,7 @@ export default function GalleryForm({ navigation }) {
         </View>
 
         <Tags />
-
-        <View style={styles.inputBox}>
-          <MaterialIcons name="place" size={24} color="black" />
-          <TextInput
-            placeholder="장소"
-            value={gallery.location}
-            onChangeText={(value) => updateGallery('location', value)}
-            multiline
-            style={styles.input}
-          />
-        </View>
+        <Location />
 
         <View style={styles.inputBox}>
           <MaterialCommunityIcons name="text-box-outline" size={24} color="black" />
@@ -201,6 +192,12 @@ export default function GalleryForm({ navigation }) {
             value={gallery.content}
             onChangeText={(value) => updateGallery('content', value)}
           />
+        </View>
+
+        <View>
+          <TouchableOpacity onPress={() => console.log(gallery)}>
+            <Text>Gallery 값 출력</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
