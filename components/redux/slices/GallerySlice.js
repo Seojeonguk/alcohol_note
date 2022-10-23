@@ -30,8 +30,12 @@ export const GallerySlice = createSlice({
     updateLocation: (state, action) => {
       state.location = action.payload;
     },
+    updateContent: (state, action) => {
+      state.content = action.payload;
+    },
   },
 });
 
-export const { addTag, deleteTag, init, updateLocation, updateTitle } = GallerySlice.actions;
+export const { addTag, deleteTag, init, updateContent, updateLocation, updateTitle } =
+  GallerySlice.actions;
 export default GallerySlice.reducer;
