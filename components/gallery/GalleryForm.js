@@ -19,7 +19,7 @@ export default function GalleryForm({ navigation }) {
   const gallery = useSelector((state) => state.gallery);
 
   useEffect(() => {
-    if (gallery.title !== '' || gallery.content !== '' || gallery.location !== '') {
+    if (existInput()) {
       Alert.alert('Previous data exits.', 'Do you want to continue using it?', [
         {
           text: 'Cancel',
@@ -35,6 +35,25 @@ export default function GalleryForm({ navigation }) {
 
   const initForm = () => {
     dispatch(init());
+  };
+
+  const existInput = () => {
+    if (gallery.title !== '') {
+      return true;
+    }
+    if (gallery.content !== '') {
+      return true;
+    }
+    if (gallery.location !== '') {
+      return true;
+    }
+    if (gallery.photos.length !== 0) {
+      return true;
+    }
+    if (gallery.tags.length !== 0) {
+      return true;
+    }
+    return false;
   };
 
   const save = () => {};
