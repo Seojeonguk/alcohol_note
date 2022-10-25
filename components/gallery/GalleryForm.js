@@ -1,5 +1,9 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import Content from './Content';
+import Day from './Day';
+import Location from './Location';
+import Photo from './Photo';
 import Tags from './Tags';
 import Title from './Title';
 
@@ -7,10 +11,6 @@ import { Entypo, Ionicons } from '@expo/vector-icons';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import Location from './Location';
-import Content from './Content';
-import Day from './Day';
-import Photo from './Photo';
 
 export default function GalleryForm({ navigation }) {
   const gallery = useSelector((state) => state.gallery);
