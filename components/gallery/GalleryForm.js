@@ -1,7 +1,8 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import Content from './Content';
 import Day from './Day';
+import { init } from '../redux/slices/GallerySlice';
 import Location from './Location';
 import Photo from './Photo';
 import Tags from './Tags';
@@ -10,10 +11,31 @@ import Title from './Title';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 export default function GalleryForm({ navigation }) {
+  const dispatch = useDispatch();
   const gallery = useSelector((state) => state.gallery);
+
+  useEffect(() => {
+    if (gallery.title !== '' || gallery.content !== '' || gallery.location !== '') {
+      Alert.alert('Previous data exits.', 'Do you want to continue using it?', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => initForm(),
+        },
+      ]);
+    }
+  }, []);
+
+  const initForm = () => {
+    dispatch(init());
+  };
 
   const save = () => {};
 
