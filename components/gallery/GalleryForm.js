@@ -1,121 +1,59 @@
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import {
-  AntDesign,
-  Entypo,
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import * as MediaLibrary from 'expo-media-library';
+import Content from './Content';
+import Day from './Day';
+import { init } from '../redux/slices/GallerySlice';
+import Location from './Location';
+import Photo from './Photo';
+import Tags from './Tags';
+import Title from './Title';
+
+import { Entypo, Ionicons } from '@expo/vector-icons';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-const screenWidthSize = Dimensions.get('window').width;
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 export default function GalleryForm({ navigation }) {
-  const [gallery, setGallery] = useState({
-    title: '',
-    date: new Date().toJSON().substring(0, 10),
-    photos: [],
-    content: '',
-    location: '',
-    tags: [],
-  });
-  const [inputTag, setInputTag] = useState('');
-  const { tags } = gallery;
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [assetsOptions, setAssetsOptions] = useState({
-    after: '0',
-    hasNextPage: true,
-  });
-  const [mediaList, setMediaList] = useState([]);
-  const [selectedMedia, setSelectedMedia] = useState([]);
+  const dispatch = useDispatch();
+  const gallery = useSelector((state) => state.gallery);
 
-  const updateGallery = (key, value) => {
-    setGallery({
-      ...gallery,
-      [key]: value,
-    });
+  useEffect(() => {
+    if (existInput()) {
+      Alert.alert('Previous data exits.', 'Do you want to continue using it?', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => initForm(),
+        },
+      ]);
+    }
+  }, []);
+
+  const initForm = () => {
+    dispatch(init());
   };
 
-  const updateListGallery = (key, value) => {
-    setInputTag('');
-    updateGallery(key, value);
-  };
-
-  const openDatePicker = () => {
-    setShowDatePicker(true);
-  };
-
-  const closeDatePicker = () => {
-    setShowDatePicker(false);
-  };
-
-  const updateDate = (key, value) => {
-    closeDatePicker();
-    updateGallery(key, value.toJSON().substring(0, 10));
-  };
-
-  const deleteTag = (idx) => {
-    const newTags = tags.filter((tag, index) => index !== idx);
-    updateGallery('tags', newTags);
-  };
-
-  const showMediaLibrary = async () => {
-    let { status } = await MediaLibrary.requestPermissionsAsync();
-    if (status !== 'granted') return;
-    if (!assetsOptions.hasNextPage) return;
-    let media = await MediaLibrary.getAssetsAsync({
-      mediaType: ['photo'],
-      after: assetsOptions.after,
-    });
-
-    updateAssetsOptions(String(parseInt(assetsOptions.after) + 20), media.hasNextPage);
-
-    setMediaList(mediaList.concat(media.assets.flatMap((value) => [value.uri])));
-  };
-
-  const updateAssetsOptions = (after, hasNextPage) => {
-    setAssetsOptions({
-      after: after,
-      hasNextPage: hasNextPage,
-    });
-  };
-
-  const addImageBtn = async () => {
-    await showMediaLibrary();
-    openModal();
-  };
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const selectMedia = (item) => {
-    setSelectedMedia(selectedMedia.concat(item));
-  };
-
-  const applySelectedMedia = () => {
-    updateGallery('photos', selectedMedia);
-    closeModal();
+  const existInput = () => {
+    if (gallery.title !== '') {
+      return true;
+    }
+    if (gallery.content !== '') {
+      return true;
+    }
+    if (gallery.location !== '') {
+      return true;
+    }
+    if (gallery.photos.length !== 0) {
+      return true;
+    }
+    if (gallery.tags.length !== 0) {
+      return true;
+    }
+    return false;
   };
 
   const save = () => {};
@@ -133,113 +71,12 @@ export default function GalleryForm({ navigation }) {
       </View>
 
       <ScrollView>
-        <View style={styles.inputBox}>
-          <TextInput
-            placeholder="제목"
-            value={gallery.title}
-            onChangeText={(value) => {
-              updateGallery('title', value);
-            }}
-            multiline
-          />
-        </View>
-
-        <View style={styles.photosContainer}>
-          {gallery.photos.map((photo, index) => (
-            <View style={styles.photosWrapper} key={index}>
-              <Image source={{ uri: photo }} style={styles.photo} />
-            </View>
-          ))}
-          <View style={styles.photosWrapper}>
-            <TouchableOpacity onPress={addImageBtn} style={styles.addBtn}>
-              <AntDesign name="pluscircleo" size={24} color="grey" />
-            </TouchableOpacity>
-          </View>
-
-          <Modal visible={showModal} onRequestClose={closeModal}>
-            <FlatList
-              ListEmptyComponent={<Text>Empty</Text>}
-              data={mediaList}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.modalPhotosWrapper}
-                  onPress={() => selectMedia(item)}
-                >
-                  <Image source={{ uri: item }} style={styles.modalPhoto} />
-                </TouchableOpacity>
-              )}
-              onEndReached={showMediaLibrary}
-              numColumns={4}
-            />
-            <View style={styles.modalBottomMenu}>
-              <TouchableOpacity style={styles.modalBottomMenuBtn} onPress={closeModal}>
-                <Text>Close</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.modalBottomMenuBtn} onPress={applySelectedMedia}>
-                <Text>Apply</Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
-        </View>
-
-        <View style={styles.inputBox}>
-          <AntDesign name="calendar" size={24} color="black" />
-
-          <TextInput
-            placeholder="날짜"
-            style={styles.input}
-            value={gallery.date}
-            onChangeText={(value) => updateGallery('date', value)}
-            onPressIn={openDatePicker}
-          />
-
-          {showDatePicker && (
-            <DateTimePicker
-              value={new Date(gallery.date)}
-              mode="date"
-              onChange={(e, value) => updateDate('date', value)}
-            />
-          )}
-        </View>
-
-        <View style={styles.tagBox}>
-          {gallery.tags.map((tag, idx) => (
-            <TouchableOpacity style={styles.tags} key={idx} onPress={() => deleteTag(idx)}>
-              <Text>#{tag}</Text>
-            </TouchableOpacity>
-          ))}
-
-          <TextInput
-            placeholder="태그 입력"
-            onChangeText={(tag) => setInputTag(tag)}
-            value={inputTag}
-            onSubmitEditing={() => updateListGallery('tags', [...gallery.tags, inputTag])}
-            blurOnSubmit={false}
-            style={styles.inputTag}
-          />
-        </View>
-
-        <View style={styles.inputBox}>
-          <MaterialIcons name="place" size={24} color="black" />
-          <TextInput
-            placeholder="장소"
-            value={gallery.location}
-            onChangeText={(value) => updateGallery('location', value)}
-            multiline
-            style={styles.input}
-          />
-        </View>
-
-        <View style={styles.inputBox}>
-          <MaterialCommunityIcons name="text-box-outline" size={24} color="black" />
-          <TextInput
-            placeholder="내용"
-            multiline
-            style={styles.input}
-            value={gallery.content}
-            onChangeText={(value) => updateGallery('content', value)}
-          />
-        </View>
+        <Title />
+        <Photo />
+        <Day />
+        <Tags />
+        <Location />
+        <Content />
       </ScrollView>
     </SafeAreaView>
   );
@@ -276,79 +113,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 4,
-  },
-  inputBox: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderColor: 'grey',
-  },
-  photosContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  photosWrapper: {
-    height: screenWidthSize / 4,
-    width: screenWidthSize / 4,
-    padding: 5,
-  },
-  photo: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
-  },
-  addBtn: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'grey',
-  },
-  modalPhotosWrapper: {
-    zIndex: 9,
-    height: screenWidthSize / 4,
-    width: screenWidthSize / 4,
-    padding: 5,
-  },
-  modalPhoto: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
-  },
-  modalBottomMenu: {
-    flexDirection: 'row',
-    height: 50,
-  },
-  modalBottomMenuBtn: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    flex: 1,
-    paddingLeft: 10,
-  },
-  tagBox: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderColor: 'grey',
-    flexWrap: 'wrap',
-  },
-  tags: {
-    backgroundColor: '#c9d1d9',
-    flexDirection: 'row',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 5,
-  },
-  inputTag: {
-    margin: 5,
-    borderBottomWidth: 0,
   },
 });
