@@ -1,27 +1,9 @@
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import Tags from './Tags';
 import Title from './Title';
 
-import {
-  AntDesign,
-  Entypo,
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
@@ -32,28 +14,6 @@ import Photo from './Photo';
 
 export default function GalleryForm({ navigation }) {
   const gallery = useSelector((state) => state.gallery);
-  const { tags } = gallery;
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const updateGallery = (key, value) => {
-    setGallery({
-      ...gallery,
-      [key]: value,
-    });
-  };
-
-  const openDatePicker = () => {
-    setShowDatePicker(true);
-  };
-
-  const closeDatePicker = () => {
-    setShowDatePicker(false);
-  };
-
-  const updateDate = (key, value) => {
-    closeDatePicker();
-    updateGallery(key, value.toJSON().substring(0, 10));
-  };
 
   const save = () => {};
 
