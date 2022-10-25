@@ -36,9 +36,21 @@ export const GallerySlice = createSlice({
     updateDay: (state, action) => {
       state.day = action.payload;
     },
+    addImage: (state, action) => {
+      let newPhotos = state.photos.concat(action.payload);
+      state.photos = newPhotos;
+    },
   },
 });
 
-export const { addTag, deleteTag, init, updateContent, updateDay, updateLocation, updateTitle } =
-  GallerySlice.actions;
+export const {
+  addTag,
+  addImage,
+  deleteTag,
+  init,
+  updateContent,
+  updateDay,
+  updateLocation,
+  updateTitle,
+} = GallerySlice.actions;
 export default GallerySlice.reducer;

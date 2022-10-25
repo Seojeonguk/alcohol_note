@@ -23,26 +23,17 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons';
 
-import * as MediaLibrary from 'expo-media-library';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import Location from './Location';
 import Content from './Content';
 import Day from './Day';
-
-const screenWidthSize = Dimensions.get('window').width;
+import Photo from './Photo';
 
 export default function GalleryForm({ navigation }) {
   const gallery = useSelector((state) => state.gallery);
   const { tags } = gallery;
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [assetsOptions, setAssetsOptions] = useState({
-    after: '0',
-    hasNextPage: true,
-  });
-  const [mediaList, setMediaList] = useState([]);
-  const [selectedMedia, setSelectedMedia] = useState([]);
 
   const updateGallery = (key, value) => {
     setGallery({
@@ -64,49 +55,6 @@ export default function GalleryForm({ navigation }) {
     updateGallery(key, value.toJSON().substring(0, 10));
   };
 
-  const showMediaLibrary = async () => {
-    let { status } = await MediaLibrary.requestPermissionsAsync();
-    if (status !== 'granted') return;
-    if (!assetsOptions.hasNextPage) return;
-    let media = await MediaLibrary.getAssetsAsync({
-      mediaType: ['photo'],
-      after: assetsOptions.after,
-    });
-
-    updateAssetsOptions(String(parseInt(assetsOptions.after) + 20), media.hasNextPage);
-
-    setMediaList(mediaList.concat(media.assets.flatMap((value) => [value.uri])));
-  };
-
-  const updateAssetsOptions = (after, hasNextPage) => {
-    setAssetsOptions({
-      after: after,
-      hasNextPage: hasNextPage,
-    });
-  };
-
-  const addImageBtn = async () => {
-    await showMediaLibrary();
-    openModal();
-  };
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const selectMedia = (item) => {
-    setSelectedMedia(selectedMedia.concat(item));
-  };
-
-  const applySelectedMedia = () => {
-    updateGallery('photos', selectedMedia);
-    closeModal();
-  };
-
   const save = () => {};
 
   return (
@@ -123,45 +71,7 @@ export default function GalleryForm({ navigation }) {
 
       <ScrollView>
         <Title />
-
-        <View style={styles.photosContainer}>
-          {gallery.photos.map((photo, index) => (
-            <View style={styles.photosWrapper} key={index}>
-              <Image source={{ uri: photo }} style={styles.photo} />
-            </View>
-          ))}
-          <View style={styles.photosWrapper}>
-            <TouchableOpacity onPress={addImageBtn} style={styles.addBtn}>
-              <AntDesign name="pluscircleo" size={24} color="grey" />
-            </TouchableOpacity>
-          </View>
-
-          <Modal visible={showModal} onRequestClose={closeModal}>
-            <FlatList
-              ListEmptyComponent={<Text>Empty</Text>}
-              data={mediaList}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.modalPhotosWrapper}
-                  onPress={() => selectMedia(item)}
-                >
-                  <Image source={{ uri: item }} style={styles.modalPhoto} />
-                </TouchableOpacity>
-              )}
-              onEndReached={showMediaLibrary}
-              numColumns={4}
-            />
-            <View style={styles.modalBottomMenu}>
-              <TouchableOpacity style={styles.modalBottomMenuBtn} onPress={closeModal}>
-                <Text>Close</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.modalBottomMenuBtn} onPress={applySelectedMedia}>
-                <Text>Apply</Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
-        </View>
-
+        <Photo />
         <Day />
         <Tags />
         <Location />
@@ -202,46 +112,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 4,
-  },
-  photosContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  photosWrapper: {
-    height: screenWidthSize / 4,
-    width: screenWidthSize / 4,
-    padding: 5,
-  },
-  photo: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
-  },
-  addBtn: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'grey',
-  },
-  modalPhotosWrapper: {
-    zIndex: 9,
-    height: screenWidthSize / 4,
-    width: screenWidthSize / 4,
-    padding: 5,
-  },
-  modalPhoto: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
-  },
-  modalBottomMenu: {
-    flexDirection: 'row',
-    height: 50,
-  },
-  modalBottomMenuBtn: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
