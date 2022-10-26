@@ -10,7 +10,7 @@ export default function Content() {
   const dispatch = useDispatch();
 
   const handleChangeContent = (newContent) => {
-    dispatch(updateContent(content));
+    dispatch(updateContent(newContent));
   };
 
   return (
