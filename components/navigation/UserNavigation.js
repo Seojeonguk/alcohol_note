@@ -1,4 +1,4 @@
-import User from '../user/User';
+import User from '../screen/User';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 

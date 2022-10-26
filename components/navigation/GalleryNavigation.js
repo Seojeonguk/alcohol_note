@@ -1,5 +1,5 @@
-import Gallery from '../gallery/Gallery';
-import GalleryForm from '../gallery/GalleryForm';
+import Gallery from '../screen/Gallery';
+import GalleryForm from '../screen/GalleryForm';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
