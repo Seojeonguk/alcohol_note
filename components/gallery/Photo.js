@@ -19,16 +19,42 @@ import { useDispatch, useSelector } from 'react-redux';
 const screenWidthSize = Dimensions.get('window').width;
 
 export default function Photo() {
-  const photos = useSelector((state) => state.gallery.photos);
-  const [savedPhotos, setSavedPhotos] = useState([]);
-  const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [assetsOptions, setAssetsOptions] = useState({
     after: '0',
     hasNextPage: true,
   });
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
   const dispatch = useDispatch();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const photos = useSelector((state) => state.gallery.photos);
+  const [savedPhotos, setSavedPhotos] = useState([]);
+  const [selectedPhotos, setSelectedPhotos] = useState([]);
+
+  const addImageBtn = async () => {
+    await showMediaLibrary();
+    openModal();
+  };
+
+  const applySelectedMedia = () => {
+    dispatch(addImage(selectedPhotos));
+    initSelectedPhoto();
+    closeModal();
+  };
+
+  const closeModal = () => {
+    setIsOpenModal(false);
+  };
+
+  const handleSelectPhoto = (photo) => {
+    setSelectedPhotos(selectedPhotos.concat(photo));
+  };
+
+  const initSelectedPhoto = () => {
+    setSelectedPhotos([]);
+  };
+
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
 
   const showMediaLibrary = async () => {
     let { status } = await MediaLibrary.requestPermissionsAsync();
@@ -50,66 +76,39 @@ export default function Photo() {
     });
   };
 
-  const addImageBtn = async () => {
-    await showMediaLibrary();
-    openModal();
-  };
-
-  const openModal = () => {
-    setIsOpenModal(true);
-  };
-
-  const closeModal = () => {
-    setIsOpenModal(false);
-  };
-
-  const handleSelectPhoto = (photo) => {
-    setSelectedPhotos(selectedPhotos.concat(photo));
-  };
-
-  const initSelectedPhoto = () => {
-    setSelectedPhotos([]);
-  };
-
-  const applySelectedMedia = () => {
-    dispatch(addImage(selectedPhotos));
-    initSelectedPhoto();
-    closeModal();
-  };
-
   return (
     <View style={styles.photosContainer}>
       {photos.map((photo, index) => (
-        <View style={styles.photosWrapper} key={index}>
+        <View key={index} style={styles.photosWrapper}>
           <Image source={{ uri: photo }} style={styles.photo} />
         </View>
       ))}
       <View style={styles.photosWrapper}>
         <TouchableOpacity onPress={addImageBtn} style={styles.addBtn}>
-          <AntDesign name="pluscircleo" size={24} color="grey" />
+          <AntDesign color="grey" name="pluscircleo" size={24} />
         </TouchableOpacity>
       </View>
 
-      <Modal visible={isOpenModal} onRequestClose={closeModal}>
+      <Modal onRequestClose={closeModal} visible={isOpenModal}>
         <FlatList
-          ListEmptyComponent={<Text>Empty</Text>}
           data={savedPhotos}
+          ListEmptyComponent={<Text>Empty</Text>}
+          numColumns={4}
+          onEndReached={showMediaLibrary}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={styles.modalPhotosWrapper}
               onPress={() => handleSelectPhoto(item)}
+              style={styles.modalPhotosWrapper}
             >
               <Image source={{ uri: item }} style={styles.modalPhoto} />
             </TouchableOpacity>
           )}
-          onEndReached={showMediaLibrary}
-          numColumns={4}
         />
         <View style={styles.modalBottomMenu}>
-          <TouchableOpacity style={styles.modalBottomMenuBtn} onPress={closeModal}>
+          <TouchableOpacity onPress={closeModal} style={styles.modalBottomMenuBtn}>
             <Text>Close</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.modalBottomMenuBtn} onPress={applySelectedMedia}>
+          <TouchableOpacity onPress={applySelectedMedia} style={styles.modalBottomMenuBtn}>
             <Text>Apply</Text>
           </TouchableOpacity>
         </View>
@@ -119,36 +118,13 @@ export default function Photo() {
 }
 
 const styles = StyleSheet.create({
-  photosContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  photosWrapper: {
-    height: screenWidthSize / 4,
-    width: screenWidthSize / 4,
-    padding: 5,
-  },
-  photo: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
-  },
   addBtn: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
-    justifyContent: 'center',
     alignItems: 'center',
+    borderColor: 'grey',
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: 'grey',
-  },
-  modalPhotosWrapper: {
-    zIndex: 9,
-    height: screenWidthSize / 4,
-    width: screenWidthSize / 4,
-    padding: 5,
-  },
-  modalPhoto: {
     height: screenWidthSize / 4 - 10,
+    justifyContent: 'center',
     width: screenWidthSize / 4 - 10,
   },
   modalBottomMenu: {
@@ -156,8 +132,31 @@ const styles = StyleSheet.create({
     height: 50,
   },
   modalBottomMenuBtn: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
+  },
+  modalPhoto: {
+    height: screenWidthSize / 4 - 10,
+    width: screenWidthSize / 4 - 10,
+  },
+  modalPhotosWrapper: {
+    height: screenWidthSize / 4,
+    padding: 5,
+    width: screenWidthSize / 4,
+    zIndex: 9,
+  },
+  photo: {
+    height: screenWidthSize / 4 - 10,
+    width: screenWidthSize / 4 - 10,
+  },
+  photosContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  photosWrapper: {
+    height: screenWidthSize / 4,
+    padding: 5,
+    width: screenWidthSize / 4,
   },
 });
