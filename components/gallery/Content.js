@@ -7,20 +7,20 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
 export default function Content() {
-  const dispatch = useDispatch();
   const [content, setContent] = useState('');
-
-  const handleChangeContent = (newContent) => {
-    setContent(newContent);
-  };
+  const dispatch = useDispatch();
 
   const applyupdatedContent = () => {
     dispatch(updateContent(content));
   };
 
+  const handleChangeContent = (newContent) => {
+    setContent(newContent);
+  };
+
   return (
     <View style={styles.inputBox}>
-      <MaterialCommunityIcons name="text-box-outline" size={24} color="black" />
+      <MaterialCommunityIcons color="black" name="text-box-outline" size={24} />
       <TextInput
         multiline
         onChangeText={(newContent) => handleChangeContent(newContent)}
@@ -35,11 +35,11 @@ export default function Content() {
 
 const styles = StyleSheet.create({
   inputBox: {
-    flexDirection: 'row',
     borderBottomWidth: 1,
+    borderColor: 'grey',
+    flexDirection: 'row',
     marginHorizontal: 20,
     marginVertical: 5,
-    borderColor: 'grey',
   },
   input: {
     flex: 1,
