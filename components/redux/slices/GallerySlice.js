@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   title: '',
-  day: '',
+  day: new Date().toJSON().substring(0, 10),
   photos: [],
   content: '',
   location: '',

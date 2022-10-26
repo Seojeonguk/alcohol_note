@@ -3,18 +3,14 @@ import { StyleSheet, TextInput, View } from 'react-native';
 
 import { updateTitle } from '../redux/slices/GallerySlice';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Title() {
   const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
-
-  const applyupdatedTitle = () => {
-    dispatch(updateTitle(title));
-  };
+  const title = useSelector((state) => state.gallery.title);
 
   const handleChangeTitle = (newTitle) => {
-    setTitle(newTitle);
+    dispatch(updateTitle(newTitle));
   };
 
   return (
@@ -22,7 +18,6 @@ export default function Title() {
       <TextInput
         multiline
         onChangeText={(newTitle) => handleChangeTitle(newTitle)}
-        onEndEditing={applyupdatedTitle}
         placeholder="제목"
         style={styles.input}
         value={title}

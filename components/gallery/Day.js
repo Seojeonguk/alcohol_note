@@ -5,17 +5,17 @@ import { updateDay } from '../redux/slices/GallerySlice';
 
 import { AntDesign } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Day() {
-  const [date, setDate] = useState(new Date().toJSON().substring(0, 10));
+  const date = useSelector((state) => state.gallery.day);
   const dispatch = useDispatch();
   const [isShowDatePicker, setIsShowDatePicker] = useState(false);
 
-  const applyupdatedDate = (newDate) => {
+  const handleChangeDate = (newDate) => {
     hideDatePicker();
-    setDate(newDate.toJSON().substring(0, 10));
-    dispatch(updateDay(date));
+    let truncatedDate = newDate.toJSON().substring(0, 10);
+    dispatch(updateDay(truncatedDate));
   };
 
   const hideDatePicker = () => {
@@ -34,7 +34,7 @@ export default function Day() {
       {isShowDatePicker && (
         <DateTimePicker
           mode="date"
-          onChange={(e, newDate) => applyupdatedDate(newDate)}
+          onChange={(e, newDate) => handleChangeDate(newDate)}
           value={new Date(date)}
         />
       )}
