@@ -6,17 +6,16 @@ import { addTag, deleteTag } from '../redux/slices/GallerySlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Tags() {
-  const tags = useSelector((state) => state.gallery.tags);
   const dispatch = useDispatch();
-
   const [newTag, setNewTag] = useState('');
+  const tags = useSelector((state) => state.gallery.tags);
 
   const handleChangedTag = (tag) => {
     setNewTag(tag);
   };
 
-  const initNewTag = () => {
-    setNewTag('');
+  const handleDeleteTag = (idx) => {
+    dispatch(deleteTag(idx));
   };
 
   const handleSubmit = () => {
@@ -24,8 +23,8 @@ export default function Tags() {
     initNewTag();
   };
 
-  const handleDeleteTag = (idx) => {
-    dispatch(deleteTag(idx));
+  const initNewTag = () => {
+    setNewTag('');
   };
 
   return (
