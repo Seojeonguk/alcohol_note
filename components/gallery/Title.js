@@ -9,12 +9,12 @@ export default function Title() {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
 
-  const handleChangeTitle = (newTitle) => {
-    setTitle(newTitle);
-  };
-
   const applyupdatedTitle = () => {
     dispatch(updateTitle(title));
+  };
+
+  const handleChangeTitle = (newTitle) => {
+    setTitle(newTitle);
   };
 
   return (
@@ -32,14 +32,14 @@ export default function Title() {
 }
 
 const styles = StyleSheet.create({
+  input: {
+    flex: 1,
+  },
   inputBox: {
     borderBottomWidth: 1,
     borderColor: 'grey',
     flexDirection: 'row',
     marginHorizontal: 20,
     marginVertical: 5,
-  },
-  input: {
-    flex: 1,
   },
 });

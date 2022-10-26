@@ -10,17 +10,17 @@ export default function Location() {
   const dispatch = useDispatch();
   const [location, setLocation] = useState('');
 
-  const handleChangeLocation = (newLocation) => {
-    setLocation(newLocation);
-  };
-
   const applyupdatedLocation = () => {
     dispatch(updateLocation(location));
   };
 
+  const handleChangeLocation = (newLocation) => {
+    setLocation(newLocation);
+  };
+
   return (
     <View style={styles.inputBox}>
-      <MaterialIcons name="place" size={24} color="black" />
+      <MaterialIcons color="black" name="place" size={24} />
       <TextInput
         multiline
         onChangeText={(newLocation) => handleChangeLocation(newLocation)}
@@ -34,15 +34,15 @@ export default function Location() {
 }
 
 const styles = StyleSheet.create({
-  inputBox: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderColor: 'grey',
-  },
   input: {
     flex: 1,
     paddingLeft: 10,
+  },
+  inputBox: {
+    borderBottomWidth: 1,
+    borderColor: 'grey',
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    marginVertical: 5,
   },
 });
