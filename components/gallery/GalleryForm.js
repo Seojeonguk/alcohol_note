@@ -33,10 +33,6 @@ export default function GalleryForm({ navigation }) {
     }
   }, []);
 
-  const initForm = () => {
-    dispatch(init());
-  };
-
   const existInput = () => {
     if (gallery.title !== '') {
       return true;
@@ -56,17 +52,23 @@ export default function GalleryForm({ navigation }) {
     return false;
   };
 
-  const save = () => {};
+  const initForm = () => {
+    dispatch(init());
+  };
+
+  const save = () => {
+    //To do more..
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.galleryHeader}>
         <Text style={styles.galleryTitle}>새 게시물</Text>
-        <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="black" />
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <Ionicons color="black" name="arrow-back" size={24} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.saveBtn} onPress={() => save()}>
-          <Entypo name="check" size={24} color="black" />
+        <TouchableOpacity onPress={() => save()} style={styles.saveBtn}>
+          <Entypo color="black" name="check" size={24} />
         </TouchableOpacity>
       </View>
 
@@ -83,35 +85,35 @@ export default function GalleryForm({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  backBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    left: 0,
+    padding: 4,
+    position: 'absolute',
+  },
   container: {
     flex: 1,
   },
   galleryHeader: {
-    justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderStyle: 'solid',
     borderColor: 'grey',
-    paddingVertical: 5,
+    borderStyle: 'solid',
+    justifyContent: 'center',
     marginBottom: 5,
+    paddingVertical: 5,
   },
   galleryTitle: {
-    textAlign: 'center',
     fontSize: 28,
     fontWeight: 'bold',
-  },
-  backBtn: {
-    position: 'absolute',
-    left: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 4,
+    textAlign: 'center',
   },
   saveBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 4,
     position: 'absolute',
     right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 4,
   },
 });
