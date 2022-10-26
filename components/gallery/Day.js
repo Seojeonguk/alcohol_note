@@ -8,17 +8,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useDispatch } from 'react-redux';
 
 export default function Day() {
-  const dispatch = useDispatch();
   const [date, setDate] = useState(new Date().toJSON().substring(0, 10));
+  const dispatch = useDispatch();
   const [isShowDatePicker, setIsShowDatePicker] = useState(false);
-
-  const showDatePicker = () => {
-    setIsShowDatePicker(true);
-  };
-
-  const hideDatePicker = () => {
-    setIsShowDatePicker(false);
-  };
 
   const applyupdatedDate = (newDate) => {
     hideDatePicker();
@@ -26,9 +18,17 @@ export default function Day() {
     dispatch(updateDay(date));
   };
 
+  const hideDatePicker = () => {
+    setIsShowDatePicker(false);
+  };
+
+  const showDatePicker = () => {
+    setIsShowDatePicker(true);
+  };
+
   return (
     <View style={styles.inputBox}>
-      <AntDesign name="calendar" size={24} color="black" />
+      <AntDesign color="black" name="calendar" size={24} />
       <TextInput onPressIn={showDatePicker} placeholder="날짜" style={styles.input} value={date} />
 
       {isShowDatePicker && (
