@@ -43,15 +43,15 @@ export default function Day() {
 }
 
 const styles = StyleSheet.create({
+  input: {
+    flex: 1,
+    paddingLeft: 10,
+  },
   inputBox: {
     borderBottomWidth: 1,
     borderColor: 'grey',
     flexDirection: 'row',
     marginHorizontal: 20,
     marginVertical: 5,
-  },
-  input: {
-    flex: 1,
-    paddingLeft: 10,
   },
 });
