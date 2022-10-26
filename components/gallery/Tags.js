@@ -48,6 +48,9 @@ export default function Tags() {
 }
 
 const styles = StyleSheet.create({
+  inputTag: {
+    margin: 5,
+  },
   tagBox: {
     borderBottomWidth: 1,
     borderColor: 'grey',
@@ -65,8 +68,5 @@ const styles = StyleSheet.create({
     margin: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
-  },
-  inputTag: {
-    margin: 5,
   },
 });
