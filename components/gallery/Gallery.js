@@ -11,20 +11,21 @@ export default function Gallery({ navigation }) {
   const moveGalleryForm = () => {
     navigation.navigate('galleryForm');
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.galleryHeader}>
         <Text style={styles.galleryTitle}>Gallery</Text>
-        <TouchableOpacity style={styles.uploadBtn} onPress={moveGalleryForm}>
-          <AntDesign name="plus" size={24} color="black" />
+        <TouchableOpacity onPress={moveGalleryForm} style={styles.uploadBtn}>
+          <AntDesign color="black" name="plus" size={24} />
         </TouchableOpacity>
       </View>
 
       <MasonryList
-        numColumns={3}
-        data={data}
-        renderItem={({ item }) => <GalleryCard item={item} />}
         contentContainerStyle={styles.galleryContent}
+        data={data}
+        numColumns={3}
+        renderItem={({ item }) => <GalleryCard item={item} />}
       />
     </SafeAreaView>
   );
@@ -35,28 +36,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   galleryHeader: {
-    justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderStyle: 'solid',
     borderColor: 'grey',
-    paddingVertical: 5,
+    borderStyle: 'solid',
+    justifyContent: 'center',
     marginBottom: 5,
+    paddingVertical: 5,
   },
   galleryTitle: {
-    textAlign: 'center',
     fontSize: 28,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   uploadBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 4,
     position: 'absolute',
     right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 4,
   },
   galleryContent: {
-    paddingHorizontal: 12,
     alignSelf: 'stretch',
+    paddingHorizontal: 12,
   },
 });
