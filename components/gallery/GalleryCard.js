@@ -24,8 +24,8 @@ export default function GalleryCard({ item }) {
 
 const styles = StyleSheet.create({
   itemImage: {
-    resizeMode: 'stretch',
     borderRadius: 5,
     margin: 5,
+    resizeMode: 'stretch',
   },
 });
