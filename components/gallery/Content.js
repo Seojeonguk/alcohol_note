@@ -1,21 +1,16 @@
-import { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 import { updateContent } from '../redux/slices/GallerySlice';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Content() {
-  const [content, setContent] = useState('');
+  const content = useSelector((state) => state.gallery.content);
   const dispatch = useDispatch();
 
-  const applyupdatedContent = () => {
-    dispatch(updateContent(content));
-  };
-
   const handleChangeContent = (newContent) => {
-    setContent(newContent);
+    dispatch(updateContent(content));
   };
 
   return (
@@ -24,7 +19,6 @@ export default function Content() {
       <TextInput
         multiline
         onChangeText={(newContent) => handleChangeContent(newContent)}
-        onEndEditing={applyupdatedContent}
         placeholder="내용"
         style={styles.input}
         value={content}
