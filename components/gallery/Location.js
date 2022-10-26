@@ -1,21 +1,16 @@
-import { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 import { updateLocation } from '../redux/slices/GallerySlice';
 
 import { MaterialIcons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Location() {
   const dispatch = useDispatch();
-  const [location, setLocation] = useState('');
-
-  const applyupdatedLocation = () => {
-    dispatch(updateLocation(location));
-  };
+  const location = useSelector((state) => state.gallery.location);
 
   const handleChangeLocation = (newLocation) => {
-    setLocation(newLocation);
+    dispatch(updateLocation(newLocation));
   };
 
   return (
@@ -24,7 +19,6 @@ export default function Location() {
       <TextInput
         multiline
         onChangeText={(newLocation) => handleChangeLocation(newLocation)}
-        onEndEditing={applyupdatedLocation}
         placeholder="장소"
         style={styles.input}
         value={location}
