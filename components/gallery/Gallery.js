@@ -35,6 +35,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  galleryContent: {
+    alignSelf: 'stretch',
+    paddingHorizontal: 12,
+  },
   galleryHeader: {
     alignItems: 'center',
     borderBottomWidth: 1,
@@ -55,9 +59,5 @@ const styles = StyleSheet.create({
     padding: 4,
     position: 'absolute',
     right: 0,
-  },
-  galleryContent: {
-    alignSelf: 'stretch',
-    paddingHorizontal: 12,
   },
 });
