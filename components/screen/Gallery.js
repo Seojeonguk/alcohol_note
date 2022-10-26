@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { data } from './dummyData';
-import GalleryCard from './GalleryCard';
+import { data } from '../gallery/dummyData';
+import GalleryCard from '../gallery/GalleryCard';
 
 import { AntDesign } from '@expo/vector-icons';
 import MasonryList from '@react-native-seoul/masonry-list';

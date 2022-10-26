@@ -1,12 +1,12 @@
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import Content from './Content';
-import Day from './Day';
+import Content from '../gallery/Content';
+import Day from '../gallery/Day';
 import { init } from '../redux/slices/GallerySlice';
-import Location from './Location';
-import Photo from './Photo';
-import Tags from './Tags';
-import Title from './Title';
+import Location from '../gallery/Location';
+import Photo from '../gallery/Photo';
+import Tags from '../gallery/Tags';
+import Title from '../gallery/Title';
 
 import { Entypo, Ionicons } from '@expo/vector-icons';
 
