@@ -14,12 +14,12 @@ export const GallerySlice = createSlice({
   initialState,
   reducers: {
     init: (state) => {
-      state.title = '';
-      state.day = '';
-      state.photos = [];
-      state.content = '';
-      state.location = '';
-      state.tags = [];
+      state.title = initialState.title;
+      state.day = initialState.day;
+      state.photos = initialState.photos;
+      state.content = initialState.content;
+      state.location = initialState.location;
+      state.tags = initialState.tags;
     },
     addTag: (state, action) => {
       let newTags = state.tags.concat(action.payload);
