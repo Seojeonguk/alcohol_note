@@ -20,7 +20,7 @@ export default function GalleryForm({ navigation }) {
 
   useEffect(() => {
     if (existInput()) {
-      Alert.alert('Previous data exits.', 'Do you want to continue using it?', [
+      Alert.alert('Previous data exits.', 'Would you like to initialize it?', [
         {
           text: 'Cancel',
           style: 'cancel',
