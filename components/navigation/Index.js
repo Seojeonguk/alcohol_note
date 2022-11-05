@@ -1,5 +1,5 @@
 import BottomNavigation from './BottomNavigation';
-import Login from '../screen/Login';
+import NoBottomNavigation from './NoBottomNavigation';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -10,8 +10,8 @@ const Tab = createNativeStackNavigator();
 export default function Index() {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="login" screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="login" component={Login} />
+      <Tab.Navigator initialRouteName="nobottom" screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="nobottom" component={NoBottomNavigation} />
         <Tab.Screen name="bottom" component={BottomNavigation} />
       </Tab.Navigator>
     </NavigationContainer>
