@@ -37,7 +37,7 @@ export default function RegistrationForm({ navigation }) {
       </View>
 
       <View style={styles.bottomBtnWrapper}>
-        <TouchableOpacity onPress={handleCancelBtn} style={styles.bottomCancelBtn}>
+        <TouchableOpacity onPress={handleCancelBtn} style={styles.bottomBtn}>
           <Text style={styles.bottomText}>취소</Text>
         </TouchableOpacity>
       </View>
@@ -46,17 +46,17 @@ export default function RegistrationForm({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  bottomBtnWrapper: {
-    height: 50,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  bottomCancelBtn: {
+  bottomBtn: {
     alignItems: 'center',
     backgroundColor: 'tomato',
     borderRadius: 5,
     flex: 1,
     justifyContent: 'center',
+  },
+  bottomBtnWrapper: {
+    height: 50,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
   bottomText: {
     fontSize: 20,
