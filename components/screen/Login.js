@@ -22,7 +22,6 @@ export default function Login() {
           placeholder="이메일을 입력해 주세요"
           style={styles.input}
           value={email}
-          clearButtonMode="always"
         />
         <TextInput
           onChangeText={(newPassword) => handleChangePassword(newPassword)}
