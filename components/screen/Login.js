@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,6 +13,10 @@ export default function Login() {
 
   const handleChangePassword = (newPassword) => {
     setPassword(newPassword);
+  };
+
+  const moveRegistration = () => {
+    navigation.navigate('registration');
   };
 
   return (
@@ -30,6 +34,12 @@ export default function Login() {
           style={styles.input}
           value={password}
         />
+      </View>
+
+      <View style={styles.otherBox}>
+        <Text style={styles.registrationBtn} onPress={moveRegistration}>
+          회원가입
+        </Text>
       </View>
     </SafeAreaView>
   );
@@ -52,5 +62,13 @@ const styles = StyleSheet.create({
   inputBox: {
     justifyContent: 'center',
     padding: 20,
+  },
+  otherBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  registrationBtn: {
+    fontSize: 20,
+    color: '#eeeeee',
   },
 });
