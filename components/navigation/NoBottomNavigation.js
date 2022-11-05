@@ -1,4 +1,5 @@
 import Login from '../screen/Login';
+import RegistrationForm from '../screen/RegistrationForm';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -8,6 +9,7 @@ export default function NoBottomNavigation() {
   return (
     <Tab.Navigator initialRouteName="login" screenOptions={{ headerShown: false }}>
       <Tab.Screen name="login" component={Login} />
+      <Tab.Screen name="registration" component={RegistrationForm} />
     </Tab.Navigator>
   );
 }
