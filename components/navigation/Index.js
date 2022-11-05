@@ -1,5 +1,5 @@
 import GalleryNavigation from './GalleryNavigation';
-import UserNavigation from './UserNavigation';
+import SettingsNavigation from './SettingsNavigation';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
@@ -26,11 +26,11 @@ export default function Index() {
           }}
         />
         <Tab.Screen
-          name="User"
-          component={UserNavigation}
+          name="Settings"
+          component={SettingsNavigation}
           options={{
-            tabBarLabel: 'User',
-            tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({ color }) => <FontAwesome name="gear" size={24} color={color} />,
             tabBarColor: '#f2cfa5',
           }}
         />
