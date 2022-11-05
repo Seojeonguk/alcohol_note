@@ -30,7 +30,7 @@ export default function Index() {
           component={SettingsNavigation}
           options={{
             tabBarLabel: 'Settings',
-            tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
+            tabBarIcon: ({ color }) => <FontAwesome name="gear" size={24} color={color} />,
             tabBarColor: '#f2cfa5',
           }}
         />
