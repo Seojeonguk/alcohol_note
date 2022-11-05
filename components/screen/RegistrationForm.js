@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function RegistrationForm() {
+export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,6 +13,10 @@ export default function RegistrationForm() {
 
   const handleChangePassword = (newPassword) => {
     setPassword(newPassword);
+  };
+
+  const handleCancelBtn = () => {
+    navigation.goBack();
   };
 
   return (
@@ -31,11 +35,32 @@ export default function RegistrationForm() {
           value={password}
         />
       </View>
+
+      <View style={styles.bottomBtnWrapper}>
+        <TouchableOpacity onPress={handleCancelBtn} style={styles.bottomCancelBtn}>
+          <Text style={styles.bottomText}>취소</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  bottomBtnWrapper: {
+    height: 50,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  bottomCancelBtn: {
+    alignItems: 'center',
+    backgroundColor: 'tomato',
+    borderRadius: 5,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  bottomText: {
+    fontSize: 20,
+  },
   container: {
     flex: 1,
   },
@@ -51,5 +76,6 @@ const styles = StyleSheet.create({
   inputBox: {
     justifyContent: 'center',
     padding: 20,
+    flex: 1,
   },
 });
