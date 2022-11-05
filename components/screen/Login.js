@@ -1,5 +1,5 @@
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Login() {
-  <SafeAreaView></SafeAreaView>;
+  return <SafeAreaView></SafeAreaView>;
 }
