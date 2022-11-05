@@ -26,10 +26,10 @@ export default function Index() {
           }}
         />
         <Tab.Screen
-          name="User"
+          name="Settings"
           component={SettingsNavigation}
           options={{
-            tabBarLabel: 'User',
+            tabBarLabel: 'Settings',
             tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
             tabBarColor: '#f2cfa5',
           }}
