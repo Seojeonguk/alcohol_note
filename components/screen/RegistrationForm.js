@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+import { auth } from '../../firebaseConfig';
+
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RegistrationForm({ navigation }) {
@@ -19,7 +22,18 @@ export default function RegistrationForm({ navigation }) {
     navigation.goBack();
   };
 
-  const RegistUser = () => {};
+  const RegistUser = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // To do list
+        // 1. Showing the success modal
+        // 2. To go to the login screen
+      })
+      .catch((err) => {
+        // To do list
+        // Displays the error screen.
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
