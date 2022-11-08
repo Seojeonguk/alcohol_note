@@ -66,12 +66,12 @@ export default function Login({ navigation }) {
         <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
           <Text style={styles.loginBtnText}>로그인</Text>
         </TouchableOpacity>
-      </View>
 
-      <View style={styles.otherBox}>
-        <Text style={styles.registrationBtn} onPress={moveRegistration}>
-          회원가입
-        </Text>
+        <View style={styles.otherBox}>
+          <Text style={styles.registrationBtn} onPress={moveRegistration}>
+            회원가입
+          </Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
   otherBox: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical: 15,
   },
   registrationBtn: {
     fontSize: 20,
