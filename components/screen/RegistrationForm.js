@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
+import { getKorErrorMsg } from '../util';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -38,12 +39,7 @@ export default function RegistrationForm({ navigation }) {
       })
       .catch((err) => {
         let errorCode = err.code;
-        if (errorCode === 'auth/email-already-in-use') {
-          setErrorMessage('중복된 이메일입니다.');
-        }
-        if (errorCode === 'auth/weak-password') {
-          setErrorMessage('최소 6자 이상이여야합니다.');
-        }
+        setErrorMessage(getKorErrorMsg(errorCode));
       });
   };
 
