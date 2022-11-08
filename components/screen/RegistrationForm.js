@@ -1,22 +1,50 @@
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+import { auth } from '../../firebaseConfig';
+
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChangeEmail = (newEmail) => {
+    setErrorMessage('');
     setEmail(newEmail);
   };
 
   const handleChangePassword = (newPassword) => {
+    setErrorMessage('');
     setPassword(newPassword);
   };
 
   const handleCancelBtn = () => {
     navigation.goBack();
+  };
+
+  const RegistUser = () => {
+    if (email === '' || password === '') {
+      setErrorMessage('이메일 또는 비밀번호를 입력해주세요.');
+      return;
+    }
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // To do list
+        // 1. Showing the success modal
+        // 2. To go to the login screen
+      })
+      .catch((err) => {
+        let errorCode = err.code;
+        if (errorCode === 'auth/email-already-in-use') {
+          setErrorMessage('중복된 이메일입니다.');
+        }
+        if (errorCode === 'auth/weak-password') {
+          setErrorMessage('최소 6자 이상이여야합니다.');
+        }
+      });
   };
 
   return (
@@ -34,11 +62,17 @@ export default function RegistrationForm({ navigation }) {
           style={styles.input}
           value={password}
         />
+
+        <Text style={styles.error}>{errorMessage}</Text>
       </View>
 
       <View style={styles.bottomBtnWrapper}>
         <TouchableOpacity onPress={handleCancelBtn} style={styles.bottomBtn}>
           <Text style={styles.bottomText}>취소</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={RegistUser} style={styles.bottomBtn}>
+          <Text style={styles.bottomText}>가입</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -52,8 +86,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flex: 1,
     justifyContent: 'center',
+    marginHorizontal: 10,
   },
   bottomBtnWrapper: {
+    flexDirection: 'row',
     height: 50,
     marginBottom: 10,
     paddingHorizontal: 10,
@@ -63,6 +99,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  error: {
+    color: 'red',
+    fontSize: 12,
+    paddingHorizontal: 5,
   },
   input: {
     backgroundColor: '#eeeeee',
