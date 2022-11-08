@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
@@ -9,6 +9,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState('');
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -27,10 +29,20 @@ export default function RegistrationForm({ navigation }) {
   };
 
   const RegistUser = () => {
-    if (email === '' || password === '') {
-      setErrorMessage('이메일 또는 비밀번호를 입력해주세요.');
+    if (email === '') {
+      setErrorMessage(getKorErrorMsg('missing/email'));
+      emailRef.current.focus();
       return;
     }
+    if (password === '') {
+      setErrorMessage(getKorErrorMsg('missing/password'));
+      passwordRef.current.focus();
+      return;
+    }
+    // if (email === '' || password === '') {
+    //   setErrorMessage('이메일 또는 비밀번호를 입력해주세요.');
+    //   return;
+    // }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // To do list
@@ -38,6 +50,8 @@ export default function RegistrationForm({ navigation }) {
         // 2. To go to the login screen
       })
       .catch((err) => {
+        console.log(err);
+        console.log(err.code);
         let errorCode = err.code;
         setErrorMessage(getKorErrorMsg(errorCode));
       });
@@ -49,12 +63,14 @@ export default function RegistrationForm({ navigation }) {
         <TextInput
           onChangeText={(newEmail) => handleChangeEmail(newEmail)}
           placeholder="이메일을 입력해 주세요"
+          ref={emailRef}
           style={styles.input}
           value={email}
         />
         <TextInput
           onChangeText={(newPassword) => handleChangePassword(newPassword)}
           placeholder="비밀번호를 입력해 주세요"
+          ref={passwordRef}
           style={styles.input}
           value={password}
         />
