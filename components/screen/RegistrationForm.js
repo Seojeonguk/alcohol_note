@@ -71,6 +71,7 @@ export default function RegistrationForm({ navigation }) {
           onChangeText={(newPassword) => handleChangePassword(newPassword)}
           placeholder="비밀번호를 입력해 주세요"
           ref={passwordRef}
+          secureTextEntry
           style={styles.input}
           value={password}
         />
