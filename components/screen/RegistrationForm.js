@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
 import { getKorErrorMsg } from '../util';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RegistrationForm({ navigation }) {
@@ -13,6 +14,7 @@ export default function RegistrationForm({ navigation }) {
   const passwordRef = useRef();
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleChangeEmail = (newEmail) => {
     setErrorMessage('');
@@ -26,6 +28,14 @@ export default function RegistrationForm({ navigation }) {
 
   const handleCancelBtn = () => {
     navigation.goBack();
+  };
+
+  const showPassword = () => {
+    setPasswordVisible(true);
+  };
+
+  const hidePassword = () => {
+    setPasswordVisible(false);
   };
 
   const RegistUser = () => {
@@ -67,13 +77,20 @@ export default function RegistrationForm({ navigation }) {
           style={styles.input}
           value={email}
         />
-        <TextInput
-          onChangeText={(newPassword) => handleChangePassword(newPassword)}
-          placeholder="비밀번호를 입력해 주세요"
-          ref={passwordRef}
-          style={styles.input}
-          value={password}
-        />
+        <View style={styles.passWrap}>
+          <TextInput
+            onChangeText={(newPassword) => handleChangePassword(newPassword)}
+            placeholder="비밀번호를 입력해 주세요"
+            ref={passwordRef}
+            secureTextEntry={!passwordVisible}
+            style={[styles.input, { flex: 1 }]}
+            value={password}
+          />
+
+          <Pressable onPressIn={showPassword} onPressOut={hidePassword} style={styles.passIcon}>
+            <Ionicons name={passwordVisible ? 'eye-off' : 'eye'} size={24} color="black" />
+          </Pressable>
+        </View>
 
         <Text style={styles.error}>{errorMessage}</Text>
       </View>
@@ -130,5 +147,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     flex: 1,
+  },
+  passIcon: {
+    position: 'absolute',
+    right: 10,
+    zIndex: 9,
+  },
+  passWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
