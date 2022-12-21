@@ -20,6 +20,21 @@ export default function Settings() {
             <Text style={styles.userUpdateBtnText}>수정</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.menus}>
+          <TouchableOpacity style={styles.menuItem}>
+            <Text style={styles.menuItemText}>공지사항</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuItem}>
+            <Text style={styles.menuItemText}>버전 정보</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuItem}>
+            <Text style={styles.menuItemText}>로그아웃</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuItem}>
+            <Text style={styles.menuItemText}>탈퇴하기</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -28,6 +43,19 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  menuItem: {
+    borderBottomWidth: 1,
+    borderColor: '#888888',
+    marginHorizontal: 15,
+    paddingVertical: 5,
+  },
+  menuItemText: {
+    fontSize: 20,
+  },
+  menus: {
+    borderTopWidth: 1,
+    borderColor: '#888888',
   },
   settingsHeader: {
     alignItems: 'center',
