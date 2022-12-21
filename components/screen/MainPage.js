@@ -20,11 +20,11 @@ export default function MainPage({ navigation }) {
         </View>
 
         <View style={styles.btnWrap}>
-          <TouchableOpacity style={styles.loginBtnWrap} onPress={handleLoginBtn}>
+          <TouchableOpacity onPress={handleLoginBtn} style={styles.loginBtnWrap}>
             <Text style={styles.btnText}>로그인</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.registrationBtnWrap} onPress={handleRegistrationBtn}>
+          <TouchableOpacity onPress={handleRegistrationBtn} style={styles.registrationBtnWrap}>
             <Text style={styles.btnText}>회원가입</Text>
           </TouchableOpacity>
         </View>
