@@ -1,7 +1,13 @@
+import { signOut } from '@firebase/auth';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { auth } from '../../firebaseConfig';
+
 export default function Settings() {
+  const handleLogout = () => {
+    signOut(auth);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.settingsHeader}>
@@ -28,7 +34,7 @@ export default function Settings() {
           <TouchableOpacity style={styles.menuItem}>
             <Text style={styles.menuItemText}>버전 정보</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
             <Text style={styles.menuItemText}>로그아웃</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem}>
