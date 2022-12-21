@@ -6,6 +6,10 @@ export default function MainPage({ navigation }) {
     navigation.navigate('login');
   };
 
+  const handleRegistrationBtn = () => {
+    navigation.navigate('registration');
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -23,7 +27,7 @@ export default function MainPage({ navigation }) {
             <Text style={styles.btnText}>로그인</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.registrationBtnWrap}>
+          <TouchableOpacity style={styles.registrationBtnWrap} onPress={handleRegistrationBtn}>
             <Text style={styles.btnText}>회원가입</Text>
           </TouchableOpacity>
         </View>
