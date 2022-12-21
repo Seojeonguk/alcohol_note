@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import mainPageImg from '../../assets/mainPageImg.png';
 
 export default function MainPage({ navigation }) {
   const handleLoginBtn = () => {
@@ -14,12 +15,7 @@ export default function MainPage({ navigation }) {
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.mainImgWrap}>
-          <Image
-            source={{
-              uri: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDZfMjUx%2FMDAxNjYyNDM3ODk4NTQ3.FDaxfffFN1iNSBH_t8yTmgw3l30r-1OZIBSyhESQLtYg.wvXYUDZtmsdL1of59htugexzGLe9tBd5VLuqjZqQ9mog.JPEG.janet_hwang%2FIMG_1365.jpg&type=a340',
-            }}
-            style={styles.mainImg}
-          />
+          <Image source={mainPageImg} style={styles.mainImg} />
         </View>
 
         <View style={styles.btnWrap}>
