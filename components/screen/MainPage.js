@@ -1,7 +1,11 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function MainPage() {
+export default function MainPage({ navigation }) {
+  const handleLoginBtn = () => {
+    navigation.navigate('login');
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -15,7 +19,7 @@ export default function MainPage() {
         </View>
 
         <View style={styles.btnWrap}>
-          <TouchableOpacity style={styles.loginBtnWrap}>
+          <TouchableOpacity style={styles.loginBtnWrap} onPress={handleLoginBtn}>
             <Text style={styles.btnText}>로그인</Text>
           </TouchableOpacity>
 
