@@ -49,22 +49,12 @@ export default function RegistrationForm({ navigation }) {
       passwordRef.current.focus();
       return;
     }
-    // if (email === '' || password === '') {
-    //   setErrorMessage('이메일 또는 비밀번호를 입력해주세요.');
-    //   return;
-    // }
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // To do list
-        // 1. Showing the success modal
-        // 2. To go to the login screen
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.code);
-        let errorCode = err.code;
-        setErrorMessage(getKorErrorMsg(errorCode));
-      });
+    createUserWithEmailAndPassword(auth, email, password).catch((err) => {
+      console.log(err);
+      console.log(err.code);
+      let errorCode = err.code;
+      setErrorMessage(getKorErrorMsg(errorCode));
+    });
   };
 
   return (
