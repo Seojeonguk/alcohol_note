@@ -11,137 +11,145 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const emailRef = useRef();
   const passwordRef = useRef();
 
   const handleChangeEmail = (newEmail) => {
+    setEmailError('');
     setEmail(newEmail);
   };
 
   const handleChangePassword = (newPassword) => {
+    setPasswordError('');
     setPassword(newPassword);
   };
 
-  const moveRegistration = () => {
-    navigation.navigate('registration');
-  };
-
-  const showPassword = () => {
-    setPasswordVisible(true);
-  };
-
-  const hidePassword = () => {
-    setPasswordVisible(false);
-  };
-
   const handleLogin = () => {
-    if (email === '') {
-      setErrorMessage(getKorErrorMsg('missing/email'));
-      emailRef.current.focus();
-      return;
-    }
-    if (password === '') {
-      setErrorMessage(getKorErrorMsg('missing/password'));
-      passwordRef.current.focus();
-      return;
-    }
     signInWithEmailAndPassword(auth, email, password).catch((err) => {
-      let errCode = err.code;
-      setErrorMessage(getKorErrorMsg(errCode));
+      const korErrorMsg = getKorErrorMsg(err.code);
+      if (korErrorMsg.includes('이메일')) {
+        setEmailError(korErrorMsg);
+      } else {
+        setPasswordError(korErrorMsg);
+      }
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.inputBox}>
-        <TextInput
-          onChangeText={(newEmail) => handleChangeEmail(newEmail)}
-          placeholder="이메일을 입력해 주세요"
-          ref={emailRef}
-          style={styles.input}
-          value={email}
-        />
-        <View style={styles.passWrap}>
-          <TextInput
-            onChangeText={(newPassword) => handleChangePassword(newPassword)}
-            placeholder="비밀번호를 입력해 주세요"
-            ref={passwordRef}
-            secureTextEntry={!passwordVisible}
-            style={[styles.input, { flex: 1 }]}
-            value={password}
-          />
+      <View style={styles.headers}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <Ionicons color="black" name="arrow-back" size={24} />
+        </TouchableOpacity>
+      </View>
 
-          <Pressable onPressIn={showPassword} onPressOut={hidePassword} style={styles.passIcon}>
-            <Ionicons name={passwordVisible ? 'eye-off' : 'eye'} size={24} color="black" />
-          </Pressable>
+      <View style={styles.contentWrap}>
+        <View style={styles.titleWrap}>
+          <Text style={styles.title}>이메일로 시작하기</Text>
         </View>
 
-        <Text style={styles.errMsg}>{errorMessage}</Text>
+        <View style={styles.inputWrap}>
+          <View style={styles.inputBox}>
+            <Text style={styles.inputLabel}>이메일 주소</Text>
+            <TextInput
+              onChangeText={(newEmail) => handleChangeEmail(newEmail)}
+              placeholder="이메일을 입력해 주세요"
+              ref={emailRef}
+              style={styles.input}
+              value={email}
+            />
+            <Text style={styles.inputError}>{emailError}</Text>
+          </View>
+
+          <View style={styles.inputBox}>
+            <Text style={styles.inputLabel}>비밀번호</Text>
+            <TextInput
+              onChangeText={(newPassword) => handleChangePassword(newPassword)}
+              placeholder="비밀번호를 입력해 주세요"
+              ref={passwordRef}
+              style={styles.input}
+              value={password}
+            />
+            <Text style={styles.inputError}>{passwordError}</Text>
+          </View>
+        </View>
 
         <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
           <Text style={styles.loginBtnText}>로그인</Text>
         </TouchableOpacity>
 
-        <View style={styles.otherBox}>
-          <Text style={styles.registrationBtn} onPress={moveRegistration}>
-            회원가입
-          </Text>
-        </View>
+        <TouchableOpacity style={styles.forgotPasswordBtn}>
+          <Text style={styles.forgotPasswordBtnText}>비밀번호를 잊으셨나요?</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
+  backBtn: {
+    paddingHorizontal: 15,
   },
-  errMsg: {
-    color: 'red',
-    marginBottom: 10,
+  container: {
+    backgroundColor: '#f6e8db',
+    flex: 1,
+  },
+  contentWrap: {
+    flex: 1,
+    paddingHorizontal: 40,
+  },
+  forgotPasswordBtn: {
+    justifyContent: 'center',
+  },
+  forgotPasswordBtnText: {
+    color: '#888888',
+    fontSize: 10,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+  },
+  headers: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: 50,
   },
   input: {
-    backgroundColor: '#eeeeee',
-    borderColor: 'grey',
-    borderRadius: 5,
-    borderWidth: 1,
-    height: 40,
-    marginVertical: 10,
-    paddingHorizontal: 10,
+    borderBottomColor: '#888888',
+    borderBottomWidth: 1,
+    borderRightColor: '#f6e8db',
+    color: 'black',
+    fontSize: 15,
   },
   inputBox: {
-    justifyContent: 'center',
-    padding: 20,
-    flex: 1,
-  },
-  loginBtn: {
-    borderRadius: 5,
-    backgroundColor: 'tomato',
-    alignItems: 'center',
-    padding: 5,
-  },
-  loginBtnText: {
-    fontSize: 20,
-  },
-  otherBox: {
-    justifyContent: 'center',
-    alignItems: 'center',
     marginVertical: 15,
   },
-  passIcon: {
-    position: 'absolute',
-    right: 10,
-    zIndex: 9,
+  inputError: {
+    color: '#ff0000',
+    fontSize: 10,
   },
-  passWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  inputLabel: {
+    color: '#888888',
+    fontSize: 9,
   },
-  registrationBtn: {
-    fontSize: 20,
-    color: '#eeeeee',
+  inputWrap: {},
+  loginBtn: {
+    backgroundColor: '#abceea',
+    borderRadius: 5,
+    height: 40,
+    justifyContent: 'center',
+    marginVertical: 15,
+  },
+  loginBtnText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  titleWrap: {
+    height: 35,
+    marginVertical: 10,
   },
 });
