@@ -1,44 +1,34 @@
 import { useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
 import { getKorErrorMsg } from '../util';
 
 import { Ionicons } from '@expo/vector-icons';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Login({ navigation }) {
+export default function ForgetPassword({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
   const emailRef = useRef();
-  const passwordRef = useRef();
 
   const handleChangeEmail = (newEmail) => {
     setEmailError('');
     setEmail(newEmail);
   };
 
-  const handleChangePassword = (newPassword) => {
-    setPasswordError('');
-    setPassword(newPassword);
-  };
-
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password).catch((err) => {
-      const korErrorMsg = getKorErrorMsg(err.code);
-      if (korErrorMsg.includes('이메일')) {
+  const handleSendEmail = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        navigation.goBack();
+      })
+      .catch((err) => {
+        const korErrorMsg = getKorErrorMsg(err.code);
+        console.log(err.code);
         setEmailError(korErrorMsg);
-      } else {
-        setPasswordError(korErrorMsg);
-      }
-    });
-  };
-
-  const handleForgotPasswordBtn = () => {
-    navigation.navigate('forgotPassword');
+      });
   };
 
   return (
@@ -51,7 +41,7 @@ export default function Login({ navigation }) {
 
       <View style={styles.contentWrap}>
         <View style={styles.titleWrap}>
-          <Text style={styles.title}>이메일로 시작하기</Text>
+          <Text style={styles.title}>비밀번호를 잊으셨나요?</Text>
         </View>
 
         <View style={styles.inputWrap}>
@@ -66,26 +56,10 @@ export default function Login({ navigation }) {
             />
             <Text style={styles.inputError}>{emailError}</Text>
           </View>
-
-          <View style={styles.inputBox}>
-            <Text style={styles.inputLabel}>비밀번호</Text>
-            <TextInput
-              onChangeText={(newPassword) => handleChangePassword(newPassword)}
-              placeholder="비밀번호를 입력해 주세요"
-              ref={passwordRef}
-              style={styles.input}
-              value={password}
-            />
-            <Text style={styles.inputError}>{passwordError}</Text>
-          </View>
         </View>
 
-        <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
-          <Text style={styles.loginBtnText}>로그인</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handleForgotPasswordBtn} style={styles.forgotPasswordBtn}>
-          <Text style={styles.forgotPasswordBtnText}>비밀번호를 잊으셨나요?</Text>
+        <TouchableOpacity onPress={handleSendEmail} style={styles.sendEmailBtn}>
+          <Text style={styles.sendEmailBtnText}>이메일 전송</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -103,15 +77,6 @@ const styles = StyleSheet.create({
   contentWrap: {
     flex: 1,
     paddingHorizontal: 40,
-  },
-  forgotPasswordBtn: {
-    justifyContent: 'center',
-  },
-  forgotPasswordBtnText: {
-    color: '#888888',
-    fontSize: 10,
-    textAlign: 'center',
-    textDecorationLine: 'underline',
   },
   headers: {
     alignItems: 'center',
@@ -137,14 +102,14 @@ const styles = StyleSheet.create({
     fontSize: 9,
   },
   inputWrap: {},
-  loginBtn: {
+  sendEmailBtn: {
     backgroundColor: '#abceea',
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',
     marginVertical: 15,
   },
-  loginBtnText: {
+  sendEmailBtnText: {
     fontWeight: 'bold',
     textAlign: 'center',
   },
