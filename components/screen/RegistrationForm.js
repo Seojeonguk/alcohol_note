@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
 import { getKorErrorMsg } from '../util';
@@ -10,88 +10,100 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const confirmPasswordRef = useRef();
 
   const handleChangeEmail = (newEmail) => {
-    setErrorMessage('');
+    setEmailError('');
     setEmail(newEmail);
   };
 
   const handleChangePassword = (newPassword) => {
-    setErrorMessage('');
+    setPasswordError('');
     setPassword(newPassword);
   };
 
-  const handleCancelBtn = () => {
-    navigation.goBack();
+  const handleChangeConfirmPassword = (confirmPassword) => {
+    setConfirmPasswordError('');
+    setConfirmPassword(confirmPassword);
   };
 
-  const showPassword = () => {
-    setPasswordVisible(true);
-  };
-
-  const hidePassword = () => {
-    setPasswordVisible(false);
-  };
-
-  const RegistUser = () => {
-    if (email === '') {
-      setErrorMessage(getKorErrorMsg('missing/email'));
-      emailRef.current.focus();
+  const handleRegistration = () => {
+    if (password !== confirmPassword) {
+      setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
+      confirmPasswordRef.current.focus();
       return;
     }
-    if (password === '') {
-      setErrorMessage(getKorErrorMsg('missing/password'));
-      passwordRef.current.focus();
-      return;
-    }
+
     createUserWithEmailAndPassword(auth, email, password).catch((err) => {
-      console.log(err);
-      console.log(err.code);
-      let errorCode = err.code;
-      setErrorMessage(getKorErrorMsg(errorCode));
+      const korErrorMsg = getKorErrorMsg(err.code);
+      if (korErrorMsg.includes('이메일')) {
+        setEmailError(korErrorMsg);
+      } else {
+        setPasswordError(korErrorMsg);
+      }
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.inputBox}>
-        <TextInput
-          onChangeText={(newEmail) => handleChangeEmail(newEmail)}
-          placeholder="이메일을 입력해 주세요"
-          ref={emailRef}
-          style={styles.input}
-          value={email}
-        />
-        <View style={styles.passWrap}>
-          <TextInput
-            onChangeText={(newPassword) => handleChangePassword(newPassword)}
-            placeholder="비밀번호를 입력해 주세요"
-            ref={passwordRef}
-            secureTextEntry={!passwordVisible}
-            style={[styles.input, { flex: 1 }]}
-            value={password}
-          />
-
-          <Pressable onPressIn={showPassword} onPressOut={hidePassword} style={styles.passIcon}>
-            <Ionicons name={passwordVisible ? 'eye-off' : 'eye'} size={24} color="black" />
-          </Pressable>
-        </View>
-
-        <Text style={styles.error}>{errorMessage}</Text>
+      <View style={styles.headers}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+          <Ionicons color="black" name="arrow-back" size={24} />
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.bottomBtnWrapper}>
-        <TouchableOpacity onPress={handleCancelBtn} style={styles.bottomBtn}>
-          <Text style={styles.bottomText}>취소</Text>
-        </TouchableOpacity>
+      <View style={styles.contentWrap}>
+        <View style={styles.titleWrap}>
+          <Text style={styles.title}>이메일로 회원가입</Text>
+        </View>
 
-        <TouchableOpacity onPress={RegistUser} style={styles.bottomBtn}>
-          <Text style={styles.bottomText}>가입</Text>
+        <View style={styles.inputWrap}>
+          <View style={styles.inputBox}>
+            <Text style={styles.inputLabel}>이메일 주소</Text>
+            <TextInput
+              onChangeText={(newEmail) => handleChangeEmail(newEmail)}
+              placeholder="이메일을 입력해 주세요"
+              ref={emailRef}
+              style={styles.input}
+              value={email}
+            />
+            <Text style={styles.inputError}>{emailError}</Text>
+          </View>
+
+          <View style={styles.inputBox}>
+            <Text style={styles.inputLabel}>비밀번호</Text>
+            <TextInput
+              onChangeText={(newPassword) => handleChangePassword(newPassword)}
+              placeholder="비밀번호를 입력해 주세요"
+              ref={passwordRef}
+              style={styles.input}
+              value={password}
+            />
+            <Text style={styles.inputError}>{passwordError}</Text>
+          </View>
+
+          <View style={styles.inputBox}>
+            <Text style={styles.inputLabel}>비밀번호 확인</Text>
+            <TextInput
+              onChangeText={(newConfirmPassword) => handleChangeConfirmPassword(newConfirmPassword)}
+              placeholder="비밀번호(확인)를 입력해 주세요"
+              ref={confirmPasswordRef}
+              style={styles.input}
+              value={confirmPassword}
+            />
+            <Text style={styles.inputError}>{confirmPasswordError}</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity onPress={handleRegistration} style={styles.registrationBtn}>
+          <Text style={styles.registrationBtnText}>회원가입</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -99,52 +111,67 @@ export default function RegistrationForm({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  bottomBtn: {
-    alignItems: 'center',
-    backgroundColor: 'tomato',
-    borderRadius: 5,
-    flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: 10,
-  },
-  bottomBtnWrapper: {
-    flexDirection: 'row',
-    height: 50,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  bottomText: {
-    fontSize: 20,
+  backBtn: {
+    paddingHorizontal: 15,
   },
   container: {
+    backgroundColor: '#f6e8db',
     flex: 1,
   },
-  error: {
-    color: 'red',
-    fontSize: 12,
-    paddingHorizontal: 5,
+  contentWrap: {
+    flex: 1,
+    paddingHorizontal: 40,
+  },
+  forgotPasswordBtn: {
+    justifyContent: 'center',
+  },
+  forgotPasswordBtnText: {
+    color: '#888888',
+    fontSize: 10,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+  },
+  headers: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: 50,
   },
   input: {
-    backgroundColor: '#eeeeee',
-    borderColor: 'grey',
-    borderRadius: 5,
-    borderWidth: 1,
-    height: 40,
-    marginVertical: 10,
-    paddingHorizontal: 10,
+    borderBottomColor: '#888888',
+    borderBottomWidth: 1,
+    borderRightColor: '#f6e8db',
+    color: 'black',
+    fontSize: 15,
   },
   inputBox: {
+    marginVertical: 15,
+  },
+  inputError: {
+    color: '#ff0000',
+    fontSize: 10,
+  },
+  inputLabel: {
+    color: '#888888',
+    fontSize: 9,
+  },
+  inputWrap: {},
+  registrationBtn: {
+    backgroundColor: '#abceea',
+    borderRadius: 5,
+    height: 40,
     justifyContent: 'center',
-    padding: 20,
-    flex: 1,
+    marginVertical: 15,
   },
-  passIcon: {
-    position: 'absolute',
-    right: 10,
-    zIndex: 9,
+  registrationBtnText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
-  passWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  titleWrap: {
+    height: 35,
+    marginVertical: 10,
   },
 });
