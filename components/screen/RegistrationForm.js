@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import { auth } from '../../firebaseConfig';
 import { getKorErrorMsg } from '../util';
 
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -34,21 +34,25 @@ export default function RegistrationForm({ navigation }) {
     setConfirmPassword(confirmPassword);
   };
 
-  const handleRegistration = () => {
+  const handleRegistration = async () => {
     if (password !== confirmPassword) {
       setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
       confirmPasswordRef.current.focus();
       return;
     }
 
-    createUserWithEmailAndPassword(auth, email, password).catch((err) => {
-      const korErrorMsg = getKorErrorMsg(err.code);
-      if (korErrorMsg.includes('이메일')) {
-        setEmailError(korErrorMsg);
-      } else {
-        setPasswordError(korErrorMsg);
-      }
-    });
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        navigation.navigate('mainPage');
+      })
+      .catch((err) => {
+        const korErrorMsg = getKorErrorMsg(err.code);
+        if (korErrorMsg.includes('이메일')) {
+          setEmailError(korErrorMsg);
+        } else {
+          setPasswordError(korErrorMsg);
+        }
+      });
   };
 
   return (
