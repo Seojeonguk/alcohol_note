@@ -13,7 +13,7 @@ import { signOut } from '@firebase/auth';
 import { sendEmailVerification } from '@firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-import { Alert, TouchableOpacity } from 'react-native';
+import { Alert } from 'react-native';
 
 const Tab = createNativeStackNavigator();
 const localStorageKeyName = 'confirmEmailExpireTime';
@@ -27,12 +27,8 @@ export default function Index() {
         return;
       }
       const confirmEmailExpireTime = await AsyncStorage.getItem(localStorageKeyName);
-      if (user.emailVerified) {
-        if (confirmEmailExpireTime) {
-          await AsyncStorage.removeItem(localStorageKeyName);
-        }
-        setLogin(true);
-      } else {
+
+      if (!user.emailVerified) {
         if (!confirmEmailExpireTime) {
           await sendEmailVerification(user);
           Toast.show({
@@ -53,8 +49,8 @@ export default function Index() {
           await AsyncStorage.setItem(localStorageKeyName, objStr);
         } else {
           const obj = JSON.parse(confirmEmailExpireTime);
-          const t = new Date(obj.expire);
-          if (Date.now() > t) {
+          const expireTime = new Date(obj.expire);
+          if (Date.now() > expireTime) {
             Alert.alert(
               '재인증',
               '인증 메일을 재전송 하시겠습니까?',
@@ -68,16 +64,23 @@ export default function Index() {
             Toast.show({
               type: 'success',
               text1: '이메일의 메일함을 확인바랍니다.',
-              text2: `${t.getHours()}시 ${t.getMinutes()}분 ${t.getSeconds()}초 까지 메일을 다시 보낼 수 없습니다.`,
+              text2: `${expireTime.getHours()}시 ${expireTime.getMinutes()}분 ${expireTime.getSeconds()}초 까지 메일을 다시 보낼 수 없습니다.`,
             });
           }
         }
         await signOut(auth);
         setLogin(false);
+        return;
       }
+
+      if (confirmEmailExpireTime) {
+        await AsyncStorage.removeItem(localStorageKeyName);
+      }
+      setLogin(true);
     });
     return unsubscribe;
   }, []);
+
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName="nobottom" screenOptions={{ headerShown: false }}>
