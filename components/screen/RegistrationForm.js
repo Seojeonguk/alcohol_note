@@ -15,6 +15,8 @@ export default function RegistrationForm({ navigation }) {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [isSecurePassword, setSecurePassword] = useState(true);
+  const [isSecurePasswordConfirm, setIsSecurePasswordConfirm] = useState(true);
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
@@ -87,8 +89,11 @@ export default function RegistrationForm({ navigation }) {
             <Text style={styles.inputLabel}>비밀번호</Text>
             <TextInput
               onChangeText={(newPassword) => handleChangePassword(newPassword)}
+              onPressIn={() => setSecurePassword(false)}
+              onPressOut={() => setSecurePassword(true)}
               placeholder="비밀번호를 입력해 주세요"
               ref={passwordRef}
+              secureTextEntry={isSecurePassword}
               style={styles.input}
               value={password}
             />
@@ -99,8 +104,11 @@ export default function RegistrationForm({ navigation }) {
             <Text style={styles.inputLabel}>비밀번호 확인</Text>
             <TextInput
               onChangeText={(newConfirmPassword) => handleChangeConfirmPassword(newConfirmPassword)}
+              onPressIn={() => setIsSecurePasswordConfirm(false)}
+              onPressOut={() => setIsSecurePasswordConfirm(true)}
               placeholder="비밀번호(확인)를 입력해 주세요"
               ref={confirmPasswordRef}
+              secureTextEntry={isSecurePasswordConfirm}
               style={styles.input}
               value={confirmPassword}
             />
