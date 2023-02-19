@@ -58,6 +58,8 @@ export default function Login({ navigation }) {
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>이메일 주소</Text>
             <TextInput
+              inputMode="email"
+              keyboardType="email-address"
               onChangeText={(newEmail) => handleChangeEmail(newEmail)}
               placeholder="이메일을 입력해 주세요"
               ref={emailRef}
