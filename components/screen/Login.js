@@ -13,6 +13,7 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [isSecurePassword, setSecurePassword] = useState(true);
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -75,6 +76,7 @@ export default function Login({ navigation }) {
               onChangeText={(newPassword) => handleChangePassword(newPassword)}
               placeholder="비밀번호를 입력해 주세요"
               ref={passwordRef}
+              secureTextEntry={isSecurePassword}
               style={styles.input}
               value={password}
             />
