@@ -89,6 +89,8 @@ export default function RegistrationForm({ navigation }) {
             <Text style={styles.inputLabel}>비밀번호</Text>
             <TextInput
               onChangeText={(newPassword) => handleChangePassword(newPassword)}
+              onPressIn={() => setSecurePassword(false)}
+              onPressOut={() => setSecurePassword(true)}
               placeholder="비밀번호를 입력해 주세요"
               ref={passwordRef}
               secureTextEntry={isSecurePassword}
@@ -102,6 +104,8 @@ export default function RegistrationForm({ navigation }) {
             <Text style={styles.inputLabel}>비밀번호 확인</Text>
             <TextInput
               onChangeText={(newConfirmPassword) => handleChangeConfirmPassword(newConfirmPassword)}
+              onPressIn={() => setIsSecurePasswordConfirm(false)}
+              onPressOut={() => setIsSecurePasswordConfirm(true)}
               placeholder="비밀번호(확인)를 입력해 주세요"
               ref={confirmPasswordRef}
               secureTextEntry={isSecurePasswordConfirm}
