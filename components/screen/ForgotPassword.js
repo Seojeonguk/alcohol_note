@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   inputLabel: {
-    color: Color.BORDER_COLOR,
+    color: Color.LABEL_COLOR,
     fontSize: 9,
   },
   inputWrap: {},

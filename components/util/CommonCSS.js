@@ -6,6 +6,7 @@ const Color = {
   SECOND_SUB_COLOR: '#50A4C5',
   THIRD_SUB_COLOR: '#A4AFC3',
   FORTH_SUB_COLOR: '#2E699A',
+  LABEL_COLOR: '#888888',
 };
 
 export { Color };
