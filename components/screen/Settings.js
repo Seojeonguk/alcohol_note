@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { auth } from '../../firebaseConfig';
+import { Color } from '../util';
 
 export default function Settings() {
   const handleLogout = () => {
@@ -49,6 +50,7 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Color.BACKGROUND_COLOR,
   },
   menuItem: {
     borderBottomWidth: 1,

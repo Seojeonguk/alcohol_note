@@ -6,6 +6,7 @@ import GalleryCard from '../gallery/GalleryCard';
 import { AntDesign } from '@expo/vector-icons';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Color } from '../util';
 
 export default function Gallery({ navigation }) {
   const moveGalleryForm = () => {
@@ -33,6 +34,7 @@ export default function Gallery({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
   },
   galleryContent: {

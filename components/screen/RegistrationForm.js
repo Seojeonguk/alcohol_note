@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
-import { getKorErrorMsg } from '../util';
+import { Color, getKorErrorMsg } from '../util';
 
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { Ionicons } from '@expo/vector-icons';
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   container: {
-    backgroundColor: '#f6e8db',
+    backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
   },
   contentWrap: {
