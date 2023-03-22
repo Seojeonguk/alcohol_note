@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   galleryHeader: {
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderColor: 'grey',
+    borderColor: Color.BORDER_COLOR,
     borderStyle: 'solid',
     justifyContent: 'center',
     marginBottom: 5,

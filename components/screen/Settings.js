@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     borderBottomWidth: 1,
-    borderColor: '#888888',
+    borderColor: Color.BORDER_COLOR,
     marginHorizontal: 15,
     paddingVertical: 5,
   },
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   menus: {
     borderTopWidth: 1,
-    borderColor: '#888888',
+    borderColor: Color.BORDER_COLOR,
   },
   settingsHeader: {
     alignItems: 'center',
