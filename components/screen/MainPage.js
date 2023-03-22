@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import mainPageImg from '../../assets/mainPageImg.png';
+import { Color } from '../util';
 
 export default function MainPage({ navigation }) {
   const handleLoginBtn = () => {
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   loginBtnWrap: {
     alignItems: 'center',
-    backgroundColor: '#ABCEEA',
+    backgroundColor: Color.BUTTON_COLOR,
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     width: 250,
   },
   container: {
-    backgroundColor: '#F6E8DB',
+    backgroundColor: Color.BACKGROUND_COLOR,
     minHeight: '100%',
   },
   mainImg: {

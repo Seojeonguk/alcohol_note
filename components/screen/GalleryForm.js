@@ -13,6 +13,7 @@ import { Entypo, Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { Color } from '../util';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
@@ -93,12 +94,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   container: {
+    backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
   },
   galleryHeader: {
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderColor: 'grey',
+    borderColor: Color.BORDER_COLOR,
     borderStyle: 'solid',
     justifyContent: 'center',
     marginBottom: 5,

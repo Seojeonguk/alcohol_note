@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
-import { getKorErrorMsg } from '../util';
+import { Color, getKorErrorMsg } from '../util';
 
 import { Ionicons } from '@expo/vector-icons';
 import { sendPasswordResetEmail } from 'firebase/auth';
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   container: {
-    backgroundColor: '#f6e8db',
+    backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
   },
   contentWrap: {
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   input: {
-    borderBottomColor: '#888888',
+    borderBottomColor: Color.BORDER_COLOR,
     borderBottomWidth: 1,
     borderRightColor: '#f6e8db',
     color: 'black',
@@ -98,12 +98,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   inputLabel: {
-    color: '#888888',
+    color: Color.LABEL_COLOR,
     fontSize: 9,
   },
   inputWrap: {},
   sendEmailBtn: {
-    backgroundColor: '#abceea',
+    backgroundColor: Color.BUTTON_COLOR,
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',
