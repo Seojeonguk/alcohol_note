@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   loginBtnWrap: {
     alignItems: 'center',
-    backgroundColor: '#ABCEEA',
+    backgroundColor: Color.BUTTON_COLOR,
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',

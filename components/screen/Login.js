@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   inputWrap: {},
   loginBtn: {
-    backgroundColor: '#abceea',
+    backgroundColor: Color.BUTTON_COLOR,
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',

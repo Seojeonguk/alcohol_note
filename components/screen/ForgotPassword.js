@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   inputWrap: {},
   sendEmailBtn: {
-    backgroundColor: '#abceea',
+    backgroundColor: Color.BUTTON_COLOR,
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',
