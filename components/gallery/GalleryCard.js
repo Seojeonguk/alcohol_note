@@ -1,8 +1,9 @@
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useMemo } from 'react';
 
-export default function GalleryCard({ item }) {
+export default function GalleryCard({ item, i }) {
   const height = useMemo(() => Math.floor(Math.random() * 100 + 200));
+  const isCenter = i % 3 === 1;
 
   return (
     <View>
@@ -12,6 +13,7 @@ export default function GalleryCard({ item }) {
           style={[
             {
               height: height,
+              marginHorizontal: isCenter ? 2 : 0,
             },
             styles.itemImage,
           ]}
@@ -24,8 +26,7 @@ export default function GalleryCard({ item }) {
 
 const styles = StyleSheet.create({
   itemImage: {
-    borderRadius: 5,
-    margin: 5,
+    marginBottom: 2,
     resizeMode: 'stretch',
   },
 });

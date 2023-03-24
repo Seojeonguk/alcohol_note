@@ -26,7 +26,7 @@ export default function Gallery({ navigation }) {
         contentContainerStyle={styles.galleryContent}
         data={data}
         numColumns={3}
-        renderItem={({ item }) => <GalleryCard item={item} />}
+        renderItem={({ item, i }) => <GalleryCard item={item} i={i} />}
       />
     </SafeAreaView>
   );
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
   },
   galleryContent: {
     alignSelf: 'stretch',
-    paddingHorizontal: 12,
   },
   galleryHeader: {
     alignItems: 'center',
