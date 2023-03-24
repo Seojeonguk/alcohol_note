@@ -17,6 +17,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { useDispatch, useSelector } from 'react-redux';
 
 const screenWidthSize = Dimensions.get('window').width;
+const columnSize = 3;
 
 export default function Photo() {
   const [assetsOptions, setAssetsOptions] = useState({
@@ -93,12 +94,12 @@ export default function Photo() {
         <FlatList
           data={savedPhotos}
           ListEmptyComponent={<Text>Empty</Text>}
-          numColumns={4}
+          numColumns={columnSize}
           onEndReached={showMediaLibrary}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <TouchableOpacity
               onPress={() => handleSelectPhoto(item)}
-              style={styles.modalPhotosWrapper}
+              style={[styles.modalPhotosWrapper, { marginHorizontal: index % 3 === 1 ? 3 : 0 }]}
             >
               <Image source={{ uri: item }} style={styles.modalPhoto} />
             </TouchableOpacity>
@@ -123,9 +124,9 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderRadius: 5,
     borderWidth: 1,
-    height: screenWidthSize / 4 - 10,
+    height: screenWidthSize / columnSize - 10,
     justifyContent: 'center',
-    width: screenWidthSize / 4 - 10,
+    width: screenWidthSize / columnSize - 10,
   },
   modalBottomMenu: {
     flexDirection: 'row',
@@ -137,26 +138,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalPhoto: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
+    height: screenWidthSize / columnSize,
+    width: screenWidthSize / columnSize,
   },
   modalPhotosWrapper: {
-    height: screenWidthSize / 4,
-    padding: 5,
-    width: screenWidthSize / 4,
+    height: screenWidthSize / columnSize,
+    width: screenWidthSize / columnSize,
     zIndex: 9,
+    marginBottom: 3,
   },
   photo: {
-    height: screenWidthSize / 4 - 10,
-    width: screenWidthSize / 4 - 10,
+    height: screenWidthSize / columnSize - 10,
+    width: screenWidthSize / columnSize - 10,
   },
   photosContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   photosWrapper: {
-    height: screenWidthSize / 4,
+    height: screenWidthSize / columnSize,
     padding: 5,
-    width: screenWidthSize / 4,
+    width: screenWidthSize / columnSize,
   },
 });
