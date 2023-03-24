@@ -11,9 +11,6 @@ export default function Settings() {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.settingsHeader}>
-        <Text style={styles.settingsTitle}>Settings</Text>
-      </View>
       <View style={styles.settingsBody}>
         <View style={styles.userInfo}>
           <Image
@@ -64,20 +61,6 @@ const styles = StyleSheet.create({
   menus: {
     borderTopWidth: 1,
     borderColor: Color.BORDER_COLOR,
-  },
-  settingsHeader: {
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: 'grey',
-    borderStyle: 'solid',
-    justifyContent: 'center',
-    marginBottom: 5,
-    paddingVertical: 5,
-  },
-  settingsTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   userImg: {
     height: 100,
