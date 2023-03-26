@@ -73,29 +73,6 @@ export default function Photo() {
     setSavedPhotos(savedPhotos.concat(getPhotos.assets.flatMap((value) => [value.uri])));
   };
 
-  const uploadImage = async (uri) => {
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      xhr.send(null);
-    });
-
-    const fileRef = ref(getStorage(), uuid.v4());
-    const result = await uploadBytes(fileRef, blob);
-
-    blob.close();
-
-    return await getDownloadURL(fileRef);
-  };
-
   const updateAssetsOptions = (after, hasNextPage) => {
     setAssetsOptions({
       after: after,
