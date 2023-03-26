@@ -15,6 +15,9 @@ import { addImage } from '../redux/slices/GallerySlice';
 import { AntDesign } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 import { useDispatch, useSelector } from 'react-redux';
+import uuid from 'react-native-uuid';
+
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const screenWidthSize = Dimensions.get('window').width;
 const columnSize = 3;
@@ -68,6 +71,29 @@ export default function Photo() {
 
     updateAssetsOptions(String(parseInt(assetsOptions.after) + 20), getPhotos.hasNextPage);
     setSavedPhotos(savedPhotos.concat(getPhotos.assets.flatMap((value) => [value.uri])));
+  };
+
+  const uploadImage = async (uri) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+
+    const fileRef = ref(getStorage(), uuid.v4());
+    const result = await uploadBytes(fileRef, blob);
+
+    blob.close();
+
+    return await getDownloadURL(fileRef);
   };
 
   const updateAssetsOptions = (after, hasNextPage) => {
