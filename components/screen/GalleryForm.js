@@ -88,10 +88,6 @@ export default function GalleryForm({ navigation }) {
     return await Promise.resolve(downloadURL);
   };
 
-  const chk = () => {
-    console.log(downloadURLs);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.galleryHeader}>
@@ -100,10 +96,6 @@ export default function GalleryForm({ navigation }) {
           <Ionicons color="black" name="arrow-back" size={24} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => save()} style={styles.saveBtn}>
-          <Entypo color="black" name="check" size={24} />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => chk()} style={styles.chkBtn}>
           <Entypo color="black" name="check" size={24} />
         </TouchableOpacity>
       </View>
