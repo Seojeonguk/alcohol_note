@@ -14,10 +14,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Color } from '../util';
+import uuid from 'react-native-uuid';
+
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useState } from 'react';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
   const gallery = useSelector((state) => state.gallery);
+  const [downloadURLs, setDownloadURLs] = useState([]);
 
   useEffect(() => {
     if (existInput()) {
@@ -57,31 +62,34 @@ export default function GalleryForm({ navigation }) {
     dispatch(init());
   };
 
-  const save = () => {
-    //To do more..
+  const save = async () => {
+    const promiseall = Promise.all(
+      gallery.photos.map(async (url) => {
+        return await uploadImage(url);
+      })
+    );
+
+    promiseall.then((result) => {
+      // To do more..
+    });
   };
 
   const uploadImage = async (uri) => {
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      xhr.send(null);
-    });
+    const res = await fetch(uri);
+    const blob = await res.blob();
 
     const fileRef = ref(getStorage(), uuid.v4());
     const result = await uploadBytes(fileRef, blob);
 
-    blob.close();
+    const downloadURL = await getDownloadURL(fileRef);
 
-    return await getDownloadURL(fileRef);
+    setDownloadURLs((prevDownloadURLs) => [...prevDownloadURLs, downloadURL]);
+
+    return await Promise.resolve(downloadURL);
+  };
+
+  const chk = () => {
+    console.log(downloadURLs);
   };
 
   return (
@@ -92,6 +100,10 @@ export default function GalleryForm({ navigation }) {
           <Ionicons color="black" name="arrow-back" size={24} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => save()} style={styles.saveBtn}>
+          <Entypo color="black" name="check" size={24} />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => chk()} style={styles.chkBtn}>
           <Entypo color="black" name="check" size={24} />
         </TouchableOpacity>
       </View>

@@ -15,9 +15,6 @@ import { addImage } from '../redux/slices/GallerySlice';
 import { AntDesign } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 import { useDispatch, useSelector } from 'react-redux';
-import uuid from 'react-native-uuid';
-
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const screenWidthSize = Dimensions.get('window').width;
 const columnSize = 3;
