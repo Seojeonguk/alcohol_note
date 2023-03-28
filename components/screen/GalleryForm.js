@@ -17,6 +17,9 @@ import { Color } from '../util';
 import uuid from 'react-native-uuid';
 
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
+import { getAuth } from 'firebase/auth';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
@@ -67,8 +70,21 @@ export default function GalleryForm({ navigation }) {
       })
     );
 
-    promiseall.then((result) => {
-      // To do more..
+    promiseall.then(async (result) => {
+      const data = {
+        title: gallery.title,
+        day: gallery.day,
+        photos: result,
+        content: gallery.content,
+        location: gallery.location,
+        tags: gallery.tags,
+      };
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const email = user.email;
+      const galleryRef = doc(db, 'alcoholic', email);
+      await setDoc(galleryRef, data);
     });
   };
 
