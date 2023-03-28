@@ -17,12 +17,10 @@ import { Color } from '../util';
 import uuid from 'react-native-uuid';
 
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { useState } from 'react';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
   const gallery = useSelector((state) => state.gallery);
-  const [downloadURLs, setDownloadURLs] = useState([]);
 
   useEffect(() => {
     if (existInput()) {
@@ -82,8 +80,6 @@ export default function GalleryForm({ navigation }) {
     const result = await uploadBytes(fileRef, blob);
 
     const downloadURL = await getDownloadURL(fileRef);
-
-    setDownloadURLs((prevDownloadURLs) => [...prevDownloadURLs, downloadURL]);
 
     return await Promise.resolve(downloadURL);
   };
