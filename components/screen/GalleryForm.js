@@ -64,28 +64,28 @@ export default function GalleryForm({ navigation }) {
   };
 
   const save = async () => {
-    const promiseall = Promise.all(
+    const downloadURLs = await Promise.all(
       gallery.photos.map(async (url) => {
         return await uploadImage(url);
       })
     );
 
-    promiseall.then(async (result) => {
-      const data = {
-        title: gallery.title,
-        day: gallery.day,
-        photos: result,
-        content: gallery.content,
-        location: gallery.location,
-        tags: gallery.tags,
-      };
+    const data = {
+      title: gallery.title,
+      day: gallery.day,
+      photos: downloadURLs,
+      content: gallery.content,
+      location: gallery.location,
+      tags: gallery.tags,
+    };
 
-      const auth = getAuth();
-      const user = auth.currentUser;
-      const email = user.email;
-      const galleryRef = doc(db, 'alcoholic', email);
-      await setDoc(galleryRef, data);
-    });
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const email = user.email;
+    const galleryRef = doc(db, 'alcoholic', email);
+    await setDoc(galleryRef, data);
+
+    console.log('success!');
   };
 
   const uploadImage = async (uri) => {
