@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { initializeAuth, getReactNativePersistence, getAuth } from 'firebase/auth';
 import { getApp, getApps, initializeApp } from 'firebase/app';
+import { CACHE_SIZE_UNLIMITED, getFirestore, initializeFirestore } from 'firebase/firestore';
 
 // Optionally import the services that you want to use
 //import {...} from 'firebase/auth';
@@ -24,14 +25,19 @@ const firebaseConfig = {
 
 let app;
 let auth;
+let db;
 if (getApps().length === 0) {
   app = initializeApp(firebaseConfig);
   auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage),
   });
+  db = initializeFirestore(app, {
+    cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+  });
 } else {
   app = getApp();
   auth = getAuth(app);
+  db = getFirestore(app);
 }
 
-export { auth };
+export { auth, db };

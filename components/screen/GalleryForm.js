@@ -17,6 +17,9 @@ import { Color } from '../util';
 import uuid from 'react-native-uuid';
 
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
+import { getAuth } from 'firebase/auth';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
@@ -61,15 +64,38 @@ export default function GalleryForm({ navigation }) {
   };
 
   const save = async () => {
-    const promiseall = Promise.all(
+    const downloadURLs = await Promise.all(
       gallery.photos.map(async (url) => {
         return await uploadImage(url);
       })
     );
 
-    promiseall.then((result) => {
-      // To do more..
-    });
+    const data = {
+      title: gallery.title,
+      day: gallery.day,
+      photos: downloadURLs,
+      content: gallery.content,
+      location: gallery.location,
+      tags: gallery.tags,
+    };
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const email = user.email;
+
+    const docRef = doc(db, 'alcoholic', email);
+    const docSnap = await getDoc(docRef);
+
+    var inputData = {};
+
+    if (docSnap.exists()) {
+      inputData = docSnap.data();
+    }
+
+    inputData[uuid.v4()] = data;
+
+    const galleryRef = doc(db, 'alcoholic', email);
+    await setDoc(galleryRef, inputData);
   };
 
   const uploadImage = async (uri) => {
@@ -81,7 +107,7 @@ export default function GalleryForm({ navigation }) {
 
     const downloadURL = await getDownloadURL(fileRef);
 
-    return await Promise.resolve(downloadURL);
+    return downloadURL;
   };
 
   return (
