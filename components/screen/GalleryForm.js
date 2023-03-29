@@ -84,8 +84,6 @@ export default function GalleryForm({ navigation }) {
     const email = user.email;
     const galleryRef = doc(db, 'alcoholic', email);
     await setDoc(galleryRef, data);
-
-    console.log('success!');
   };
 
   const uploadImage = async (uri) => {
