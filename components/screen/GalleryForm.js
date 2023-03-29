@@ -17,7 +17,7 @@ import { Color } from '../util';
 import uuid from 'react-native-uuid';
 
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import { getAuth } from 'firebase/auth';
 
@@ -82,8 +82,20 @@ export default function GalleryForm({ navigation }) {
     const auth = getAuth();
     const user = auth.currentUser;
     const email = user.email;
+
+    const docRef = doc(db, 'alcoholic', email);
+    const docSnap = await getDoc(docRef);
+
+    var inputData = {};
+
+    if (docSnap.exists()) {
+      inputData = docSnap.data();
+    }
+
+    inputData[uuid.v4()] = data;
+
     const galleryRef = doc(db, 'alcoholic', email);
-    await setDoc(galleryRef, data);
+    await setDoc(galleryRef, inputData);
   };
 
   const uploadImage = async (uri) => {
