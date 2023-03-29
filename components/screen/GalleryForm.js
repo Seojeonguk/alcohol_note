@@ -97,7 +97,7 @@ export default function GalleryForm({ navigation }) {
 
     const downloadURL = await getDownloadURL(fileRef);
 
-    return await Promise.resolve(downloadURL);
+    return downloadURL;
   };
 
   return (
