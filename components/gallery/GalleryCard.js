@@ -2,6 +2,8 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useMemo } from 'react';
 
 export default function GalleryCard({ item, i }) {
+  const key = Object.keys(item);
+  const uri = item[key];
   const height = useMemo(() => Math.floor(Math.random() * 100 + 200));
   const isCenter = i % 3 === 1;
 
@@ -9,7 +11,7 @@ export default function GalleryCard({ item, i }) {
     <View>
       <TouchableOpacity activeOpacity={0.2}>
         <Image
-          source={{ uri: item.photos[0] }}
+          source={{ uri: uri }}
           style={[
             {
               height: height,

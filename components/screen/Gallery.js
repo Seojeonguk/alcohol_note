@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { data } from '../gallery/dummyData';
 import GalleryCard from '../gallery/GalleryCard';
@@ -7,8 +7,37 @@ import { AntDesign } from '@expo/vector-icons';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Color } from '../util';
+import { useEffect } from 'react';
+
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
+import { getAuth } from 'firebase/auth';
+import { useState } from 'react';
 
 export default function Gallery({ navigation }) {
+  const [galleryList, setGalleryList] = useState([]);
+  useEffect(() => {
+    const getDocs = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const email = user.email;
+
+      const docRef = doc(db, 'alcoholic', email);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+
+        const galleryListTmp = [];
+        for (let prop in userData) {
+          galleryListTmp.push({ [prop]: userData[prop].photos[0] });
+        }
+        setGalleryList(galleryListTmp);
+      }
+    };
+
+    getDocs();
+  }, []);
   const moveGalleryForm = () => {
     navigation.navigate('galleryForm');
   };
@@ -24,7 +53,7 @@ export default function Gallery({ navigation }) {
 
       <MasonryList
         contentContainerStyle={styles.galleryContent}
-        data={data}
+        data={galleryList}
         numColumns={3}
         renderItem={({ item, i }) => <GalleryCard item={item} i={i} />}
       />
