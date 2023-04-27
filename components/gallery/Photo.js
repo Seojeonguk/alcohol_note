@@ -64,6 +64,7 @@ export default function Photo() {
     let getPhotos = await MediaLibrary.getAssetsAsync({
       mediaType: ['photo'],
       after: assetsOptions.after,
+      sortBy: ['creationTime'],
     });
 
     updateAssetsOptions(String(parseInt(assetsOptions.after) + 20), getPhotos.hasNextPage);
