@@ -4,8 +4,8 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import { auth } from '../../firebaseConfig';
 import { Color, getKorErrorMsg } from '../util';
 
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { Ionicons } from '@expo/vector-icons';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RegistrationForm({ navigation }) {
@@ -46,9 +46,9 @@ export default function RegistrationForm({ navigation }) {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       await sendEmailVerification(auth.currentUser);
-      navigation.goBack();
+      navigation.replace('login');
     } catch (e) {
-      const korErrorMsg = getKorErrorMsg(err.code);
+      const korErrorMsg = getKorErrorMsg(e.code);
       if (korErrorMsg.includes('이메일')) {
         setEmailError(korErrorMsg);
       } else {
