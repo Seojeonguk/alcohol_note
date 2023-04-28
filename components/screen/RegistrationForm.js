@@ -43,18 +43,18 @@ export default function RegistrationForm({ navigation }) {
       return;
     }
 
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        navigation.navigate('mainPage');
-      })
-      .catch((err) => {
-        const korErrorMsg = getKorErrorMsg(err.code);
-        if (korErrorMsg.includes('이메일')) {
-          setEmailError(korErrorMsg);
-        } else {
-          setPasswordError(korErrorMsg);
-        }
-      });
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(auth.currentUser);
+      navigation.goBack();
+    } catch (e) {
+      const korErrorMsg = getKorErrorMsg(err.code);
+      if (korErrorMsg.includes('이메일')) {
+        setEmailError(korErrorMsg);
+      } else {
+        setPasswordError(korErrorMsg);
+      }
+    }
   };
 
   return (
