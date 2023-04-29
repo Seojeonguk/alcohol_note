@@ -61,7 +61,6 @@ export default function RegistrationForm({ navigation }) {
       showSuccessToastForEmailSending();
       navigation.replace('login');
     } catch (e) {
-      console.log(e);
       const korErrorMsg = getKorErrorMsg(e.code);
       if (korErrorMsg.includes('이메일')) {
         setEmailError(korErrorMsg);
