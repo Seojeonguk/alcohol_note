@@ -1,12 +1,15 @@
 import { useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
-import { Color, getKorErrorMsg } from '../util';
+import { Color, getKorErrorMsg, setEmailRequestLimit } from '../util';
 
 import { Ionicons } from '@expo/vector-icons';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { emailRequestLimitKey } from '../util';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -27,15 +30,58 @@ export default function Login({ navigation }) {
     setPassword(newPassword);
   };
 
+  const checkEmailRequestLimit = async (user) => {
+    const emailRequestLimitObj = await AsyncStorage.getItem(emailRequestLimitKey);
+    const emailRequestLimit = new Date(emailRequestLimitObj);
+    const now = new Date();
+
+    if (now > emailRequestLimit) {
+      Alert.alert(
+        '재인증',
+        '인증 메일을 재전송 하시겠습니까?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Send',
+            onPress: async () => {
+              await sendEmailVerification(user);
+              await setEmailRequestLimit();
+            },
+          },
+        ],
+        { cancelable: true }
+      );
+    } else {
+      Toast.show({
+        type: 'info',
+        text1: '이메일의 메일함을 확인바랍니다.',
+        text2: `${emailRequestLimit.getHours()}시 ${emailRequestLimit.getMinutes()}분 ${emailRequestLimit.getSeconds()}초 까지 메일을 다시 보낼 수 없습니다.`,
+      });
+    }
+  };
+
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password).catch((err) => {
-      const korErrorMsg = getKorErrorMsg(err.code);
-      if (korErrorMsg.includes('이메일')) {
-        setEmailError(korErrorMsg);
-      } else {
-        setPasswordError(korErrorMsg);
-      }
-    });
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        const emailVerified = user.emailVerified;
+        if (emailVerified) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Gallery' }],
+          });
+          return;
+        }
+        await checkEmailRequestLimit(user);
+      })
+      .catch((err) => {
+        const korErrorMsg = getKorErrorMsg(err.code);
+        if (korErrorMsg.includes('이메일')) {
+          setEmailError(korErrorMsg);
+        } else {
+          setPasswordError(korErrorMsg);
+        }
+      });
   };
 
   const handleForgotPasswordBtn = () => {
@@ -45,7 +91,7 @@ export default function Login({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headers}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+        <TouchableOpacity onPress={() => navigation.navigate('mainPage')} style={styles.backBtn}>
           <Ionicons color="black" name="arrow-back" size={24} />
         </TouchableOpacity>
       </View>
@@ -61,7 +107,7 @@ export default function Login({ navigation }) {
             <TextInput
               inputMode="email"
               keyboardType="email-address"
-              onChangeText={(newEmail) => handleChangeEmail(newEmail)}
+              onChangeText={handleChangeEmail}
               placeholder="이메일을 입력해 주세요"
               ref={emailRef}
               style={styles.input}
@@ -73,7 +119,7 @@ export default function Login({ navigation }) {
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>비밀번호</Text>
             <TextInput
-              onChangeText={(newPassword) => handleChangePassword(newPassword)}
+              onChangeText={handleChangePassword}
               onPressIn={() => setSecurePassword(false)}
               onPressOut={() => setSecurePassword(true)}
               placeholder="비밀번호를 입력해 주세요"

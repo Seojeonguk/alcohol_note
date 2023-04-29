@@ -1,10 +1,12 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useEffect } from 'react';
 import mainPageImg from '../../assets/mainPageImg.png';
+import { auth } from '../../firebaseConfig';
 import { Color } from '../util';
 
-export default function MainPage({ navigation }) {
+export default function MainPage({ navigation, route }) {
   const handleLoginBtn = () => {
     navigation.navigate('login');
   };
@@ -12,6 +14,24 @@ export default function MainPage({ navigation }) {
   const handleRegistrationBtn = () => {
     navigation.navigate('registration');
   };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (!user || !user.emailVerified) {
+        return;
+      }
+
+      if (user.emailVerified) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Gallery' }],
+        });
+        return;
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <SafeAreaView>

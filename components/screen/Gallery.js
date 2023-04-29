@@ -1,18 +1,17 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { data } from '../gallery/dummyData';
 import GalleryCard from '../gallery/GalleryCard';
 
 import { AntDesign } from '@expo/vector-icons';
 import MasonryList from '@react-native-seoul/masonry-list';
+import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Color } from '../util';
-import { useEffect } from 'react';
 
+import { getAuth, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebaseConfig';
-import { getAuth } from 'firebase/auth';
 import { useState } from 'react';
+import { auth, db } from '../../firebaseConfig';
 
 export default function Gallery({ navigation }) {
   const [galleryList, setGalleryList] = useState([]);
@@ -42,6 +41,11 @@ export default function Gallery({ navigation }) {
     navigation.navigate('galleryForm');
   };
 
+  const logout = async () => {
+    await signOut(auth);
+    navigation.replace('mainPage');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.galleryHeader}>
@@ -57,6 +61,10 @@ export default function Gallery({ navigation }) {
         numColumns={3}
         renderItem={({ item, i }) => <GalleryCard item={item} i={i} />}
       />
+
+      <TouchableOpacity onPress={logout}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
