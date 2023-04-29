@@ -2,11 +2,12 @@ import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
-import { Color, getKorErrorMsg } from '../util';
+import { Color, getKorErrorMsg, setEmailRequestLimit } from '../util';
 
 import { Ionicons } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState('');
@@ -36,6 +37,14 @@ export default function RegistrationForm({ navigation }) {
     setConfirmPassword(confirmPassword);
   };
 
+  const showSuccessToastForEmailSending = () => {
+    Toast.show({
+      type: 'success',
+      text1: '이메일의 메일함을 확인바랍니다.',
+      text2: `${email}로 인증 메일을 발송하였습니다.`,
+    });
+  };
+
   const handleRegistration = async () => {
     if (password !== confirmPassword) {
       setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
@@ -46,6 +55,8 @@ export default function RegistrationForm({ navigation }) {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       await sendEmailVerification(auth.currentUser);
+      await setEmailRequestLimit();
+      showSuccessToastForEmailSending();
       navigation.replace('login');
     } catch (e) {
       const korErrorMsg = getKorErrorMsg(e.code);

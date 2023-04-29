@@ -2,16 +2,16 @@ import { useRef, useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { auth } from '../../firebaseConfig';
-import { Color, getKorErrorMsg } from '../util';
+import { Color, getKorErrorMsg, setEmailRequestLimit } from '../util';
 
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { emailRequestLimitKey } from '../util';
 
 export default function Login({ navigation }) {
-  const requestKey = 'requestTime';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -30,17 +30,41 @@ export default function Login({ navigation }) {
     setPassword(newPassword);
   };
 
-  const after30RequestTIme = async () => {
+  const checkEmailRequestLimit = async (user) => {
+    const emailRequestLimitObj = await AsyncStorage.getItem(emailRequestLimitKey);
+    const emailRequestLimit = new Date(emailRequestLimitObj);
     const now = new Date();
-    now.setMinutes(now.getMinutes() + 30);
 
-    await AsyncStorage.setItem(requestKey, now.toString());
+    if (now > emailRequestLimit) {
+      Alert.alert(
+        '재인증',
+        '인증 메일을 재전송 하시겠습니까?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Send',
+            onPress: async () => {
+              await sendEmailVerification(user);
+              await setEmailRequestLimit();
+            },
+          },
+        ],
+        { cancelable: true }
+      );
+    } else {
+      Toast.show({
+        type: 'info',
+        text1: '이메일의 메일함을 확인바랍니다.',
+        text2: `${emailRequestLimit.getHours()}시 ${emailRequestLimit.getMinutes()}분 ${emailRequestLimit.getSeconds()}초 까지 메일을 다시 보낼 수 없습니다.`,
+      });
+    }
   };
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
-        const emailVerified = userCredential.user.emailVerified;
+        const user = userCredential.user;
+        const emailVerified = user.emailVerified;
         if (emailVerified) {
           navigation.reset({
             index: 0,
@@ -48,33 +72,7 @@ export default function Login({ navigation }) {
           });
           return;
         }
-
-        const requestTimeOut = await AsyncStorage.getItem(requestKey);
-        const requestTimeOutObj = new Date(requestTimeOut);
-
-        if (Date.now() > requestTimeOutObj) {
-          Alert.alert(
-            '재인증',
-            '인증 메일을 재전송 하시겠습니까?',
-            [
-              { text: 'Cancel', style: 'cancel' },
-              {
-                text: 'Send',
-                onPress: async () => {
-                  await sendEmailVerification(userCredential.user);
-                  await after30RequestTIme();
-                },
-              },
-            ],
-            { cancelable: true }
-          );
-        } else {
-          Toast.show({
-            type: 'success',
-            text1: '이메일의 메일함을 확인바랍니다.',
-            text2: `${requestTimeOutObj.getHours()}시 ${requestTimeOutObj.getMinutes()}분 ${requestTimeOutObj.getSeconds()}초 까지 메일을 다시 보낼 수 없습니다.`,
-          });
-        }
+        await checkEmailRequestLimit(user);
       })
       .catch((err) => {
         const korErrorMsg = getKorErrorMsg(err.code);
