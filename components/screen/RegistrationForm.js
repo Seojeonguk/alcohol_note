@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { createUserInfo } from '../firebase';
 
 export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState('');
@@ -56,9 +57,11 @@ export default function RegistrationForm({ navigation }) {
       await createUserWithEmailAndPassword(auth, email, password);
       await sendEmailVerification(auth.currentUser);
       await setEmailRequestLimit();
+      await createUserInfo(email);
       showSuccessToastForEmailSending();
       navigation.replace('login');
     } catch (e) {
+      console.log(e);
       const korErrorMsg = getKorErrorMsg(e.code);
       if (korErrorMsg.includes('이메일')) {
         setEmailError(korErrorMsg);
