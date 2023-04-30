@@ -18,7 +18,7 @@ import { Color } from '../util';
 
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { createNewPost } from '../firebase';
+import { createNewPost, getPosts } from '../firebase';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
@@ -69,6 +69,10 @@ export default function GalleryForm({ navigation }) {
       })
     );
 
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const email = user.email;
+
     const data = {
       title: gallery.title,
       day: gallery.day,
@@ -76,11 +80,9 @@ export default function GalleryForm({ navigation }) {
       content: gallery.content,
       location: gallery.location,
       tags: gallery.tags,
+      writer: email,
+      createdAt: new Date(),
     };
-
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const email = user.email;
 
     await createNewPost(data, email);
   };
