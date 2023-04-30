@@ -8,6 +8,7 @@ import Login from '../screen/Login';
 import MainPage from '../screen/MainPage';
 import RegistrationForm from '../screen/RegistrationForm';
 import Settings from '../screen/Settings';
+import GalleryForm from '../screen/GalleryForm';
 
 const Tab = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function Index() {
         <Tab.Screen name="forgotPassword" component={ForgetPassword} />
         <Tab.Screen name="Gallery" component={Gallery} />
         <Tab.Screen name="Settings" component={Settings} />
+        <Tab.Screen name="galleryForm" component={GalleryForm} />
       </Tab.Navigator>
     </NavigationContainer>
   );
