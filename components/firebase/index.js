@@ -1,3 +1,3 @@
-import { createUserInfo, createNewPost } from './docs';
+import { createUserInfo, createNewPost, getPosts } from './docs';
 
-export { createUserInfo, createNewPost };
+export { createUserInfo, createNewPost, getPosts };

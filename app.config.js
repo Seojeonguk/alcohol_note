@@ -43,5 +43,15 @@ export default {
       firebaseAppId: process.env.REACT_APP_FIREBASE_APP_ID,
       firebaseMeasurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
     },
+    plugins: [
+      [
+        'expo-media-library',
+        {
+          photosPermission: 'Allow $(PRODUCT_NAME) to access your photos.',
+          savePhotosPermission: 'Allow $(PRODUCT_NAME) to save photos.',
+          isAccessMediaLocationEnabled: true,
+        },
+      ],
+    ],
   },
 };

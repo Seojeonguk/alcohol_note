@@ -9,33 +9,24 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Color } from '../util';
 
 import { getAuth, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
 import { useState } from 'react';
-import { auth, db } from '../../firebaseConfig';
+import { auth } from '../../firebaseConfig';
+import { getPosts } from '../firebase';
 
 export default function Gallery({ navigation }) {
   const [galleryList, setGalleryList] = useState([]);
   useEffect(() => {
-    const getDocs = async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      const email = user.email;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const email = user.email;
 
-      const docRef = doc(db, 'alcoholic', email);
-      const docSnap = await getDoc(docRef);
+    const getPosting = async () => {
+      const postList = await getPosts(null, email);
 
-      if (docSnap.exists()) {
-        const userData = docSnap.data();
-
-        const galleryListTmp = [];
-        for (let prop in userData) {
-          galleryListTmp.push({ [prop]: userData[prop].photos[0] });
-        }
-        setGalleryList(galleryListTmp);
-      }
+      setGalleryList(postList);
     };
 
-    getDocs();
+    getPosting();
   }, []);
   const moveGalleryForm = () => {
     navigation.navigate('galleryForm');

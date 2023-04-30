@@ -2,8 +2,9 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useMemo } from 'react';
 
 export default function GalleryCard({ item, i }) {
-  const key = Object.keys(item);
-  const uri = item[key];
+  const uri =
+    item.photos?.[0] ||
+    'https://firebasestorage.googleapis.com/v0/b/alcoholic-a9f86.appspot.com/o/default.jfif?alt=media&token=18e253aa-6a28-4a68-9823-eaf0726b6830';
   const height = useMemo(() => Math.floor(Math.random() * 100 + 200));
   const isCenter = i % 3 === 1;
 
