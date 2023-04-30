@@ -1,3 +1,3 @@
-import { createUserInfo } from './docs';
+import { createUserInfo, createNewPost } from './docs';
 
-export { createUserInfo };
+export { createUserInfo, createNewPost };

@@ -2,24 +2,23 @@ import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 
 import Content from '../gallery/Content';
 import Day from '../gallery/Day';
-import { init } from '../redux/slices/GallerySlice';
 import Location from '../gallery/Location';
 import Photo from '../gallery/Photo';
 import Tags from '../gallery/Tags';
 import Title from '../gallery/Title';
+import { init } from '../redux/slices/GallerySlice';
 
 import { Entypo, Ionicons } from '@expo/vector-icons';
 
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { Color } from '../util';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import uuid from 'react-native-uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import { Color } from '../util';
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebaseConfig';
 import { getAuth } from 'firebase/auth';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { createNewPost } from '../firebase';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
@@ -83,19 +82,7 @@ export default function GalleryForm({ navigation }) {
     const user = auth.currentUser;
     const email = user.email;
 
-    const docRef = doc(db, 'alcoholic', email);
-    const docSnap = await getDoc(docRef);
-
-    var inputData = {};
-
-    if (docSnap.exists()) {
-      inputData = docSnap.data();
-    }
-
-    inputData[uuid.v4()] = data;
-
-    const galleryRef = doc(db, 'alcoholic', email);
-    await setDoc(galleryRef, inputData);
+    await createNewPost(data, email);
   };
 
   const uploadImage = async (uri) => {
