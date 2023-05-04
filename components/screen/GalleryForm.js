@@ -19,6 +19,7 @@ import { Color } from '../util';
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { createNewPost, getPosts } from '../firebase';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
@@ -63,28 +64,47 @@ export default function GalleryForm({ navigation }) {
   };
 
   const save = async () => {
-    const downloadURLs = await Promise.all(
-      gallery.photos.map(async (url) => {
-        return await uploadImage(url);
-      })
-    );
+    try {
+      const downloadURLs = await Promise.all(
+        gallery.photos.map(async (url) => {
+          return await uploadImage(url);
+        })
+      );
 
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const email = user.email;
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const email = user.email;
 
-    const data = {
-      title: gallery.title,
-      day: gallery.day,
-      photos: downloadURLs,
-      content: gallery.content,
-      location: gallery.location,
-      tags: gallery.tags,
-      writer: email,
-      createdAt: new Date(),
-    };
+      const data = {
+        title: gallery.title,
+        day: gallery.day,
+        photos: downloadURLs,
+        content: gallery.content,
+        location: gallery.location,
+        tags: gallery.tags,
+        writer: email,
+        createdAt: new Date(),
+      };
 
-    await createNewPost(data, email);
+      await createNewPost(data, email);
+
+      Toast.show({
+        type: 'success',
+        text1: `정상적으로 작성이 완료되었습니다.`,
+        position: 'bottom',
+      });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Gallery' }],
+      });
+    } catch (e) {
+      Toast.show({
+        type: 'error',
+        text1: `작성 중 오류가 발생하였습니다.`,
+        text2: `입력 확인 후 다시 시도해 주시기 바랍니다.`,
+        position: 'bottom',
+      });
+    }
   };
 
   const uploadImage = async (uri) => {
