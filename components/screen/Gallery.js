@@ -50,7 +50,7 @@ export default function Gallery({ navigation }) {
         contentContainerStyle={styles.galleryContent}
         data={galleryList}
         numColumns={3}
-        renderItem={({ item, i }) => <GalleryCard item={item} i={i} />}
+        renderItem={({ item, i }) => <GalleryCard item={item} i={i} navigation={navigation} />}
       />
 
       <TouchableOpacity onPress={logout}>
