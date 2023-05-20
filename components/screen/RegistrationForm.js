@@ -9,6 +9,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { createUserInfo } from '../firebase';
+import Header from '../gallery/Header';
 
 export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState('');
@@ -72,11 +73,13 @@ export default function RegistrationForm({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headers}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Ionicons color="black" name="arrow-back" size={24} />
-        </TouchableOpacity>
-      </View>
+      <Header
+        visibleLeftIcon={true}
+        visibleRightIcon={false}
+        leftIconName={'arrow-back'}
+        onPressLeft={() => navigation.goBack()}
+        iconSize={24}
+      />
 
       <View style={styles.contentWrap}>
         <View style={styles.titleWrap}>
@@ -138,9 +141,6 @@ export default function RegistrationForm({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  backBtn: {
-    paddingHorizontal: 15,
-  },
   container: {
     backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
@@ -157,11 +157,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'center',
     textDecorationLine: 'underline',
-  },
-  headers: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: 50,
   },
   input: {
     borderBottomColor: Color.BORDER_COLOR,

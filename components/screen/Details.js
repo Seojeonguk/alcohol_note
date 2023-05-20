@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Carousel from '../gallery/Carousel';
 import { Color } from '../util';
+import Header from '../gallery/Header';
 
 export default function Details({ navigation, route }) {
   const DEFAULT_NUMBER_OF_LINES = 3;
@@ -30,11 +31,13 @@ export default function Details({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={handleBackBtn} style={styles.headerFirstIcon}>
-          <Ionicons color="black" name="arrow-back" size={32} />
-        </TouchableOpacity>
-      </View>
+      <Header
+        visibleLeftIcon={true}
+        visibleRightIcon={false}
+        leftIconName={'arrow-back'}
+        onPressLeft={() => navigation.goBack()}
+        iconSize={24}
+      />
 
       <ScrollView>
         <Carousel height={300} data={uri} offset={0} gap={0} isIndicator={true} />
@@ -94,13 +97,6 @@ const styles = StyleSheet.create({
   },
   day: {
     fontSize: 10,
-  },
-  header: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  headerFirstIcon: {
-    padding: 12,
   },
   location: {
     fontSize: 13,

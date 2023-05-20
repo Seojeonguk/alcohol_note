@@ -2,7 +2,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import GalleryCard from '../gallery/GalleryCard';
 
-import { AntDesign } from '@expo/vector-icons';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,6 +11,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { useState } from 'react';
 import { auth } from '../../firebaseConfig';
 import { getPosts } from '../firebase';
+import Header from '../gallery/Header';
 
 export default function Gallery({ navigation }) {
   const [galleryList, setGalleryList] = useState([]);
@@ -39,12 +39,14 @@ export default function Gallery({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.galleryHeader}>
-        <Text style={styles.galleryTitle}>Gallery</Text>
-        <TouchableOpacity onPress={moveGalleryForm} style={styles.uploadBtn}>
-          <AntDesign color="black" name="plus" size={24} />
-        </TouchableOpacity>
-      </View>
+      <Header
+        title={'Gallery'}
+        visibleLeftIcon={false}
+        visibleRightIcon={true}
+        rightIconName={'ios-add-outline'}
+        iconSize={24}
+        onPressRight={() => moveGalleryForm()}
+      />
 
       <MasonryList
         contentContainerStyle={styles.galleryContent}
@@ -67,26 +69,5 @@ const styles = StyleSheet.create({
   },
   galleryContent: {
     alignSelf: 'stretch',
-  },
-  galleryHeader: {
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: 'grey',
-    borderStyle: 'solid',
-    justifyContent: 'center',
-    marginBottom: 5,
-    paddingVertical: 5,
-  },
-  galleryTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  uploadBtn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 4,
-    position: 'absolute',
-    right: 0,
   },
 });

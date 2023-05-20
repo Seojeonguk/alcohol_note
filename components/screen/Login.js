@@ -10,6 +10,7 @@ import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { emailRequestLimitKey } from '../util';
+import Header from '../gallery/Header';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -90,11 +91,13 @@ export default function Login({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headers}>
-        <TouchableOpacity onPress={() => navigation.navigate('mainPage')} style={styles.backBtn}>
-          <Ionicons color="black" name="arrow-back" size={24} />
-        </TouchableOpacity>
-      </View>
+      <Header
+        visibleLeftIcon={true}
+        visibleRightIcon={false}
+        leftIconName={'arrow-back'}
+        onPressLeft={() => navigation.navigate('mainPage')}
+        iconSize={24}
+      />
 
       <View style={styles.contentWrap}>
         <View style={styles.titleWrap}>
@@ -145,9 +148,6 @@ export default function Login({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  backBtn: {
-    paddingHorizontal: 15,
-  },
   container: {
     backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
@@ -164,11 +164,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'center',
     textDecorationLine: 'underline',
-  },
-  headers: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: 50,
   },
   input: {
     borderBottomColor: Color.BORDER_COLOR,
