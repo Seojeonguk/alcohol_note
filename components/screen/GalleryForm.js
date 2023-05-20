@@ -131,12 +131,12 @@ export default function GalleryForm({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <ScrollView>
+      <ScrollView style={styles.content}>
         <Title />
         <Photo />
         <Day />
-        <Tags />
         <Location />
+        <Tags />
         <Content />
       </ScrollView>
     </SafeAreaView>
@@ -154,6 +154,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
+  },
+  content: {
+    paddingHorizontal: 25,
   },
   galleryHeader: {
     alignItems: 'center',

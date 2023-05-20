@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   inputBox: {
-    borderBottomWidth: 1,
-    borderColor: 'grey',
     flexDirection: 'row',
     marginHorizontal: 20,
     marginVertical: 5,
+    marginTop: 30,
+    alignItems: 'center',
   },
 });

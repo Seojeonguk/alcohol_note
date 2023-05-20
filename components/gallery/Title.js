@@ -18,9 +18,10 @@ export default function Title() {
       <TextInput
         multiline
         onChangeText={(newTitle) => handleChangeTitle(newTitle)}
-        placeholder="제목"
+        placeholder="제목을 입력해주세요."
         style={styles.input}
         value={title}
+        maxLength={40}
       />
     </View>
   );
