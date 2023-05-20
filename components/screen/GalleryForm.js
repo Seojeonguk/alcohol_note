@@ -20,6 +20,7 @@ import { getAuth } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { createNewPost, getPosts } from '../firebase';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Header from '../gallery/Header';
 
 export default function GalleryForm({ navigation }) {
   const dispatch = useDispatch();
@@ -121,15 +122,16 @@ export default function GalleryForm({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.galleryHeader}>
-        <Text style={styles.galleryTitle}>새 게시물</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Ionicons color="black" name="arrow-back" size={24} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => save()} style={styles.saveBtn}>
-          <Entypo color="black" name="check" size={24} />
-        </TouchableOpacity>
-      </View>
+      <Header
+        title={'새 게시물'}
+        visibleLeftIcon={true}
+        visibleRightIcon={true}
+        leftIconName={'arrow-back'}
+        rightIconName={'checkmark-sharp'}
+        onPressLeft={() => navigation.goBack()}
+        onPressRight={() => save()}
+        iconSize={24}
+      />
 
       <ScrollView style={styles.content}>
         <Title />
@@ -144,39 +146,11 @@ export default function GalleryForm({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  backBtn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    left: 0,
-    padding: 4,
-    position: 'absolute',
-  },
   container: {
     backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
   },
   content: {
     paddingHorizontal: 25,
-  },
-  galleryHeader: {
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: Color.BORDER_COLOR,
-    borderStyle: 'solid',
-    justifyContent: 'center',
-    marginBottom: 5,
-    paddingVertical: 5,
-  },
-  galleryTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  saveBtn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 4,
-    position: 'absolute',
-    right: 0,
   },
 });

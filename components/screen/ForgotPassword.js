@@ -7,6 +7,7 @@ import { Color, getKorErrorMsg } from '../util';
 import { Ionicons } from '@expo/vector-icons';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Header from '../gallery/Header';
 
 export default function ForgetPassword({ navigation }) {
   const [email, setEmail] = useState('');
@@ -33,11 +34,13 @@ export default function ForgetPassword({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headers}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Ionicons color="black" name="arrow-back" size={24} />
-        </TouchableOpacity>
-      </View>
+      <Header
+        visibleLeftIcon={true}
+        visibleRightIcon={false}
+        leftIconName={'arrow-back'}
+        onPressLeft={() => navigation.goBack()}
+        iconSize={24}
+      />
 
       <View style={styles.contentWrap}>
         <View style={styles.titleWrap}>
@@ -67,9 +70,6 @@ export default function ForgetPassword({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  backBtn: {
-    paddingHorizontal: 15,
-  },
   container: {
     backgroundColor: Color.BACKGROUND_COLOR,
     flex: 1,
@@ -77,11 +77,6 @@ const styles = StyleSheet.create({
   contentWrap: {
     flex: 1,
     paddingHorizontal: 40,
-  },
-  headers: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: 50,
   },
   input: {
     borderBottomColor: Color.BORDER_COLOR,
