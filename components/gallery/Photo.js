@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const screenWidthSize = Dimensions.get('window').width;
 const columnSize = 3;
+const contentPaddingHorizontal = 25;
 
 export default function Photo() {
   const [assetsOptions, setAssetsOptions] = useState({
@@ -80,16 +81,17 @@ export default function Photo() {
 
   return (
     <View style={styles.photosContainer}>
-      {photos.map((photo, index) => (
-        <View key={index} style={styles.photosWrapper}>
-          <Image source={{ uri: photo }} style={styles.photo} />
-        </View>
-      ))}
       <View style={styles.photosWrapper}>
         <TouchableOpacity onPress={addImageBtn} style={styles.addBtn}>
           <AntDesign color="grey" name="pluscircleo" size={24} />
         </TouchableOpacity>
       </View>
+
+      {photos.map((photo, index) => (
+        <View key={index} style={styles.photosWrapper}>
+          <Image source={{ uri: photo }} style={styles.photo} />
+        </View>
+      ))}
 
       <Modal onRequestClose={closeModal} visible={isOpenModal}>
         <FlatList
@@ -125,9 +127,9 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderRadius: 5,
     borderWidth: 1,
-    height: screenWidthSize / columnSize - 10,
+    height: '100%',
     justifyContent: 'center',
-    width: screenWidthSize / columnSize - 10,
+    width: '100%',
   },
   modalBottomMenu: {
     flexDirection: 'row',
@@ -149,16 +151,17 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   photo: {
-    height: screenWidthSize / columnSize - 10,
-    width: screenWidthSize / columnSize - 10,
+    height: '100%',
+    width: '100%',
+    resizeMode: 'stretch',
   },
   photosContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   photosWrapper: {
-    height: screenWidthSize / columnSize,
-    padding: 5,
-    width: screenWidthSize / columnSize,
+    height: screenWidthSize / columnSize - 2 * contentPaddingHorizontal,
+    padding: 1,
+    width: screenWidthSize / columnSize - 2 * contentPaddingHorizontal,
   },
 });
