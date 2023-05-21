@@ -40,22 +40,30 @@ const getPosts = async (lastSnapShot, email) => {
     lastSnapShot = snapShotList.docs[0];
   }
 
-  const postLLLL = query(
+  const q = query(
     postsRef,
     where('writer', '==', email),
     orderBy('createdAt', 'desc'),
     startAt(lastSnapShot)
   );
 
-  const q = await getDocs(postLLLL);
+  const docs = await getDocs(q);
 
   const ret = [];
 
-  q.forEach((docsss) => {
-    ret.push(docsss.data());
+  docs.forEach((doc) => {
+    const data = doc.data();
+    const docId = doc.id;
+    ret.push({ data: data, docId: docId });
   });
 
   return ret;
 };
 
-export { createUserInfo, createNewPost, getPosts };
+const updateDocForId = async (id, data) => {
+  const targetDocRef = doc(postsRef, id);
+
+  await updateDoc(targetDocRef, data);
+};
+
+export { createUserInfo, createNewPost, getPosts, updateDocForId };

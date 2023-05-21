@@ -1,19 +1,31 @@
 import { useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useDispatch } from 'react-redux';
 import Carousel from '../gallery/Carousel';
-import { Color } from '../util';
 import Header from '../gallery/Header';
+import {
+  updateContent,
+  updateDay,
+  updateLocation,
+  updatePhoto,
+  updateTag,
+  updateTitle,
+} from '../redux/slices/GallerySlice';
+import { Color } from '../util';
 
 export default function Details({ navigation, route }) {
   const DEFAULT_NUMBER_OF_LINES = 3;
   const [numberOfLines, setNumberOfLines] = useState(DEFAULT_NUMBER_OF_LINES);
-  const post = route.params;
+  const post = route.params.data;
+  const docId = route.params.docId;
   const { title, location, day, content, tags } = post;
   const uri = post.photos;
+
+  const dispatch = useDispatch();
 
   const toggleTruncate = () => {
     const newNumberOfLines =
@@ -21,21 +33,25 @@ export default function Details({ navigation, route }) {
     setNumberOfLines(newNumberOfLines);
   };
 
-  const handleBackBtn = () => {
-    navigation.goBack();
-  };
-
-  const renderItem = ({ item }) => {
-    return <Text style={styles.tag}>#{item}</Text>;
+  const onPressRight = () => {
+    dispatch(updateTitle(title));
+    dispatch(updateDay(day));
+    dispatch(updatePhoto(uri));
+    dispatch(updateContent(content));
+    dispatch(updateLocation(location));
+    dispatch(updateTag(tags));
+    navigation.navigate('galleryForm', docId);
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <Header
         visibleLeftIcon={true}
-        visibleRightIcon={false}
+        visibleRightIcon={true}
         leftIconName={'arrow-back'}
+        rightIconName={'pencil-sharp'}
         onPressLeft={() => navigation.goBack()}
+        onPressRight={onPressRight}
         iconSize={24}
       />
 
@@ -69,8 +85,8 @@ export default function Details({ navigation, route }) {
 
           {tags && (
             <View style={styles.tagWrap}>
-              {tags.map((item) => (
-                <Text key={`item_${item}`} style={styles.tag}>
+              {tags.map((item, index) => (
+                <Text key={`item_${item}_${index}`} style={styles.tag}>
                   #{item}
                 </Text>
               ))}

@@ -1,3 +1,4 @@
-import { createUserInfo, createNewPost, getPosts } from './docs';
+import { createNewPost, createUserInfo, getPosts, updateDocForId } from './docs';
 
-export { createUserInfo, createNewPost, getPosts };
+export { createUserInfo, createNewPost, getPosts, updateDocForId };
+
