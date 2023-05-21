@@ -1,4 +1,4 @@
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
 
 import Content from '../gallery/Content';
 import Day from '../gallery/Day';
@@ -8,8 +8,6 @@ import Tags from '../gallery/Tags';
 import Title from '../gallery/Title';
 import { init } from '../redux/slices/GallerySlice';
 
-import { Entypo, Ionicons } from '@expo/vector-icons';
-
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import uuid from 'react-native-uuid';
@@ -18,15 +16,19 @@ import { Color } from '../util';
 
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { createNewPost, getPosts } from '../firebase';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { createNewPost, updateDocForId } from '../firebase';
 import Header from '../gallery/Header';
 
-export default function GalleryForm({ navigation }) {
+export default function GalleryForm({ navigation, route }) {
   const dispatch = useDispatch();
   const gallery = useSelector((state) => state.gallery);
+  const docId = route.params;
 
   useEffect(() => {
+    if (docId) {
+      return;
+    }
     if (existInput()) {
       Alert.alert('Previous data exits.', 'Would you like to initialize it?', [
         {
@@ -87,7 +89,13 @@ export default function GalleryForm({ navigation }) {
         createdAt: new Date(),
       };
 
-      await createNewPost(data, email);
+      if (docId) {
+        updateDocForId(docId, data);
+      } else {
+        await createNewPost(data, email);
+      }
+
+      initForm();
 
       Toast.show({
         type: 'success',
@@ -105,6 +113,7 @@ export default function GalleryForm({ navigation }) {
         text2: `입력 확인 후 다시 시도해 주시기 바랍니다.`,
         position: 'bottom',
       });
+      console.log(e);
     }
   };
 

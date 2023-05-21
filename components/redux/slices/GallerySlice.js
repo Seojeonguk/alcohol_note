@@ -29,6 +29,9 @@ export const GallerySlice = createSlice({
       let newTags = state.tags.filter((tag, idx) => idx !== action.payload);
       state.tags = newTags;
     },
+    updateTag: (state, action) => {
+      state.tags = action.payload;
+    },
     updateTitle: (state, action) => {
       state.title = action.payload;
     },
@@ -61,5 +64,6 @@ export const {
   updateLocation,
   updateTitle,
   updatePhoto,
+  updateTag,
 } = GallerySlice.actions;
 export default GallerySlice.reducer;
