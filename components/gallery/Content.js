@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, View } from 'react-native';
 
-import { updateContent } from '../redux/slices/GallerySlice';
+import { updateContent } from '../redux';
 
 import { useDispatch, useSelector } from 'react-redux';
 

@@ -9,7 +9,7 @@ import Location from '../components/gallery/Location';
 import Photo from '../components/gallery/Photo';
 import Tags from '../components/gallery/Tags';
 import Title from '../components/gallery/Title';
-import { init } from '../components/redux/slices/GallerySlice';
+import { init } from '../redux';
 import { Color } from '../components/util';
 
 import { getAuth } from 'firebase/auth';

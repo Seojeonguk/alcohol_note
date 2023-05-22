@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { addTag, deleteTag } from '../redux/slices/GallerySlice';
+import { addTag, deleteTag } from '../redux';
 
 import { Octicons } from '@expo/vector-icons';
 

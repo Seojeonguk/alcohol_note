@@ -9,7 +9,7 @@ const initialState = {
   tags: [],
 };
 
-export const GallerySlice = createSlice({
+export const gallerySlice = createSlice({
   name: 'gallery',
   initialState,
   reducers: {
@@ -65,5 +65,5 @@ export const {
   updateTitle,
   updatePhoto,
   updateTag,
-} = GallerySlice.actions;
-export default GallerySlice.reducer;
+} = gallerySlice.actions;
+export default gallerySlice.reducer;
