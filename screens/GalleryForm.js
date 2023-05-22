@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 
-import { createNewPost, updateDocForId } from '../components/firebase';
+import { createNewPost, updateDocForId } from '../firebase';
 import Content from '../components/gallery/Content';
 import Day from '../components/gallery/Day';
 import Header from '../components/gallery/Header';
