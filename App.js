@@ -1,5 +1,5 @@
 import Navigation from './components/navigation/Index';
-import store from './components/redux/store';
+import store from './redux/store';
 
 import { Provider } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';

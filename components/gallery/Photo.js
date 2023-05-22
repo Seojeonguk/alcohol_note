@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 
-import { addImage } from '../redux/slices/GallerySlice';
+import { addImage } from '../redux';
 
 import { AntDesign } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';

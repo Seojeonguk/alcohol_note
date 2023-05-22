@@ -1,4 +1,4 @@
-import GalleryReducer from './slices/GallerySlice';
+import GalleryReducer from './slices/gallerySlice';
 
 import { configureStore } from '@reduxjs/toolkit';
 

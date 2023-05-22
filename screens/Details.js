@@ -10,7 +10,7 @@ import {
   updatePhoto,
   updateTag,
   updateTitle,
-} from '../components/redux/slices/GallerySlice';
+} from '../redux';
 import { Color } from '../components/util';
 
 import { FontAwesome5 } from '@expo/vector-icons';
