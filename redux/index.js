@@ -1,14 +1,14 @@
 import {
-  addTag,
   addImage,
+  addTag,
   deleteTag,
   init,
   updateContent,
   updateDay,
   updateLocation,
-  updateTitle,
   updatePhoto,
   updateTag,
+  updateTitle,
 } from './slices/gallerySlice';
 
 export {
