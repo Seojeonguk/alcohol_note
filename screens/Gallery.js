@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { getPosts } from '../components/firebase';
+import { getPosts } from '../firebase';
 import GalleryCard from '../components/gallery/GalleryCard';
 import Header from '../components/gallery/Header';
 import { Color } from '../components/util';
