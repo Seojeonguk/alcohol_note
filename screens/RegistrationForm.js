@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { createUserInfo } from '../firebase';
-import Header from '../components/gallery/Header';
+import { Header } from '../components';
 import { Color, getKorErrorMsg, setEmailRequestLimit } from '../components/util';
 import { auth } from '../firebaseConfig';
 

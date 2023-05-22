@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import Carousel from '../components/gallery/Carousel';
-import Header from '../components/gallery/Header';
+import { Carousel, Header } from '../components';
+import { Color } from '../components/util';
 import {
   updateContent,
   updateDay,
@@ -11,7 +11,6 @@ import {
   updateTag,
   updateTitle,
 } from '../redux';
-import { Color } from '../components/util';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';

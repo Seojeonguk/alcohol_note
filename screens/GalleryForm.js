@@ -1,16 +1,10 @@
 import { useEffect } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 
-import { createNewPost, updateDocForId } from '../firebase';
-import Content from '../components/gallery/Content';
-import Day from '../components/gallery/Day';
-import Header from '../components/gallery/Header';
-import Location from '../components/gallery/Location';
-import Photo from '../components/gallery/Photo';
-import Tags from '../components/gallery/Tags';
-import Title from '../components/gallery/Title';
-import { init } from '../redux';
+import { Content, Day, Header, Location, Photo, Tags, Title } from '../components';
 import { Color } from '../components/util';
+import { createNewPost, updateDocForId } from '../firebase';
+import { init } from '../redux';
 
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';

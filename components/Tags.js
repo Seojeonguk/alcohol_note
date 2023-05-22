@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 
-import { addTag, deleteTag } from '../../redux';
+import { addTag, deleteTag } from '../redux';
 
 import { Octicons } from '@expo/vector-icons';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Tags() {
