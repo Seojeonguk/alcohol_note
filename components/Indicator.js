@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native';
-import { Color } from '../util';
+
+import { Color } from './util';
 
 export default function Indicator({ length, index }) {
   return (

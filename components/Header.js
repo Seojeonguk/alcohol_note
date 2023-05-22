@@ -1,7 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { Color } from './util';
+
 import { Ionicons } from '@expo/vector-icons';
-import { Color } from '../util';
 
 export default function Header({
   title,

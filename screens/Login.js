@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import Header from '../components/gallery/Header';
+import { Header } from '../components';
 import {
   Color,
   emailRequestLimitKey,

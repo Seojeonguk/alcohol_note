@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { getPosts } from '../firebase';
-import GalleryCard from '../components/gallery/GalleryCard';
-import Header from '../components/gallery/Header';
+import { GalleryCard, Header } from '../components';
 import { Color } from '../components/util';
+import { getPosts } from '../firebase';
 import { auth } from '../firebaseConfig';
 
 import MasonryList from '@react-native-seoul/masonry-list';
