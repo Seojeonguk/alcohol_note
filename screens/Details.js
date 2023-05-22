@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { FontAwesome5 } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { useDispatch } from 'react-redux';
-import Carousel from '../gallery/Carousel';
-import Header from '../gallery/Header';
+import Carousel from '../components/gallery/Carousel';
+import Header from '../components/gallery/Header';
 import {
   updateContent,
   updateDay,
@@ -14,8 +10,12 @@ import {
   updatePhoto,
   updateTag,
   updateTitle,
-} from '../redux/slices/GallerySlice';
-import { Color } from '../util';
+} from '../components/redux/slices/GallerySlice';
+import { Color } from '../components/util';
+
+import { FontAwesome5 } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
 export default function Details({ navigation, route }) {
   const DEFAULT_NUMBER_OF_LINES = 3;

@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { useEffect } from 'react';
-import mainPageImg from '../../assets/mainPageImg.png';
-import { auth } from '../../firebaseConfig';
-import { Color } from '../util';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+import mainPageImg from '../assets/mainPageImg.png';
+import { Color } from '../components/util';
+import { auth } from '../firebaseConfig';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MainPage({ navigation, route }) {
   const handleLoginBtn = () => {

@@ -1,28 +1,28 @@
 import { useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { auth } from '../../firebaseConfig';
-import { Color, getKorErrorMsg, setEmailRequestLimit } from '../util';
+import Header from '../components/gallery/Header';
+import {
+  Color,
+  emailRequestLimitKey,
+  getKorErrorMsg,
+  setEmailRequestLimit,
+} from '../components/util';
+import { auth } from '../firebaseConfig';
 
-import { Ionicons } from '@expo/vector-icons';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { createUserInfo } from '../firebase';
-import Header from '../gallery/Header';
 
-export default function RegistrationForm({ navigation }) {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [isSecurePassword, setSecurePassword] = useState(true);
-  const [isSecurePasswordConfirm, setIsSecurePasswordConfirm] = useState(true);
   const emailRef = useRef();
   const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
 
   const handleChangeEmail = (newEmail) => {
     setEmailError('');
@@ -34,41 +34,62 @@ export default function RegistrationForm({ navigation }) {
     setPassword(newPassword);
   };
 
-  const handleChangeConfirmPassword = (confirmPassword) => {
-    setConfirmPasswordError('');
-    setConfirmPassword(confirmPassword);
+  const checkEmailRequestLimit = async (user) => {
+    const emailRequestLimitObj = await AsyncStorage.getItem(emailRequestLimitKey);
+    const emailRequestLimit = new Date(emailRequestLimitObj);
+    const now = new Date();
+
+    if (now > emailRequestLimit) {
+      Alert.alert(
+        '재인증',
+        '인증 메일을 재전송 하시겠습니까?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Send',
+            onPress: async () => {
+              await sendEmailVerification(user);
+              await setEmailRequestLimit();
+            },
+          },
+        ],
+        { cancelable: true }
+      );
+    } else {
+      Toast.show({
+        type: 'info',
+        text1: '이메일의 메일함을 확인바랍니다.',
+        text2: `${emailRequestLimit.getHours()}시 ${emailRequestLimit.getMinutes()}분 ${emailRequestLimit.getSeconds()}초 까지 메일을 다시 보낼 수 없습니다.`,
+      });
+    }
   };
 
-  const showSuccessToastForEmailSending = () => {
-    Toast.show({
-      type: 'success',
-      text1: '이메일의 메일함을 확인바랍니다.',
-      text2: `${email}로 인증 메일을 발송하였습니다.`,
-    });
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        const emailVerified = user.emailVerified;
+        if (emailVerified) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Gallery' }],
+          });
+          return;
+        }
+        await checkEmailRequestLimit(user);
+      })
+      .catch((err) => {
+        const korErrorMsg = getKorErrorMsg(err.code);
+        if (korErrorMsg.includes('이메일')) {
+          setEmailError(korErrorMsg);
+        } else {
+          setPasswordError(korErrorMsg);
+        }
+      });
   };
 
-  const handleRegistration = async () => {
-    if (password !== confirmPassword) {
-      setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
-      confirmPasswordRef.current.focus();
-      return;
-    }
-
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      await sendEmailVerification(auth.currentUser);
-      await setEmailRequestLimit();
-      await createUserInfo(email);
-      showSuccessToastForEmailSending();
-      navigation.replace('login');
-    } catch (e) {
-      const korErrorMsg = getKorErrorMsg(e.code);
-      if (korErrorMsg.includes('이메일')) {
-        setEmailError(korErrorMsg);
-      } else {
-        setPasswordError(korErrorMsg);
-      }
-    }
+  const handleForgotPasswordBtn = () => {
+    navigation.navigate('forgotPassword');
   };
 
   return (
@@ -77,13 +98,13 @@ export default function RegistrationForm({ navigation }) {
         visibleLeftIcon={true}
         visibleRightIcon={false}
         leftIconName={'arrow-back'}
-        onPressLeft={() => navigation.goBack()}
+        onPressLeft={() => navigation.navigate('mainPage')}
         iconSize={24}
       />
 
       <View style={styles.contentWrap}>
         <View style={styles.titleWrap}>
-          <Text style={styles.title}>이메일로 회원가입</Text>
+          <Text style={styles.title}>이메일로 시작하기</Text>
         </View>
 
         <View style={styles.inputWrap}>
@@ -92,7 +113,7 @@ export default function RegistrationForm({ navigation }) {
             <TextInput
               inputMode="email"
               keyboardType="email-address"
-              onChangeText={(newEmail) => handleChangeEmail(newEmail)}
+              onChangeText={handleChangeEmail}
               placeholder="이메일을 입력해 주세요"
               ref={emailRef}
               style={styles.input}
@@ -104,7 +125,7 @@ export default function RegistrationForm({ navigation }) {
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>비밀번호</Text>
             <TextInput
-              onChangeText={(newPassword) => handleChangePassword(newPassword)}
+              onChangeText={handleChangePassword}
               onPressIn={() => setSecurePassword(false)}
               onPressOut={() => setSecurePassword(true)}
               placeholder="비밀번호를 입력해 주세요"
@@ -115,25 +136,14 @@ export default function RegistrationForm({ navigation }) {
             />
             <Text style={styles.inputError}>{passwordError}</Text>
           </View>
-
-          <View style={styles.inputBox}>
-            <Text style={styles.inputLabel}>비밀번호 확인</Text>
-            <TextInput
-              onChangeText={(newConfirmPassword) => handleChangeConfirmPassword(newConfirmPassword)}
-              onPressIn={() => setIsSecurePasswordConfirm(false)}
-              onPressOut={() => setIsSecurePasswordConfirm(true)}
-              placeholder="비밀번호(확인)를 입력해 주세요"
-              ref={confirmPasswordRef}
-              secureTextEntry={isSecurePasswordConfirm}
-              style={styles.input}
-              value={confirmPassword}
-            />
-            <Text style={styles.inputError}>{confirmPasswordError}</Text>
-          </View>
         </View>
 
-        <TouchableOpacity onPress={handleRegistration} style={styles.registrationBtn}>
-          <Text style={styles.registrationBtnText}>회원가입</Text>
+        <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
+          <Text style={styles.loginBtnText}>로그인</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleForgotPasswordBtn} style={styles.forgotPasswordBtn}>
+          <Text style={styles.forgotPasswordBtnText}>비밀번호를 잊으셨나요?</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -177,14 +187,14 @@ const styles = StyleSheet.create({
     fontSize: 9,
   },
   inputWrap: {},
-  registrationBtn: {
+  loginBtn: {
     backgroundColor: Color.BUTTON_COLOR,
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',
     marginVertical: 15,
   },
-  registrationBtnText: {
+  loginBtnText: {
     fontWeight: 'bold',
     textAlign: 'center',
   },
