@@ -2,14 +2,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { NavigationContainer } from '@react-navigation/native';
 
-import Details from '../screen/Details';
-import ForgetPassword from '../screen/ForgotPassword';
-import Gallery from '../screen/Gallery';
-import GalleryForm from '../screen/GalleryForm';
-import Login from '../screen/Login';
-import MainPage from '../screen/MainPage';
-import RegistrationForm from '../screen/RegistrationForm';
-import Settings from '../screen/Settings';
+import {
+  Details,
+  ForgetPassword,
+  Gallery,
+  GalleryForm,
+  Login,
+  MainPage,
+  RegistrationForm,
+  Settings,
+} from '../../screens';
 
 const Tab = createNativeStackNavigator();
 

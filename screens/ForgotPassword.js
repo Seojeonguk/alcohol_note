@@ -1,13 +1,12 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { auth } from '../../firebaseConfig';
-import { Color, getKorErrorMsg } from '../util';
+import Header from '../components/gallery/Header';
+import { Color, getKorErrorMsg } from '../components/util';
+import { auth } from '../firebaseConfig';
 
-import { Ionicons } from '@expo/vector-icons';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '../gallery/Header';
 
 export default function ForgetPassword({ navigation }) {
   const [email, setEmail] = useState('');

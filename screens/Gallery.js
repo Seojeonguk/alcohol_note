@@ -1,17 +1,15 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import GalleryCard from '../gallery/GalleryCard';
+import { getPosts } from '../components/firebase';
+import GalleryCard from '../components/gallery/GalleryCard';
+import Header from '../components/gallery/Header';
+import { Color } from '../components/util';
+import { auth } from '../firebaseConfig';
 
 import MasonryList from '@react-native-seoul/masonry-list';
-import { useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Color } from '../util';
-
 import { getAuth, signOut } from 'firebase/auth';
-import { useState } from 'react';
-import { auth } from '../../firebaseConfig';
-import { getPosts } from '../firebase';
-import Header from '../gallery/Header';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Gallery({ navigation }) {
   const [galleryList, setGalleryList] = useState([]);

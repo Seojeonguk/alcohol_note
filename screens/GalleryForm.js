@@ -1,24 +1,23 @@
+import { useEffect } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 
-import Content from '../gallery/Content';
-import Day from '../gallery/Day';
-import Location from '../gallery/Location';
-import Photo from '../gallery/Photo';
-import Tags from '../gallery/Tags';
-import Title from '../gallery/Title';
-import { init } from '../redux/slices/GallerySlice';
-
-import { useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import uuid from 'react-native-uuid';
-import { useDispatch, useSelector } from 'react-redux';
-import { Color } from '../util';
+import { createNewPost, updateDocForId } from '../components/firebase';
+import Content from '../components/gallery/Content';
+import Day from '../components/gallery/Day';
+import Header from '../components/gallery/Header';
+import Location from '../components/gallery/Location';
+import Photo from '../components/gallery/Photo';
+import Tags from '../components/gallery/Tags';
+import Title from '../components/gallery/Title';
+import { init } from '../components/redux/slices/GallerySlice';
+import { Color } from '../components/util';
 
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { createNewPost, updateDocForId } from '../firebase';
-import Header from '../gallery/Header';
+import uuid from 'react-native-uuid';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function GalleryForm({ navigation, route }) {
   const dispatch = useDispatch();

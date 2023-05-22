@@ -1,9 +1,10 @@
-import { signOut } from '@firebase/auth';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { auth } from '../../firebaseConfig';
-import { Color } from '../util';
+import { Color } from '../components/util';
+import { auth } from '../firebaseConfig';
+
+import { signOut } from '@firebase/auth';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Settings() {
   const handleLogout = () => {
