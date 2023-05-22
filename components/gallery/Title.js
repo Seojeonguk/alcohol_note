@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, View } from 'react-native';
 
-import { updateTitle } from '../redux';
+import { updateTitle } from '../../redux';
 
 import { useDispatch, useSelector } from 'react-redux';
 
