@@ -1,9 +1,10 @@
-import Navigation from './components/navigation/Index';
+import Navigation from './navigation/Navigation';
 import store from './redux/store';
 
-import { Provider } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
+import { Provider } from 'react-redux';
+
 export default function App() {
   return (
     <Provider store={store}>
