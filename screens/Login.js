@@ -3,8 +3,8 @@ import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 
 import { Header } from '../components';
 import { COLORS } from '../constants';
-import { emailRequestLimitKey, getKorErrorMsg, setEmailRequestLimit } from '../components/util';
 import { auth } from '../firebaseConfig';
+import { emailRequestLimitKey, getKorErrorMsg, setEmailRequestLimit } from '../lib';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';

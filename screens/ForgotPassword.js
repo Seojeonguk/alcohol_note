@@ -3,8 +3,8 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 
 import { Header } from '../components';
 import { COLORS } from '../constants';
-import { getKorErrorMsg } from '../components/util';
 import { auth } from '../firebaseConfig';
+import { getKorErrorMsg } from '../lib';
 
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
