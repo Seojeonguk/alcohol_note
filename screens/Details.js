@@ -39,7 +39,7 @@ export default function Details({ navigation, route }) {
     dispatch(updateContent(content));
     dispatch(updateLocation(location));
     dispatch(updateTag(tags));
-    navigation.navigate('galleryForm', docId);
+    navigation.navigate('GalleryForm', docId);
   };
 
   return (

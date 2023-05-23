@@ -26,12 +26,12 @@ export default function Gallery({ navigation }) {
     getPosting();
   }, []);
   const moveGalleryForm = () => {
-    navigation.navigate('galleryForm');
+    navigation.navigate('GalleryForm');
   };
 
   const logout = async () => {
     await signOut(auth);
-    navigation.replace('mainPage');
+    navigation.replace('MainPage');
   };
 
   return (

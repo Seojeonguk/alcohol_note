@@ -9,11 +9,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MainPage({ navigation, route }) {
   const handleLoginBtn = () => {
-    navigation.navigate('login');
+    navigation.navigate('Login');
   };
 
   const handleRegistrationBtn = () => {
-    navigation.navigate('registration');
+    navigation.navigate('RegistrationForm');
   };
 
   useEffect(() => {
