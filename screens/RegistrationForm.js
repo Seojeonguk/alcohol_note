@@ -2,10 +2,10 @@ import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Header } from '../components';
-import { getKorErrorMsg, setEmailRequestLimit } from '../components/util';
 import { COLORS } from '../constants';
 import { createUserInfo } from '../firebase';
 import { auth } from '../firebaseConfig';
+import { getKorErrorMsg, setEmailRequestLimit } from '../lib';
 
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
