@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 
 import { Content, Day, Header, Location, Photo, Tags, Title } from '../components';
-import { Color } from '../components/util';
+import { COLORS } from '../constants';
 import { createNewPost, updateDocForId } from '../firebase';
 import { init } from '../redux';
 
@@ -106,7 +106,6 @@ export default function GalleryForm({ navigation, route }) {
         text2: `입력 확인 후 다시 시도해 주시기 바랍니다.`,
         position: 'bottom',
       });
-      console.log(e);
     }
   };
 
@@ -149,7 +148,7 @@ export default function GalleryForm({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Color.BACKGROUND_COLOR,
+    backgroundColor: COLORS.BACKGROUND_COLOR,
     flex: 1,
   },
   content: {

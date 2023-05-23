@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { GalleryCard, Header } from '../components';
-import { Color } from '../components/util';
+import { COLORS } from '../constants';
 import { getPosts } from '../firebase';
 import { auth } from '../firebaseConfig';
 
@@ -61,7 +61,7 @@ export default function Gallery({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Color.BACKGROUND_COLOR,
+    backgroundColor: COLORS.BACKGROUND_COLOR,
     flex: 1,
   },
   galleryContent: {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Carousel, Header } from '../components';
-import { Color } from '../components/util';
+import { COLORS } from '../constants';
 import {
   updateContent,
   updateDay,
@@ -99,7 +99,7 @@ export default function Details({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Color.BACKGROUND_COLOR,
+    backgroundColor: COLORS.BACKGROUND_COLOR,
     flex: 1,
   },
   content: {
