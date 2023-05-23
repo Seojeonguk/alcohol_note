@@ -85,7 +85,7 @@ export default function Login({ navigation }) {
   };
 
   const handleForgotPasswordBtn = () => {
-    navigation.navigate('forgotPassword');
+    navigation.navigate('ForgetPassword');
   };
 
   return (

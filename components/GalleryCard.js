@@ -11,7 +11,7 @@ export default function GalleryCard({ item, i, navigation }) {
   const isCenter = i % 3 === 1;
 
   const movedetial = () => {
-    navigation.navigate('detail', item);
+    navigation.navigate('Details', item);
   };
 
   return (

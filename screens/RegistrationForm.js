@@ -60,7 +60,7 @@ export default function RegistrationForm({ navigation }) {
       await setEmailRequestLimit();
       await createUserInfo(email);
       showSuccessToastForEmailSending();
-      navigation.replace('login');
+      navigation.replace('Login');
     } catch (e) {
       const korErrorMsg = getKorErrorMsg(e.code);
       if (korErrorMsg.includes('이메일')) {
