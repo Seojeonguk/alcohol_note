@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
-import { Color } from './util';
+import { COLORS } from '../constants';
 
 export default function Indicator({ length, index }) {
   return (
@@ -10,7 +10,7 @@ export default function Indicator({ length, index }) {
           key={i}
           style={[
             styles.indicator,
-            { backgroundColor: i === index ? Color.FORTH_SUB_COLOR : '#dfdfdf' },
+            { backgroundColor: i === index ? COLORS.FORTH_SUB_COLOR : '#dfdfdf' },
           ]}
         />
       ))}

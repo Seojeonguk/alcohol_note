@@ -2,7 +2,8 @@ import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Header } from '../components';
-import { Color, getKorErrorMsg } from '../components/util';
+import { COLORS } from '../constants';
+import { getKorErrorMsg } from '../components/util';
 import { auth } from '../firebaseConfig';
 
 import { sendPasswordResetEmail } from 'firebase/auth';
@@ -70,7 +71,7 @@ export default function ForgetPassword({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Color.BACKGROUND_COLOR,
+    backgroundColor: COLORS.BACKGROUND_COLOR,
     flex: 1,
   },
   contentWrap: {
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   input: {
-    borderBottomColor: Color.BORDER_COLOR,
+    borderBottomColor: COLORS.BORDER_COLOR,
     borderBottomWidth: 1,
     borderRightColor: '#f6e8db',
     color: 'black',
@@ -92,12 +93,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   inputLabel: {
-    color: Color.LABEL_COLOR,
+    color: COLORS.LABEL_COLOR,
     fontSize: 9,
   },
   inputWrap: {},
   sendEmailBtn: {
-    backgroundColor: Color.BUTTON_COLOR,
+    backgroundColor: COLORS.BUTTON_COLOR,
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',

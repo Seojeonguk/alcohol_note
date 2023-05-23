@@ -1,4 +1,4 @@
-const Color = {
+const COLORS = {
   BACKGROUND_COLOR: '#F6E8D8',
   BUTTON_COLOR: '#ABCEEA',
   BORDER_COLOR: '#888888',
@@ -9,4 +9,4 @@ const Color = {
   LABEL_COLOR: '#888888',
 };
 
-export { Color };
+export { COLORS };

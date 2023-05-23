@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { Color } from '../components/util';
+import { COLORS } from '../constants';
 import { auth } from '../firebaseConfig';
 
 import { signOut } from '@firebase/auth';
@@ -48,11 +48,11 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.BACKGROUND_COLOR,
+    backgroundColor: COLORS.BACKGROUND_COLOR,
   },
   menuItem: {
     borderBottomWidth: 1,
-    borderColor: Color.BORDER_COLOR,
+    borderColor: COLORS.BORDER_COLOR,
     marginHorizontal: 15,
     paddingVertical: 5,
   },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   menus: {
     borderTopWidth: 1,
-    borderColor: Color.BORDER_COLOR,
+    borderColor: COLORS.BORDER_COLOR,
   },
   userImg: {
     height: 100,

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import mainPageImg from '../assets/mainPageImg.png';
-import { Color } from '../components/util';
+import { COLORS } from '../constants';
 import { auth } from '../firebaseConfig';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   loginBtnWrap: {
     alignItems: 'center',
-    backgroundColor: Color.BUTTON_COLOR,
+    backgroundColor: COLORS.BUTTON_COLOR,
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     width: 250,
   },
   container: {
-    backgroundColor: Color.BACKGROUND_COLOR,
+    backgroundColor: COLORS.BACKGROUND_COLOR,
     minHeight: '100%',
   },
   mainImg: {

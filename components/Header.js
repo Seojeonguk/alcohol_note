@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { Color } from './util';
+import { COLORS } from '../constants';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderColor: Color.BORDER_COLOR,
+    borderColor: COLORS.BORDER_COLOR,
     marginBottom: 5,
     paddingVertical: 5,
     height: 60,
