@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Header } from '../components';
-import { COLORS } from '../constants';
+import { COLORS, NAVIGATOR } from '../constants';
 import { createUserInfo } from '../firebase';
 import { auth } from '../firebaseConfig';
 import { getKorErrorMsg, setEmailRequestLimit } from '../lib';
@@ -60,7 +60,7 @@ export default function RegistrationForm({ navigation }) {
       await setEmailRequestLimit();
       await createUserInfo(email);
       showSuccessToastForEmailSending();
-      navigation.replace('Login');
+      navigation.replace(NAVIGATOR.LOGIN);
     } catch (e) {
       const korErrorMsg = getKorErrorMsg(e.code);
       if (korErrorMsg.includes('이메일')) {

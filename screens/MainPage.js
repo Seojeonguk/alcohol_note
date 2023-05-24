@@ -2,18 +2,18 @@ import { useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import mainPageImg from '../assets/mainPageImg.png';
-import { COLORS } from '../constants';
+import { COLORS, NAVIGATOR } from '../constants';
 import { auth } from '../firebaseConfig';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MainPage({ navigation, route }) {
   const handleLoginBtn = () => {
-    navigation.navigate('Login');
+    navigation.navigate(NAVIGATOR.LOGIN);
   };
 
   const handleRegistrationBtn = () => {
-    navigation.navigate('RegistrationForm');
+    navigation.navigate(NAVIGATOR.REGISTRATION_FORM);
   };
 
   useEffect(() => {

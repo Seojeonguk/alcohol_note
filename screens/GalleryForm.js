@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 
 import { Content, Day, Header, Location, Photo, Tags, Title } from '../components';
-import { COLORS } from '../constants';
+import { COLORS, NAVIGATOR } from '../constants';
 import { createNewPost, updateDocForId } from '../firebase';
 import { init } from '../redux';
 
@@ -97,7 +97,7 @@ export default function GalleryForm({ navigation, route }) {
       });
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Gallery' }],
+        routes: [{ name: NAVIGATOR.GALLERY }],
       });
     } catch (e) {
       Toast.show({

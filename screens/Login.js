@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Header } from '../components';
-import { COLORS } from '../constants';
+import { COLORS, NAVIGATOR } from '../constants';
 import { auth } from '../firebaseConfig';
 import { emailRequestLimitKey, getKorErrorMsg, setEmailRequestLimit } from '../lib';
 
@@ -68,7 +68,7 @@ export default function Login({ navigation }) {
         if (emailVerified) {
           navigation.reset({
             index: 0,
-            routes: [{ name: 'Gallery' }],
+            routes: [{ name: NAVIGATOR.GALLERY }],
           });
           return;
         }
