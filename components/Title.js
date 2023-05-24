@@ -16,7 +16,7 @@ export default function Title() {
     <View style={styles.inputBox}>
       <TextInput
         multiline
-        onChangeText={(newTitle) => handleChangeTitle(newTitle)}
+        onChangeText={handleChangeTitle}
         placeholder="제목을 입력해주세요."
         style={styles.input}
         value={title}

@@ -92,7 +92,7 @@ export default function RegistrationForm({ navigation }) {
             <TextInput
               inputMode="email"
               keyboardType="email-address"
-              onChangeText={(newEmail) => handleChangeEmail(newEmail)}
+              onChangeText={handleChangeEmail}
               placeholder="이메일을 입력해 주세요"
               ref={emailRef}
               style={styles.input}
@@ -104,7 +104,7 @@ export default function RegistrationForm({ navigation }) {
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>비밀번호</Text>
             <TextInput
-              onChangeText={(newPassword) => handleChangePassword(newPassword)}
+              onChangeText={handleChangePassword}
               onPressIn={() => setSecurePassword(false)}
               onPressOut={() => setSecurePassword(true)}
               placeholder="비밀번호를 입력해 주세요"
@@ -119,7 +119,7 @@ export default function RegistrationForm({ navigation }) {
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>비밀번호 확인</Text>
             <TextInput
-              onChangeText={(newConfirmPassword) => handleChangeConfirmPassword(newConfirmPassword)}
+              onChangeText={handleChangeConfirmPassword}
               onPressIn={() => setIsSecurePasswordConfirm(false)}
               onPressOut={() => setIsSecurePasswordConfirm(true)}
               placeholder="비밀번호(확인)를 입력해 주세요"

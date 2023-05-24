@@ -82,6 +82,9 @@ export default function GalleryForm({ navigation, route }) {
         createdAt: new Date(),
       };
 
+      console.log(data);
+      return;
+
       if (docId) {
         updateDocForId(docId, data);
       } else {
