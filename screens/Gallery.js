@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { GalleryCard, Header } from '../components';
-import { COLORS } from '../constants';
+import { COLORS, NAVIGATOR } from '../constants';
 import { getPosts } from '../firebase';
 import { auth } from '../firebaseConfig';
 
@@ -26,7 +26,7 @@ export default function Gallery({ navigation }) {
     getPosting();
   }, []);
   const moveGalleryForm = () => {
-    navigation.navigate('GalleryForm');
+    navigation.navigate(NAVIGATOR.GALLERY_FORM);
   };
 
   const logout = async () => {

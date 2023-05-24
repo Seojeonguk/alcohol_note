@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Carousel, Header } from '../components';
-import { COLORS } from '../constants';
+import { COLORS, NAVIGATOR } from '../constants';
 import {
   updateContent,
   updateDay,
@@ -39,7 +39,7 @@ export default function Details({ navigation, route }) {
     dispatch(updateContent(content));
     dispatch(updateLocation(location));
     dispatch(updateTag(tags));
-    navigation.navigate('GalleryForm', docId);
+    navigation.navigate(NAVIGATOR.GALLERY_FORM, docId);
   };
 
   return (
