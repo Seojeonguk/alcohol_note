@@ -4,12 +4,11 @@ import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import { Header } from '../components';
 import { COLORS, NAVIGATOR } from '../constants';
 import { auth } from '../firebaseConfig';
-import { emailRequestLimitKey, getKorErrorMsg, setEmailRequestLimit } from '../lib';
+import { emailRequestLimitKey, getKorErrorMsg, setEmailRequestLimit, showToast } from '../lib';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -52,11 +51,11 @@ export default function Login({ navigation }) {
         { cancelable: true }
       );
     } else {
-      Toast.show({
-        type: 'info',
-        text1: '이메일의 메일함을 확인바랍니다.',
-        text2: `${emailRequestLimit.getHours()}시 ${emailRequestLimit.getMinutes()}분 ${emailRequestLimit.getSeconds()}초 까지 메일을 다시 보낼 수 없습니다.`,
-      });
+      showToast(
+        'info',
+        '이메일의 메일함을 확인바랍니다.',
+        `${emailRequestLimit.getHours()}시 ${emailRequestLimit.getMinutes()}분 ${emailRequestLimit.getSeconds()}초 까지 메일을 다시 보낼 수 없습니다.`
+      );
     }
   };
 
