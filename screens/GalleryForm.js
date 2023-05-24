@@ -4,12 +4,12 @@ import { Alert, ScrollView, StyleSheet } from 'react-native';
 import { Content, Day, Header, Location, Photo, Tags, Title } from '../components';
 import { COLORS, NAVIGATOR } from '../constants';
 import { createNewPost, updateDocForId } from '../firebase';
+import { showToast } from '../lib';
 import { init } from '../redux';
 
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import uuid from 'react-native-uuid';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -90,22 +90,17 @@ export default function GalleryForm({ navigation, route }) {
 
       initForm();
 
-      Toast.show({
-        type: 'success',
-        text1: `정상적으로 작성이 완료되었습니다.`,
-        position: 'bottom',
-      });
+      showToast('success', '정상적으로 작성이 완료되었습니다.');
       navigation.reset({
         index: 0,
         routes: [{ name: NAVIGATOR.GALLERY }],
       });
     } catch (e) {
-      Toast.show({
-        type: 'error',
-        text1: `작성 중 오류가 발생하였습니다.`,
-        text2: `입력 확인 후 다시 시도해 주시기 바랍니다.`,
-        position: 'bottom',
-      });
+      showToast(
+        null,
+        '작성 중 오류가 발생하였습니다.',
+        '입력 확인 후 다시 시도해 주시기 바랍니다.'
+      );
     }
   };
 

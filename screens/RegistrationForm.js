@@ -5,11 +5,10 @@ import { Header } from '../components';
 import { COLORS, NAVIGATOR } from '../constants';
 import { createUserInfo } from '../firebase';
 import { auth } from '../firebaseConfig';
-import { getKorErrorMsg, setEmailRequestLimit } from '../lib';
+import { getKorErrorMsg, setEmailRequestLimit, showToast } from '../lib';
 
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState('');
@@ -40,11 +39,12 @@ export default function RegistrationForm({ navigation }) {
   };
 
   const showSuccessToastForEmailSending = () => {
-    Toast.show({
-      type: 'success',
-      text1: '이메일의 메일함을 확인바랍니다.',
-      text2: `${email}로 인증 메일을 발송하였습니다.`,
-    });
+    showToast(
+      'success',
+      '이메일의 메일함을 확인바랍니다',
+      `${email}로 인증 메일을 발송하였습니다.`,
+      'top'
+    );
   };
 
   const handleRegistration = async () => {
