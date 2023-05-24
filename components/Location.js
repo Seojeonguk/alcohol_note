@@ -18,7 +18,7 @@ export default function Location() {
       <MaterialIcons color="black" name="place" size={24} />
       <TextInput
         multiline
-        onChangeText={(newLocation) => handleChangeLocation(newLocation)}
+        onChangeText={handleChangeLocation}
         placeholder="장소"
         style={styles.input}
         value={location}

@@ -45,7 +45,7 @@ export default function Tags() {
 
       <TextInput
         blurOnSubmit={false}
-        onChangeText={(tag) => handleChangedTag(tag)}
+        onChangeText={handleChangedTag}
         onSubmitEditing={handleSubmit}
         placeholder="태그 입력"
         style={styles.inputTag}

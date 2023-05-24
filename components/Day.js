@@ -12,7 +12,7 @@ export default function Day() {
   const dispatch = useDispatch();
   const [isShowDatePicker, setIsShowDatePicker] = useState(false);
 
-  const handleChangeDate = (newDate) => {
+  const handleChangeDate = (e, newDate) => {
     hideDatePicker();
     let truncatedDate = newDate.toJSON().substring(0, 10);
     dispatch(updateDay(truncatedDate));
@@ -32,11 +32,7 @@ export default function Day() {
       <TextInput onPressIn={showDatePicker} placeholder="날짜" style={styles.input} value={date} />
 
       {isShowDatePicker && (
-        <DateTimePicker
-          mode="date"
-          onChange={(e, newDate) => handleChangeDate(newDate)}
-          value={new Date(date)}
-        />
+        <DateTimePicker mode="date" onChange={handleChangeDate} value={new Date(date)} />
       )}
     </View>
   );

@@ -16,7 +16,7 @@ export default function Content() {
     <View style={styles.inputBox}>
       <TextInput
         multiline
-        onChangeText={(newContent) => handleChangeContent(newContent)}
+        onChangeText={handleChangeContent}
         placeholder={'오늘 하루는 어떠셨나요?\n소감 및 느낀점을 적어주세요.'}
         style={styles.input}
         value={content}
