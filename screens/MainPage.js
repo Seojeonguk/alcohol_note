@@ -25,7 +25,7 @@ export default function MainPage({ navigation, route }) {
       if (user.emailVerified) {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Gallery' }],
+          routes: [{ name: NAVIGATOR.GALLERY }],
         });
         return;
       }
