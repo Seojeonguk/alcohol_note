@@ -29,7 +29,7 @@ export const gallerySlice = createSlice({
       let newTags = state.tags.filter((tag, idx) => idx !== action.payload);
       state.tags = newTags;
     },
-    updateTag: (state, action) => {
+    updateTags: (state, action) => {
       state.tags = action.payload;
     },
     updateTitle: (state, action) => {
@@ -44,26 +44,35 @@ export const gallerySlice = createSlice({
     updateDay: (state, action) => {
       state.day = action.payload;
     },
-    addImage: (state, action) => {
+    addPhoto: (state, action) => {
       let newPhotos = state.photos.concat(action.payload);
       state.photos = newPhotos;
     },
-    updatePhoto: (state, action) => {
+    updatePhotos: (state, action) => {
       state.photos = action.payload;
+    },
+    updateGallery: (state, action) => {
+      state.title = action.payload.title ?? state.title;
+      state.day = action.payload.day ?? state.day;
+      state.photos = action.payload.photos ?? state.photos;
+      state.content = action.payload.content ?? state.content;
+      state.location = action.payload.location ?? state.location;
+      state.tags = action.payload.tags ?? state.tags;
     },
   },
 });
 
 export const {
   addTag,
-  addImage,
+  addPhoto,
   deleteTag,
   init,
   updateContent,
   updateDay,
   updateLocation,
   updateTitle,
-  updatePhoto,
-  updateTag,
+  updatePhotos,
+  updateTags,
+  updateGallery,
 } = gallerySlice.actions;
 export default gallerySlice.reducer;

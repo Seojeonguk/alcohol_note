@@ -1,14 +1,13 @@
 import { Dimensions, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function GalleryCard({ item, i, navigation }) {
-  const { data } = item;
+export default function Post({ item, isMiddle, navigation }) {
+  const { post } = item;
   const uri =
-    data.photos?.[0] ||
+    post.photos?.[0] ||
     'https://firebasestorage.googleapis.com/v0/b/alcoholic-a9f86.appspot.com/o/default.jfif?alt=media&token=18e253aa-6a28-4a68-9823-eaf0726b6830';
   const { width, height } = Dimensions.get('window');
   const minDimension = Math.min(width, height);
   const imgHeight = minDimension / 3;
-  const isCenter = i % 3 === 1;
 
   const movedetial = () => {
     navigation.navigate('Details', item);
@@ -19,10 +18,10 @@ export default function GalleryCard({ item, i, navigation }) {
       <Image
         source={{ uri: uri }}
         style={[
-          styles.itemImage,
+          styles.itemPhoto,
           {
             height: imgHeight,
-            marginHorizontal: isCenter ? 2 : 0,
+            marginHorizontal: isMiddle ? 2 : 0,
           },
         ]}
         resizeMode="stretch"
@@ -32,7 +31,7 @@ export default function GalleryCard({ item, i, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  itemImage: {
+  itemPhoto: {
     marginBottom: 2,
     resizeMode: 'stretch',
   },

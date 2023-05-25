@@ -20,12 +20,12 @@ export default function Carousel({ height, data, offset, gap, isIndicator }) {
   };
 
   const ListEmptyComponent = () => {
-    const DEFAULT_IMAGE_URL =
+    const DEFAULT_PHOTO_URI =
       'https://firebasestorage.googleapis.com/v0/b/alcoholic-a9f86.appspot.com/o/default.jfif?alt=media&token=18e253aa-6a28-4a68-9823-eaf0726b6830';
     return (
       <View style={{ width: width }}>
         <Image
-          source={{ uri: DEFAULT_IMAGE_URL }}
+          source={{ uri: DEFAULT_PHOTO_URI }}
           style={{ height: '100%', resizeMode: 'stretch' }}
         />
       </View>

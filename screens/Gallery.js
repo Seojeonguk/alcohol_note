@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { GalleryCard, Header } from '../components';
+import { Header, Post } from '../components';
 import { COLORS, NAVIGATOR } from '../constants';
 import { getPosts } from '../firebase';
 import { auth } from '../firebaseConfig';
@@ -11,20 +11,20 @@ import { getAuth, signOut } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Gallery({ navigation }) {
-  const [galleryList, setGalleryList] = useState([]);
+  const [posts, setPosts] = useState([]);
   useEffect(() => {
     const auth = getAuth();
     const user = auth.currentUser;
     const email = user.email;
 
     const getPosting = async () => {
-      const postList = await getPosts(null, email);
+      const userPosts = await getPosts(null, email);
 
-      setGalleryList(postList);
+      setPosts(userPosts);
     };
 
     getPosting();
-  }, []);
+  }, [navigation]);
   const moveGalleryForm = () => {
     navigation.navigate(NAVIGATOR.GALLERY_FORM);
   };
@@ -32,6 +32,12 @@ export default function Gallery({ navigation }) {
   const logout = async () => {
     await signOut(auth);
     navigation.replace('MainPage');
+  };
+
+  const renderItem = ({ item, i }) => {
+    const remainder = i % 3;
+    const isMiddle = remainder === 1;
+    return <Post item={item} isMiddle={isMiddle} navigation={navigation} />;
   };
 
   return (
@@ -47,9 +53,9 @@ export default function Gallery({ navigation }) {
 
       <MasonryList
         contentContainerStyle={styles.galleryContent}
-        data={galleryList}
+        data={posts}
         numColumns={3}
-        renderItem={({ item, i }) => <GalleryCard item={item} i={i} navigation={navigation} />}
+        renderItem={renderItem}
       />
 
       <TouchableOpacity onPress={logout}>
