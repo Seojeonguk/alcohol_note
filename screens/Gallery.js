@@ -31,7 +31,7 @@ export default function Gallery({ navigation }) {
 
   const logout = async () => {
     await signOut(auth);
-    navigation.replace('MainPage');
+    navigation.replace(NAVIGATOR.MAIN_PAGE);
   };
 
   const renderItem = ({ item, i }) => {
