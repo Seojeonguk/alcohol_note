@@ -62,8 +62,8 @@ export default function GalleryForm({ navigation, route }) {
   const save = async () => {
     try {
       const downloadURLs = await Promise.all(
-        gallery.photos.map(async (url) => {
-          return await uploadImage(url);
+        gallery.photos.map(async (photo) => {
+          return await uploadPhoto(photo);
         })
       );
 
@@ -104,7 +104,7 @@ export default function GalleryForm({ navigation, route }) {
     }
   };
 
-  const uploadImage = async (uri) => {
+  const uploadPhoto = async (uri) => {
     const res = await fetch(uri);
     const blob = await res.blob();
 

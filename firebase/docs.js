@@ -54,7 +54,7 @@ const getPosts = async (lastSnapShot, email) => {
   docs.forEach((doc) => {
     const data = doc.data();
     const docId = doc.id;
-    ret.push({ data: data, docId: docId });
+    ret.push({ post: data, docId: docId });
   });
 
   return ret;

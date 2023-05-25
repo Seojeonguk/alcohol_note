@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 
-import { addImage } from '../redux';
+import { addPhoto } from '../redux';
 
 import { AntDesign } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
@@ -31,13 +31,13 @@ export default function Photo() {
   const [savedPhotos, setSavedPhotos] = useState([]);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
 
-  const addImageBtn = async () => {
+  const addPhotoBtn = async () => {
     await showMediaLibrary();
     openModal();
   };
 
   const applySelectedMedia = () => {
-    dispatch(addImage(selectedPhotos));
+    dispatch(addPhoto(selectedPhotos));
     initSelectedPhoto();
     closeModal();
   };
@@ -82,7 +82,7 @@ export default function Photo() {
   return (
     <View style={styles.photosContainer}>
       <View style={styles.photosWrapper}>
-        <TouchableOpacity onPress={addImageBtn} style={styles.addBtn}>
+        <TouchableOpacity onPress={addPhotoBtn} style={styles.addBtn}>
           <AntDesign color="grey" name="pluscircleo" size={24} />
         </TouchableOpacity>
       </View>

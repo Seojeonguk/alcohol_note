@@ -7,9 +7,10 @@ import {
   updateContent,
   updateDay,
   updateLocation,
-  updatePhoto,
-  updateTag,
+  updatePhotos,
+  updateTags,
   updateTitle,
+  updateGallery,
 } from '../redux';
 
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -19,10 +20,8 @@ import { useDispatch } from 'react-redux';
 export default function Details({ navigation, route }) {
   const DEFAULT_NUMBER_OF_LINES = 3;
   const [numberOfLines, setNumberOfLines] = useState(DEFAULT_NUMBER_OF_LINES);
-  const post = route.params.data;
-  const docId = route.params.docId;
-  const { title, location, day, content, tags } = post;
-  const uri = post.photos;
+  const { post, docId } = route.params;
+  const { title, location, day, content, tags, photos } = post;
 
   const dispatch = useDispatch();
 
@@ -33,12 +32,15 @@ export default function Details({ navigation, route }) {
   };
 
   const onPressRight = () => {
-    dispatch(updateTitle(title));
-    dispatch(updateDay(day));
-    dispatch(updatePhoto(uri));
-    dispatch(updateContent(content));
-    dispatch(updateLocation(location));
-    dispatch(updateTag(tags));
+    const currentPostInfo = {
+      title: title,
+      location: location,
+      day: day,
+      content: content,
+      tags: tags,
+      photos: photos,
+    };
+    dispatch(updateGallery(currentPostInfo));
     navigation.navigate(NAVIGATOR.GALLERY_FORM, docId);
   };
 
@@ -55,7 +57,7 @@ export default function Details({ navigation, route }) {
       />
 
       <ScrollView>
-        <Carousel height={300} data={uri} offset={0} gap={0} isIndicator={true} />
+        <Carousel height={300} data={photos} offset={0} gap={0} isIndicator={true} />
 
         <View style={styles.contentWrap}>
           <Text style={styles.title}>{title}</Text>
