@@ -60,12 +60,10 @@ export default function Login({ navigation }) {
   };
 
   const handleLogin = () => {
-    console.log('login button click!');
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         const user = userCredential.user;
         const emailVerified = user.emailVerified;
-        console.log(emailVerified);
         if (emailVerified) {
           navigation.replace(NAVIGATOR.BOTTOM_TAB_NAV, { screen: NAVIGATOR.GALLERY });
           return;
