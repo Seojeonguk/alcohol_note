@@ -3,15 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Carousel, Header } from '../components';
 import { COLORS, NAVIGATOR } from '../constants';
-import {
-  updateContent,
-  updateDay,
-  updateLocation,
-  updatePhotos,
-  updateTags,
-  updateTitle,
-  updateGallery,
-} from '../redux';
+import { updateGallery } from '../redux';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';

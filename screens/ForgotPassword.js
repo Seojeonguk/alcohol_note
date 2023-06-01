@@ -26,7 +26,6 @@ export default function ForgetPassword({ navigation }) {
       })
       .catch((err) => {
         const korErrorMsg = getKorErrorMsg(err.code);
-        console.log(err.code);
         setEmailError(korErrorMsg);
       });
   };

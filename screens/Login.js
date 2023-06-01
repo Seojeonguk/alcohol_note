@@ -65,10 +65,7 @@ export default function Login({ navigation }) {
         const user = userCredential.user;
         const emailVerified = user.emailVerified;
         if (emailVerified) {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: NAVIGATOR.GALLERY }],
-          });
+          navigation.replace(NAVIGATOR.BOTTOM_TAB_NAV, { screen: NAVIGATOR.GALLERY });
           return;
         }
         await checkEmailRequestLimit(user);
@@ -93,7 +90,7 @@ export default function Login({ navigation }) {
         visibleLeftIcon={true}
         visibleRightIcon={false}
         leftIconName={'arrow-back'}
-        onPressLeft={() => navigation.navigate('mainPage')}
+        onPressLeft={() => navigation.replace(NAVIGATOR.MAIN_PAGE)}
         iconSize={24}
       />
 
