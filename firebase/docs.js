@@ -40,6 +40,10 @@ const getPosts = async (lastSnapShot, email) => {
     lastSnapShot = snapShotList.docs[0];
   }
 
+  if (!lastSnapShot) {
+    lastSnapShot = null;
+  }
+
   const q = query(
     postsRef,
     where('writer', '==', email),
