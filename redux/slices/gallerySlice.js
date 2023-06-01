@@ -48,6 +48,10 @@ export const gallerySlice = createSlice({
       let newPhotos = state.photos.concat(action.payload);
       state.photos = newPhotos;
     },
+    deletePhoto: (state, action) => {
+      let newPhotos = state.photos.filter((photo, idx) => idx !== action.payload);
+      state.photos = newPhotos;
+    },
     updatePhotos: (state, action) => {
       state.photos = action.payload;
     },
@@ -63,16 +67,17 @@ export const gallerySlice = createSlice({
 });
 
 export const {
-  addTag,
   addPhoto,
+  addTag,
+  deletePhoto,
   deleteTag,
   init,
   updateContent,
   updateDay,
+  updateGallery,
   updateLocation,
-  updateTitle,
   updatePhotos,
   updateTags,
-  updateGallery,
+  updateTitle,
 } = gallerySlice.actions;
 export default gallerySlice.reducer;

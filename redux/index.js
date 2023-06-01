@@ -1,27 +1,29 @@
 import {
   addPhoto,
   addTag,
+  deletePhoto,
   deleteTag,
   init,
   updateContent,
   updateDay,
+  updateGallery,
   updateLocation,
   updatePhotos,
   updateTags,
   updateTitle,
-  updateGallery,
 } from './slices/gallerySlice';
 
 export {
-  addTag,
   addPhoto,
+  addTag,
+  deletePhoto,
   deleteTag,
   init,
   updateContent,
   updateDay,
+  updateGallery,
   updateLocation,
-  updateTitle,
   updatePhotos,
   updateTags,
-  updateGallery,
+  updateTitle,
 };

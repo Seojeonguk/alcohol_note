@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -10,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import { addPhoto } from '../redux';
+import { addPhoto, deletePhoto } from '../redux';
 
 import { AntDesign } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
@@ -79,6 +80,10 @@ export default function Photo() {
     });
   };
 
+  const removePhoto = (index) => {
+    dispatch(deletePhoto(index));
+  };
+
   return (
     <View style={styles.photosContainer}>
       <View style={styles.photosWrapper}>
@@ -90,6 +95,11 @@ export default function Photo() {
       {photos.map((photo, index) => (
         <View key={index} style={styles.photosWrapper}>
           <Image source={{ uri: photo }} style={styles.photo} />
+          <TouchableOpacity style={styles.removeBtnWrap} onPress={() => removePhoto(index)}>
+            <View style={styles.removeBtn}>
+              <AntDesign name="minus" size={15} color="red" />
+            </View>
+          </TouchableOpacity>
         </View>
       ))}
 
@@ -154,6 +164,9 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     resizeMode: 'stretch',
+    borderRadius: 10,
+    borderColor: 'grey',
+    borderWidth: 1,
   },
   photosContainer: {
     flexDirection: 'row',
@@ -163,5 +176,17 @@ const styles = StyleSheet.create({
     height: screenWidthSize / columnSize - 2 * contentPaddingHorizontal,
     padding: 1,
     width: screenWidthSize / columnSize - 2 * contentPaddingHorizontal,
+  },
+  removeBtnWrap: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+  removeBtn: {
+    borderRadius: 100,
+    padding: 5,
+    backgroundColor: 'white',
+    borderColor: 'grey',
+    borderWidth: 1,
   },
 });
