@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 
 import { Content, Day, Header, Location, Photo, Tags, Title } from '../components';
@@ -12,8 +12,10 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import uuid from 'react-native-uuid';
 import { useDispatch, useSelector } from 'react-redux';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function GalleryForm({ navigation, route }) {
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const gallery = useSelector((state) => state.gallery);
   const docId = route.params;
@@ -60,6 +62,7 @@ export default function GalleryForm({ navigation, route }) {
   };
 
   const save = async () => {
+    setIsLoading(true);
     try {
       const downloadURLs = await Promise.all(
         gallery.photos.map(async (photo) => {
@@ -98,6 +101,8 @@ export default function GalleryForm({ navigation, route }) {
         '작성 중 오류가 발생하였습니다.',
         '입력 확인 후 다시 시도해 주시기 바랍니다.'
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -115,6 +120,8 @@ export default function GalleryForm({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {isLoading && <LoadingSpinner isOverlay={true} />}
+
       <Header
         title={'새 게시물'}
         visibleLeftIcon={true}
