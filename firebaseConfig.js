@@ -33,6 +33,7 @@ if (getApps().length === 0) {
   });
   db = initializeFirestore(app, {
     cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+    experimentalForceLongPolling: true,
   });
 } else {
   app = getApp();
