@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { Header, Post } from '../components';
 import { COLORS, NAVIGATOR } from '../constants';
 import { getPosts } from '../firebase';
-import { auth } from '../firebaseConfig';
 
 import MasonryList from '@react-native-seoul/masonry-list';
-import { getAuth, signOut } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Gallery({ navigation }) {
@@ -24,14 +23,9 @@ export default function Gallery({ navigation }) {
     };
 
     getPosting();
-  }, [navigation]);
+  }, [posts]);
   const moveGalleryForm = () => {
     navigation.navigate(NAVIGATOR.GALLERY_FORM);
-  };
-
-  const logout = async () => {
-    await signOut(auth);
-    navigation.replace(NAVIGATOR.MAIN_PAGE);
   };
 
   const renderItem = ({ item, i }) => {
@@ -57,10 +51,6 @@ export default function Gallery({ navigation }) {
         numColumns={3}
         renderItem={renderItem}
       />
-
-      <TouchableOpacity onPress={logout}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }

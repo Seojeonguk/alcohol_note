@@ -91,10 +91,7 @@ export default function GalleryForm({ navigation, route }) {
       initForm();
 
       showToast('success', '정상적으로 작성이 완료되었습니다.');
-      navigation.reset({
-        index: 0,
-        routes: [{ name: NAVIGATOR.GALLERY }],
-      });
+      navigation.navigate(NAVIGATOR.GALLERY);
     } catch (e) {
       showToast(
         null,

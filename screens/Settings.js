@@ -1,14 +1,15 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { COLORS } from '../constants';
+import { COLORS, NAVIGATOR } from '../constants';
 import { auth } from '../firebaseConfig';
 
 import { signOut } from '@firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Settings() {
+export default function Settings({ navigation }) {
   const handleLogout = () => {
     signOut(auth);
+    navigation.replace(NAVIGATOR.LOGIN);
   };
   return (
     <SafeAreaView style={styles.container}>
