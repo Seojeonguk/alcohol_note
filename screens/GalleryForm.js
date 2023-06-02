@@ -107,6 +107,9 @@ export default function GalleryForm({ navigation, route }) {
   };
 
   const uploadPhoto = async (uri) => {
+    if (uri.includes('firebase')) {
+      return uri;
+    }
     const res = await fetch(uri);
     const blob = await res.blob();
 
