@@ -14,7 +14,7 @@ export default function Day() {
 
   const handleChangeDate = (e, newDate) => {
     hideDatePicker();
-    let truncatedDate = newDate.toJSON().substring(0, 10);
+    const truncatedDate = newDate.toJSON().substring(0, 10);
     dispatch(updateDay(truncatedDate));
   };
 

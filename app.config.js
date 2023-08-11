@@ -52,6 +52,12 @@ export default {
           isAccessMediaLocationEnabled: true,
         },
       ],
+      [
+        'expo-image-picker',
+        {
+          photosPermission: 'Allow $(PRODUCT_NAME) to access your photos.',
+        },
+      ],
     ],
   },
 };
