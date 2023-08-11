@@ -22,11 +22,11 @@ export const gallerySlice = createSlice({
       state.tags = initialState.tags;
     },
     addTag: (state, action) => {
-      let newTags = state.tags.concat(action.payload);
+      const newTags = state.tags.concat(action.payload);
       state.tags = newTags;
     },
     deleteTag: (state, action) => {
-      let newTags = state.tags.filter((tag, idx) => idx !== action.payload);
+      const newTags = state.tags.filter((tag, idx) => idx !== action.payload);
       state.tags = newTags;
     },
     updateTags: (state, action) => {
@@ -45,11 +45,11 @@ export const gallerySlice = createSlice({
       state.day = action.payload;
     },
     addPhoto: (state, action) => {
-      let newPhotos = state.photos.concat(action.payload);
+      const newPhotos = state.photos.concat(action.payload);
       state.photos = newPhotos;
     },
     deletePhoto: (state, action) => {
-      let newPhotos = state.photos.filter((photo, idx) => idx !== action.payload);
+      const newPhotos = state.photos.filter((photo, idx) => idx !== action.payload);
       state.photos = newPhotos;
     },
     updatePhotos: (state, action) => {
