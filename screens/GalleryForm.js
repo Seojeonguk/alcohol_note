@@ -110,13 +110,25 @@ export default function GalleryForm({ navigation, route }) {
     if (uri.includes('firebase')) {
       return uri;
     }
-    const res = await fetch(uri);
-    const blob = await res.blob();
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
 
-    const fileRef = ref(getStorage(), uuid.v4());
+    const fileRef = ref(getStorage(), `posts/${uuid.v4()}`);
     const result = await uploadBytes(fileRef, blob);
 
     const downloadURL = await getDownloadURL(fileRef);
+
+    blob.close();
 
     return downloadURL;
   };
