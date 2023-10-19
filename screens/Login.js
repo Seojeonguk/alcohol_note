@@ -80,6 +80,10 @@ export default function Login({ navigation }) {
       });
   };
 
+  const handleRegistrationBtn = () => {
+    navigation.navigate(NAVIGATOR.REGISTRATION_FORM);
+  };
+
   const handleForgotPasswordBtn = () => {
     navigation.navigate(NAVIGATOR.FORGOT_PASSWORD);
   };
@@ -132,6 +136,10 @@ export default function Login({ navigation }) {
 
         <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
           <Text style={styles.loginBtnText}>로그인</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleRegistrationBtn} style={styles.registrationBtn}>
+          <Text style={styles.registrationBtnText}>회원가입</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleForgotPasswordBtn} style={styles.forgotPasswordBtn}>
@@ -197,5 +205,15 @@ const styles = StyleSheet.create({
   titleWrap: {
     height: 35,
     marginVertical: 10,
+  },
+  registrationBtn: {
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  registrationBtnText: {
+    color: COLORS.BORDER_COLOR,
+    fontSize: 10,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
   },
 });
