@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Carousel, Header } from '../components';
@@ -8,14 +8,44 @@ import { updateGallery } from '../redux';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { getPost } from '../firebase';
 
-export default function Details({ navigation, route }) {
-  const DEFAULT_NUMBER_OF_LINES = 3;
-  const [numberOfLines, setNumberOfLines] = useState(DEFAULT_NUMBER_OF_LINES);
-  const { post, docId } = route.params;
-  const { title, location, day, content, tags, photos } = post;
+const DEFAULT_NUMBER_OF_LINES = 3;
 
+function Details({ route, navigation }) {
+  const { docId } = route.params;
   const dispatch = useDispatch();
+
+  const [numberOfLines, setNumberOfLines] = useState(DEFAULT_NUMBER_OF_LINES);
+  const [loading, setLoading] = useState(true);
+  const [myPost, setMyPost] = useState({
+    title: '',
+    photos: [],
+    location: '',
+    day: '',
+    content: '',
+    tags: [],
+  });
+
+  const { title, photos, location, day, content, tags } = myPost;
+
+  useEffect(() => {
+    const getPosting = async () => {
+      const post = await getPost(docId);
+      const currentPostInfo = {
+        title: post.title,
+        location: post.location,
+        day: post.day,
+        content: post.content,
+        tags: post.tags,
+        photos: post.photos,
+      };
+      setMyPost(currentPostInfo);
+      setLoading(false);
+    };
+    getPosting();
+  }, []);
 
   const toggleTruncate = () => {
     const newNumberOfLines =
@@ -24,15 +54,7 @@ export default function Details({ navigation, route }) {
   };
 
   const onPressRight = () => {
-    const currentPostInfo = {
-      title: title,
-      location: location,
-      day: day,
-      content: content,
-      tags: tags,
-      photos: photos,
-    };
-    dispatch(updateGallery(currentPostInfo));
+    dispatch(updateGallery(myPost));
     navigation.navigate(NAVIGATOR.GALLERY_FORM, docId);
   };
 
@@ -48,45 +70,49 @@ export default function Details({ navigation, route }) {
         iconSize={24}
       />
 
-      <ScrollView>
-        <Carousel height={300} data={photos} offset={0} gap={0} isIndicator={true} />
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <ScrollView>
+          <Carousel height={300} data={photos} offset={0} gap={0} isIndicator={true} />
 
-        <View style={styles.contentWrap}>
-          <Text style={styles.title}>{title}</Text>
+          <View style={styles.contentWrap}>
+            <Text style={styles.title}>{title}</Text>
 
-          {location && (
-            <View style={styles.locationWrap}>
-              <FontAwesome5
-                name="map-marker-alt"
-                size={13}
-                color="gray"
-                style={styles.locationIcon}
-              />
-              <Text style={styles.location}>{location}</Text>
-            </View>
-          )}
+            {location && (
+              <View style={styles.locationWrap}>
+                <FontAwesome5
+                  name="map-marker-alt"
+                  size={13}
+                  color="gray"
+                  style={styles.locationIcon}
+                />
+                <Text style={styles.location}>{location}</Text>
+              </View>
+            )}
 
-          <Text style={styles.day}>{day}</Text>
+            <Text style={styles.day}>{day}</Text>
 
-          <Text
-            style={[styles.content, { marginBottom: tags ? 0 : 30 }]}
-            numberOfLines={numberOfLines}
-            onPress={toggleTruncate}
-          >
-            {content}
-          </Text>
+            <Text
+              style={[styles.content, { marginBottom: tags ? 0 : 30 }]}
+              numberOfLines={numberOfLines}
+              onPress={toggleTruncate}
+            >
+              {content}
+            </Text>
 
-          {tags && (
-            <View style={styles.tagWrap}>
-              {tags.map((item, index) => (
-                <Text key={`item_${item}_${index}`} style={styles.tag}>
-                  #{item}
-                </Text>
-              ))}
-            </View>
-          )}
-        </View>
-      </ScrollView>
+            {tags && (
+              <View style={styles.tagWrap}>
+                {tags.map((item, index) => (
+                  <Text key={`item_${item}_${index}`} style={styles.tag}>
+                    #{item}
+                  </Text>
+                ))}
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -139,3 +165,5 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 });
+
+export default memo(Details);
