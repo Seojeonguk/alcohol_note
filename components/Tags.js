@@ -21,6 +21,9 @@ export default function Tags() {
   };
 
   const handleSubmit = () => {
+    if (newTag === '') {
+      return;
+    }
     dispatch(addTag(newTag));
     initNewTag();
   };
@@ -51,6 +54,7 @@ export default function Tags() {
         style={styles.inputTag}
         value={newTag}
         ref={ref}
+        onBlur={() => handleSubmit()}
       />
     </TouchableOpacity>
   );
