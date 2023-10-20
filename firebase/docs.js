@@ -2,6 +2,7 @@ import {
   arrayUnion,
   collection,
   doc,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -55,10 +56,13 @@ const getPosts = async (lastSnapShot, email) => {
 
   const ret = [];
 
+  const DEFAULT_PHOTO_URI =
+    'https://firebasestorage.googleapis.com/v0/b/alcoholic-a9f86.appspot.com/o/default.jfif?alt=media&token=18e253aa-6a28-4a68-9823-eaf0726b6830';
+
   docs.forEach((doc) => {
-    const data = doc.data();
+    const presentivePhoto = doc.data()?.photos?.[0] ?? DEFAULT_PHOTO_URI;
     const docId = doc.id;
-    ret.push({ post: data, docId: docId });
+    ret.push({ presentivePhoto: presentivePhoto, docId: docId });
   });
 
   return ret;
@@ -70,4 +74,11 @@ const updateDocForId = async (id, data) => {
   await updateDoc(targetDocRef, data);
 };
 
-export { createUserInfo, createNewPost, getPosts, updateDocForId };
+const getPost = async (docId) => {
+  const docRef = doc(postsRef, docId);
+  const post = await getDoc(docRef);
+
+  return post.data();
+};
+
+export { createNewPost, createUserInfo, getPost, getPosts, updateDocForId };
