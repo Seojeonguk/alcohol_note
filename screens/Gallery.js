@@ -8,7 +8,6 @@ import { getPosts } from '../firebase';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { getAuth } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function Gallery({ navigation }) {
   const [posts, setPosts] = useState([]);
@@ -24,7 +23,7 @@ export default function Gallery({ navigation }) {
     };
 
     getPosting();
-  }, [posts]);
+  }, []);
   const moveGalleryForm = () => {
     navigation.navigate(NAVIGATOR.GALLERY_FORM);
   };
