@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import { Header, Post } from '../components';
 import { COLORS, NAVIGATOR } from '../constants';
 import { getPosts } from '../firebase';
 
-import MasonryList from '@react-native-seoul/masonry-list';
 import { getAuth } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -19,19 +18,14 @@ export default function Gallery({ navigation }) {
     const getPosting = async () => {
       const userPosts = await getPosts(null, email);
 
-      setPosts(userPosts);
+      setPosts(posts.concat(userPosts));
     };
+    console.log('get data');
 
     getPosting();
   }, []);
   const moveGalleryForm = () => {
     navigation.navigate(NAVIGATOR.GALLERY_FORM);
-  };
-
-  const renderItem = ({ item, i }) => {
-    const remainder = i % 3;
-    const isMiddle = remainder === 1;
-    return <Post item={item} isMiddle={isMiddle} navigation={navigation} />;
   };
 
   return (
@@ -45,11 +39,13 @@ export default function Gallery({ navigation }) {
         onPressRight={() => moveGalleryForm()}
       />
 
-      <MasonryList
+      <FlatList
         contentContainerStyle={styles.galleryContent}
         data={posts}
         numColumns={3}
-        renderItem={renderItem}
+        renderItem={({ item, index }) => (
+          <Post item={item} navigation={navigation} isMiddle={index % 3 === 1} />
+        )}
       />
     </SafeAreaView>
   );
